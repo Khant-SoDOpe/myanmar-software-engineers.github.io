@@ -5,9 +5,16 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { features, hobbies, info } from "./Data";
 import { AiOutlineClose } from "react-icons/ai";
 
-const DaGuGuGu = () => {
+interface Project {
+  imageClass: string;
+  backgroundColorClassName: string;
+  image: string;
+  link: string;
+}
+
+const DaGuGuGu: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedProjects, setSelectedProjects] = useState(null);
+  const [selectedProjects, setSelectedProjects] = useState<Project[] | null>(null);
   return (
     <div className="flex justify-center my-10  w-full text-white ">
       <div className="max-w-[410px] relative align-self-center bg-black overflow-x-hidden rounded-md ">
@@ -111,7 +118,13 @@ const DaGuGuGu = () => {
 
 export default DaGuGuGu;
 
-const Modal = ({ projects, show, setShowModal }) => {
+interface ModalProps {
+  projects: Project[];
+  show: boolean;
+  setShowModal: (show: boolean) => void;
+}
+
+const Modal: React.FC<ModalProps> = ({ projects, show, setShowModal }) => {
   const [current, setCurrent] = useState(0);
   const length = projects.length;
 

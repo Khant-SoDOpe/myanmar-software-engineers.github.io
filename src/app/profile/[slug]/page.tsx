@@ -18,9 +18,13 @@ const getProfileFromParam = async (slug: string) => {
   return profileDetail;
 };
 
-export async function generateMetadata({
-  params: { slug },
-}: TPProfileDetailPageProps) {
+export async function generateMetadata(props: TPProfileDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const profile = await getProfileFromParam(slug);
 
   return {
@@ -41,14 +45,18 @@ export const generateStaticParams = async () =>
   allProfiles.map((profile) => ({ slug: profile.slugAsParams }));
 
 type TPProfileDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-const PProfileDetailPage: FC<TPProfileDetailPageProps> = async ({
-  params: { slug },
-}) => {
+const PProfileDetailPage: FC<TPProfileDetailPageProps> = async props => {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const profile = await getProfileFromParam(slug);
 
   return (

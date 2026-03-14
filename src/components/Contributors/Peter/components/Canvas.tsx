@@ -4,15 +4,15 @@ import React, { useEffect } from "react";
 function Canvas() {
   useEffect(() => {
     // This code will run on the client side
-    const canvas = document.getElementById("canvas-1");
+    const canvas = document.getElementById("canvas-1") as HTMLCanvasElement | null;
     if (!canvas) {
       console.error("Canvas element not found");
       return;
     }
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d")!;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const particlesArray = [];
+    const particlesArray: any[] = [];
     let hue = 0;
 
     window.addEventListener("resize", function () {
@@ -21,8 +21,8 @@ function Canvas() {
     });
 
     const mouse = {
-      x: undefined,
-      y: undefined,
+      x: undefined as number | undefined,
+      y: undefined as number | undefined,
     };
 
     canvas.addEventListener("click", function (event) {
@@ -42,6 +42,12 @@ function Canvas() {
     });
 
     class Particle {
+      x: number | undefined;
+      y: number | undefined;
+      size: number;
+      speedX: number;
+      speedY: number;
+      color: string;
       constructor() {
         this.x = mouse.x;
         this.y = mouse.y;
@@ -51,14 +57,14 @@ function Canvas() {
         this.color = "hsl(" + hue + ", 100%, 50%)";
       }
       update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x = (this.x || 0) + this.speedX;
+        this.y = (this.y || 0) + this.speedY;
         if (this.size > 0.2) this.size -= 0.1;
       }
       draw() {
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x || 0, this.y || 0, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -89,7 +95,7 @@ function Canvas() {
     }
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
       //ctx.fillStyle = 'rgba(0,0,0,0.02)';
       //ctx.fillRect(0, 0, canvas.width, canvas.height);
       handleParticles();

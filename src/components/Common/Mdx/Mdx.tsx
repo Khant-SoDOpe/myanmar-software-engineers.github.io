@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/utils";
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { useMDXComponent } from "next-contentlayer2/hooks";
 import React, { useEffect, useState } from "react";
 import TitleText from "../TitleText/TitleText";
 
@@ -99,7 +99,7 @@ const components = {
     ...rest
   }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={cn("rounded-md border", className)} alt={alt} {...rest} />
+    (<img className={cn("rounded-md border", className)} alt={alt} {...rest} />)
   ),
   hr: ({ className, ...rest }: React.HTMLAttributes<HTMLHRElement>) => (
     <hr className={cn("my-4 md:my-8", className)} {...rest} />
@@ -161,6 +161,7 @@ interface MdxProps {
   extraText?: string;
 }
 
+/* eslint-disable react-hooks/static-components */
 export function Mdx({ code, extraText }: MdxProps) {
   const Component = useMDXComponent(code);
   const [showExtraText, setShowExtraText] = useState(false);

@@ -56,7 +56,7 @@ export default function MainPost() {
             <span className="ml-1 text-black ">a thel ly twy py pr</span>
           </button>
         </div>
-        
+
       </div>
     </div>
   );

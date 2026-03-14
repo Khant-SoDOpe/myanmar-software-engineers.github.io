@@ -16,7 +16,7 @@ export default function Photos() {
         />
         <hr></hr>
         <img src="https://drive.google.com/uc?export=view&id=1GPV-8qJKPa396NMBiw4Dk-GBirkNqbqE" alt="photo" />
-       
+
       </div>
     </div>
   );

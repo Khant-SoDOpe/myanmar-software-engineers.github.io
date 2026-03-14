@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 
 function CanvasAnimation() {
   useEffect(() => {
-    const canvas = document.getElementById("canvas-2");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById("canvas-2") as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
 
     const colors = [
       "rgb(81, 162, 233)",
@@ -29,9 +30,15 @@ function CanvasAnimation() {
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
     class Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      color: string;
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * canvas!.width;
+        this.y = Math.random() * canvas!.height;
         this.vx =
           particleSettings.minSpeed + Math.random() * particleSettings.maxSpeed;
         this.vy =
@@ -58,9 +65,9 @@ function CanvasAnimation() {
         for (let i = 0; i < numParticles; i++) {
           const p = particles[i];
           // Your existing animation logic here
-          if (p.y < 0 || p.y > canvas.height) {
+          if (p.y < 0 || p.y > canvas!.height) {
             p.vy = -p.vy;
-          } else if (p.x < 0 || p.x > canvas.width) {
+          } else if (p.x < 0 || p.x > canvas!.width) {
             p.vx = -p.vx;
           }
           p.x += p.vx;
@@ -81,7 +88,7 @@ function CanvasAnimation() {
       () => new Particle()
     );
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.pageX;
       mouse.y = e.pageY;
       try {
@@ -132,17 +139,17 @@ function CanvasAnimation() {
         p.y += p.vy;
 
         // Ensure particles stay within the canvas bounds
-        if (p.x < 0 || p.x > canvas.width) {
+        if (p.x < 0 || p.x > canvas!.width) {
           p.vx = -p.vx;
         }
-        if (p.y < 0 || p.y > canvas.height) {
+        if (p.y < 0 || p.y > canvas!.height) {
           p.vy = -p.vy;
         }
       }
     };
 
     const animateParticles = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
 
       for (let i = 0; i < numParticles; i++) {
         const p = particles[i];
@@ -174,7 +181,7 @@ function CanvasAnimation() {
     animateParticles();
 
     const animateCanvas = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
       for (let i = 0; i < numParticles; i++) {
         const p = particles[i];
         p.create();

@@ -1,18 +1,23 @@
+/* eslint-disable react-hooks/immutability */
 import React, { useEffect, useMemo, useRef } from "react";
-import fragmentShader from "./fragmentShader.js";
-import vertexShader from "./vertexShader.js";
+import fragmentShader from "./fragmentShader";
+import vertexShader from "./vertexShader";
 import { useFrame } from "@react-three/fiber";
 import { MathUtils } from "three";
 import * as THREE from "three";
 
-const Sphere = ({ sound }) => {
-  const mesh = useRef();
-  const analyser = useRef();
+interface SphereProps {
+  sound: React.RefObject<any>;
+}
+
+const Sphere: React.FC<SphereProps> = ({ sound }) => {
+  const mesh = useRef<any>(null);
+  const analyser = useRef<any>(null);
   useEffect(
     () => void (analyser.current = new THREE.AudioAnalyser(sound.current, 32)),
     [sound]
   );
-  
+
   const uniforms = useMemo(() => {
     return {
       u_time: { value: 0 },

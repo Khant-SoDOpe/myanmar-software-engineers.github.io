@@ -1,4 +1,4 @@
-import Filter  from "./icons";
+import { Filter }  from "./icons";
 
 export default function Posts() {
   return (

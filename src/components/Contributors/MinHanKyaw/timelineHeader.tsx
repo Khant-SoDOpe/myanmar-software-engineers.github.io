@@ -50,7 +50,7 @@ export default function TimelineHeader() {
       <div className="text-center mt-6 text-3xl font-bold text-black">
         Min Han Kyaw
       </div>
-   
+
       <div className="border border-gray-500 mt-6 border-opacity-10" />
       <div className="flex justify-between px-8">
         <div className="flex items-center">

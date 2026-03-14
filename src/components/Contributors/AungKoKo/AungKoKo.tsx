@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import autoAnimate from "@formkit/auto-animate";
 import skillsData from "./skills";
 
-const AungKoKo = () => {
+const AungKoKo: React.FC = () => {
   const [skills, setSkills] = useState(skillsData);
-  const parent = useRef(null);
+  const parent = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current, { duration: 700 });
@@ -15,7 +15,7 @@ const AungKoKo = () => {
   useEffect(() => {
     setTimeout(() => {
       const juggled = [...skills];
-      juggled.push(juggled.shift());
+      juggled.push(juggled.shift()!);
       setSkills(juggled);
     }, 1000);
   }, [skills]);
@@ -57,7 +57,7 @@ const AungKoKo = () => {
             />
           </div>
           <div ref={parent} className="w-full h-full">
-            {skills.map(({ iconUrl, name }) => (
+            {skills.map(({ iconUrl, name }: { iconUrl: string; name: string }) => (
               <div
                 key={name}
                 className={`corner rounded-lg border shadow-lg shadow-cyan-500/50`}

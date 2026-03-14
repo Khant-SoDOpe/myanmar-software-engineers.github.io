@@ -1,6 +1,11 @@
 // import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 
-export function PhoneDialog({ isOpen, onClose }) {
+interface DialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function PhoneDialog({ isOpen, onClose }: DialogProps) {
   if (!isOpen) return null;
 
   return (
@@ -24,7 +29,7 @@ export function PhoneDialog({ isOpen, onClose }) {
 }
 
 
-export function MailDialog({ isOpen, onClose }) {
+export function MailDialog({ isOpen, onClose }: DialogProps) {
   if (!isOpen) return null;
 
   return (
@@ -42,7 +47,7 @@ export function MailDialog({ isOpen, onClose }) {
   );
 }
 
-export function MoreDialog({ isOpen, onClose }) {
+export function MoreDialog({ isOpen, onClose }: DialogProps) {
   if (!isOpen) return null;
 
   return (

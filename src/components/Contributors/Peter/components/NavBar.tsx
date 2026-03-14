@@ -5,13 +5,6 @@ function NavBar() {
   const [showNavBar, setShowNavBar] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const handleScroll = () => {
     const sections = ["hero", "about", "contact"];
     const scrollPosition = window.scrollY;
@@ -33,7 +26,14 @@ function NavBar() {
     }
   };
 
-  const handleItemClick = (sectionId) => {
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleItemClick = (sectionId: string) => {
     // Scroll to the selected section
     const section = document.getElementById(sectionId);
     if (section) {

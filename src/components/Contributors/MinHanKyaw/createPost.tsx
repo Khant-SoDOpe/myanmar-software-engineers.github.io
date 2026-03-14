@@ -22,7 +22,7 @@ export default function CreatePost() {
         {/* <div className="border border-fGray border-opacity-10 mt-4" /> */}
         <div className="flex justify-between">
           <button className="flex justify-center items-center w-1/3 focus:outline-none mt-4 py-2">
-            <Image alt="Image" />
+            <Image />
             <div className="text-gray-500 text-sm ml-2">
               Photo/Video
             </div>

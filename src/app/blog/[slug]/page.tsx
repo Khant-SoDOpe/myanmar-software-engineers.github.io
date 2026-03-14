@@ -18,14 +18,18 @@ export const generateStaticParams = async () =>
   allBlogs.map((blog) => ({ slug: blog.slugAsParams }));
 
 type TBlogDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-const BlogDetailPage: FC<TBlogDetailPageProps> = async ({
-  params: { slug },
-}) => {
+const BlogDetailPage: FC<TBlogDetailPageProps> = async props => {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const blog = await getBlogFromParams(slug);
 
   return (

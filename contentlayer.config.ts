@@ -3,7 +3,7 @@ import {
   makeSource,
   ComputedFields,
   FieldDefs,
-} from "contentlayer/source-files";
+} from "contentlayer2/source-files";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";

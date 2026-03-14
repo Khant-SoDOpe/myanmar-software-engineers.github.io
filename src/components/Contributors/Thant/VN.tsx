@@ -1,57 +1,69 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
+// @ts-ignore
+import Typewriter from "typewriter-effect/dist/core";
 import dialogArray from "./choices.json";
 
-const VN = ({ setClick, setAudioTime }) => {
+interface VNProps {
+  setClick: (value: boolean) => void;
+  setAudioTime: (value: number) => void;
+}
+
+const VN: React.FC<VNProps> = ({ setClick, setAudioTime }) => {
   const start = () => {
-    document.getElementById("start").classList.add("hidden");
-    document.getElementById("vn").classList.remove("hidden");
-    let audio = new Audio(
-      "https://drive.google.com/uc?id=1vDo02iqo8lOEUhVouXh5FZNOXZh3FzM9"
-    );
-    audio.preload = "auto";
-    audio.volume = 0.5;
-    audio.addEventListener("canplay", () => {
-      audio.play();
-    });
-    audio.load();
-    song = audio;
+    document.getElementById("start")?.classList.add("hidden");
+    document.getElementById("vn")?.classList.remove("hidden");
+    try {
+      let audio = new Audio(
+        "https://drive.google.com/uc?id=1vDo02iqo8lOEUhVouXh5FZNOXZh3FzM9"
+      );
+      audio.preload = "auto";
+      audio.volume = 0.5;
+      audio.addEventListener("canplay", () => {
+        audio.play().catch(() => {});
+      });
+      audio.addEventListener("error", () => {});
+      audio.load();
+      song = audio;
+    } catch {
+      song = null;
+    }
   };
-  let song = null;
+  let song: HTMLAudioElement | null = null;
   let oneClicked = false;
   let twoClicked = false;
-  let data = [];
+  let data: any[] = [];
   const nextDialog = () => {
     if (data.length == 0) {
       return;
     }
     if (data[1] && typeof data[1] != "string") {
       if (!data[1].dialog) {
-        choiceBox.classList.toggle("hidden");
+        choiceBox?.classList.toggle("hidden");
         console.log(data);
-        questionOne.innerHTML = data[1].question1;
-        questionTwo.innerHTML = data[1].question2;
-        questionOne.addEventListener("click", (e) => {
+        if (questionOne) questionOne.innerHTML = data[1].question1;
+        if (questionTwo) questionTwo.innerHTML = data[1].question2;
+        questionOne?.addEventListener("click", (e: Event) => {
           if (!oneClicked) {
-            choiceBox.classList.toggle("hidden");
-            sprite.src = data[2].answer1.image;
+            choiceBox?.classList.toggle("hidden");
+            if (sprite) sprite.src = data[2]?.answer1?.image ?? "";
             let typewriter = new Typewriter(dialog, {
               delay: 50,
             });
-            typewriter.typeString(data[2].answer1.dialog).start();
+            typewriter.typeString(data[2]?.answer1?.dialog ?? "").start();
             data = data.slice(3);
             oneClicked = true;
           }
         });
-        questionTwo.addEventListener("click", (e) => {
+        questionTwo?.addEventListener("click", (e: Event) => {
           if (!twoClicked) {
-            choiceBox.classList.toggle("hidden");
-            sprite.src = data[2].answer2.image;
+            choiceBox?.classList.toggle("hidden");
+            if (sprite) sprite.src = data[2]?.answer2?.image ?? "";
             let typewriter = new Typewriter(dialog, {
               delay: 50,
             });
-            typewriter.typeString(data[2].answer2.dialog).start();
+            typewriter.typeString(data[2]?.answer2?.dialog ?? "").start();
             data = data.slice(3);
             twoClicked = true;
           }
@@ -60,47 +72,59 @@ const VN = ({ setClick, setAudioTime }) => {
         let typewriter = new Typewriter(dialog, {
           delay: 50,
         });
-        typewriter.typeString(data[0].dialog).start();
-        sprite.src = data[0].image;
+        typewriter.typeString(data[0]?.dialog ?? "").start();
+        if (sprite) sprite.src = data[0]?.image ?? "";
         oneClicked = false;
         twoClicked = false;
         data = data.slice(1);
       }
     } else {
       if (data[0] == "done") {
-        song.volume = 0.3;
-        setTimeout(() => {
-          song.volume = 0;
-        }, 1000);
+        try {
+          if (song) {
+            song.volume = 0.3;
+            const currentTime = song.currentTime;
+            setTimeout(() => {
+              try { if (song) song.volume = 0; } catch {}
+            }, 1000);
+            setAudioTime(currentTime);
+          } else {
+            setAudioTime(0);
+          }
+        } catch {
+          setAudioTime(0);
+        }
         setClick(true);
-        setAudioTime(song.currentTime);
+        return;
       }
       let typewriter = new Typewriter(dialog, {
         delay: 50,
       });
-      typewriter.typeString(data[0].dialog).start();
-      sprite.src = data[0].image;
+      typewriter.typeString(data[0]?.dialog ?? "").start();
+      if (sprite) sprite.src = data[0]?.image ?? "";
       oneClicked = false;
       twoClicked = false;
       data = data.slice(1);
     }
   };
 
-  function lightOff() {
-    document.getElementsByTagName("body")[0].style.background = "black";
-  }
+  let dialog: any;
+  let choiceBox: any;
+  let questionOne: any;
+  let questionTwo: any;
+  let sprite: any;
 
   useEffect(() => {
-    let dialog = document.getElementById("dialog");
-    data = dialogArray;
+    dialog = document.getElementById("dialog");
+    data = dialogArray as any[];
     let typewriter = new Typewriter(dialog, {
       delay: 50,
     });
-    typewriter.typeString(data[0].dialog).start();
-    let choiceBox = document.getElementById("choiceBox");
-    let questionOne = document.getElementById("questionOne");
-    let questionTwo = document.getElementById("questionTwo");
-    let sprite = document.getElementById("sprite");
+    typewriter.typeString(data[0]?.dialog ?? "").start();
+    choiceBox = document.getElementById("choiceBox");
+    questionOne = document.getElementById("questionOne");
+    questionTwo = document.getElementById("questionTwo");
+    sprite = document.getElementById("sprite");
   }, []);
   return (
     <>

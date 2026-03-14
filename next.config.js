@@ -1,9 +1,8 @@
-const { withContentlayer } = require("next-contentlayer");
+const { withContentlayer } = require("next-contentlayer2");
 const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   output: "export",
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
