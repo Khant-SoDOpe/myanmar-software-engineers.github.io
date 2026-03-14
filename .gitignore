@@ -38,6 +38,11 @@ next-env.d.ts
 # contentlayer
 .contentlayer
 
+# claude code
+.claude/
+.agents/
+skills-lock.json
+
 # Dont need package locks
 yarn.lock
 package-lock.json
