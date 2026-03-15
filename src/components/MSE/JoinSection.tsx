@@ -145,7 +145,7 @@ const FeaturePill = ({
   delay,
   isInView,
 }: {
-  icon: React.ElementType;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   label: string;
   delay: number;
   isInView: boolean;

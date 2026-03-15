@@ -187,7 +187,7 @@ const SocialLink = ({
   isInView,
 }: {
   href: string;
-  icon: React.ElementType;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   label: string;
   color: string;
   index: number;
