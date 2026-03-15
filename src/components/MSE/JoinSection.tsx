@@ -1,68 +1,321 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 import BodyText from "../Common/BodyText/BodyText";
-import SquareBox from "../Ui/SquareBox/SquareBox";
 import TitleText from "../Common/TitleText/TitleText";
 import APP_CONFIG from "@/config/config";
 import { cn } from "@/utils";
-import FacebookArrows from "../Ui/Arrows/FacebookArrows";
 import Link from "next/link";
+import {
+  Users,
+  ArrowUpRight,
+  Zap,
+  MessageCircle,
+  Briefcase,
+  PenTool,
+} from "lucide-react";
+import { ReactNode, useRef, useCallback } from "react";
 
-const JoinSection = ({ bgColor = "bg-indigo-500" }: { bgColor?: string }) => {
+// --- Shared Card (same pattern as HomeSection) ---
+
+const JoinCard = ({
+  children,
+  index,
+  accentColor,
+  isInView,
+  href,
+  external,
+}: {
+  children: ReactNode;
+  index: number;
+  accentColor: string;
+  isInView: boolean;
+  href?: string;
+  external?: boolean;
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 200, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 200, damping: 30 });
+
+  const spotlightX = useTransform(springX, (v) => `${v}px`);
+  const spotlightY = useTransform(springY, (v) => `${v}px`);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      mouseX.set(e.clientX - rect.left);
+      mouseY.set(e.clientY - rect.top);
+    },
+    [mouseX, mouseY]
+  );
+
+  const inner = (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      className={cn(
+        "relative w-full h-full rounded-2xl p-6 overflow-hidden",
+        "bg-surface/80 backdrop-blur-sm",
+        "border border-white/[0.06]",
+        "transition-all duration-500 ease-out",
+        "hover:-translate-y-1 hover:border-white/[0.12]",
+        "hover:shadow-[0_20px_60px_-15px_rgba(167,139,250,0.15)]"
+      )}
+    >
+      {/* Cursor-following spotlight */}
+      <motion.div
+        className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          left: spotlightX,
+          top: spotlightY,
+          width: 200,
+          height: 200,
+          x: -100,
+          y: -100,
+          background: `radial-gradient(circle, ${accentColor}15 0%, transparent 70%)`,
+        }}
+      />
+
+      {/* Top accent line */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+        }}
+      />
+
+      {children}
+
+      {/* Bottom corner decoration */}
+      <div
+        className="absolute bottom-0 right-0 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(circle at bottom right, ${accentColor}, transparent 70%)`,
+        }}
+      />
+    </div>
+  );
+
   return (
     <motion.div
-      className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-5 relative overflow-hidden"
+      initial={{ opacity: 0, y: 40, scale: 0.95, filter: "blur(4px)" }}
+      animate={
+        isInView
+          ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+          : { opacity: 0, y: 40, scale: 0.95, filter: "blur(4px)" }
+      }
+      transition={{
+        duration: 0.7,
+        delay: 0.3 + index * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="relative group"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0, transition: { delay: 0.6 } }}
-        className="w-full relative min-h-[240px] rounded-2xl overflow-hidden backdrop-filter "
-      >
-        <Image
-          src={"/images/landing/galaxy.jpg"}
-          className="relative object-cover object-bottom opacity-60"
-          alt="Join our Community"
-          fill
-        />
-        <div className="absolute inset-0 min-h-[240px] relative p-10 flex justify-center items-center">
-          <Link href="https://www.facebook.com/groups/myanmarsoftwareengineers">
-            <BodyText className="text-center w-full backdrop-blur hover:backdrop-blur-lg cursor-pointer transition linear duration-100 border border-white p-10 rounded-2xl">
-              Join Our Facebook Community Now
-            </BodyText>
-          </Link>
-        </div>
-
-        <motion.div
-          className="w-[70px] hidden lg:block absolute bottom-[18px] right-[15px]"
-          initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: 0.7, x: 0, transition: { delay: 1 } }}
+      {href ? (
+        <Link
+          href={href}
+          className="block h-full"
+          {...(external
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
         >
-          <FacebookArrows />
-        </motion.div>
-      </motion.div>
-
-      {/* Description Section: Start */}
-      <motion.div
-        className="flex"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0, transition: { delay: 0.7 } }}
-      >
-        <SquareBox
-          className={cn(
-            "mx-auto text-center flex flex-col justify-center items-center",
-            bgColor
-          )}
-        >
-          <TitleText className="mb-5 relative lg:-top-5">
-            {APP_CONFIG.community}
-          </TitleText>
-          <BodyText>{APP_CONFIG.description}</BodyText>
-        </SquareBox>
-      </motion.div>
-      {/* Description Section: Finished */}
+          {inner}
+        </Link>
+      ) : (
+        inner
+      )}
     </motion.div>
+  );
+};
+
+// --- Feature Pill ---
+
+const FeaturePill = ({
+  icon: Icon,
+  label,
+  delay,
+  isInView,
+}: {
+  icon: React.ElementType;
+  label: string;
+  delay: number;
+  isInView: boolean;
+}) => (
+  <motion.div
+    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06]"
+    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+    animate={
+      isInView
+        ? { opacity: 1, scale: 1, y: 0 }
+        : { opacity: 0, scale: 0.8, y: 10 }
+    }
+    transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+  >
+    <Icon className="w-3.5 h-3.5 text-prism-violet" />
+    <span className="font-mono text-xs text-zinc-400">{label}</span>
+  </motion.div>
+);
+
+// === MAIN COMPONENT ===
+
+const JoinSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { amount: 0.3, once: true });
+
+  return (
+    <div
+      ref={ref}
+      className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto w-full relative"
+    >
+      {/* === LEFT: CTA Card === */}
+      <JoinCard
+        index={0}
+        accentColor="#a78bfa"
+        isInView={isInView}
+        href="https://www.facebook.com/groups/myanmarsoftwareengineers"
+        external
+      >
+        <div className="relative flex flex-col items-center justify-center gap-4">
+          {/* Icon + Title row */}
+          <div className="flex items-center gap-3">
+            <motion.div
+              className="flex items-center justify-center w-10 h-10 rounded-xl"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(167,139,250,0.15), rgba(167,139,250,0.05))",
+                border: "1px solid rgba(167,139,250,0.2)",
+              }}
+              whileHover={{ rotate: 5, scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
+              <Users className="w-5 h-5 text-prism-violet" />
+            </motion.div>
+            <TitleText
+              tag="p"
+              className="text-base font-semibold text-zinc-100"
+            >
+              Join Our Community
+            </TitleText>
+            <motion.div
+              className="text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300"
+              initial={{ x: 0, y: 0 }}
+              whileHover={{ x: 2, y: -2 }}
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.div>
+          </div>
+
+          {/* Body */}
+          <BodyText className="text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 text-center max-w-xs">
+            Connect with Myanmar&apos;s developer community on Facebook. Share
+            knowledge, find opportunities, and grow together.
+          </BodyText>
+
+          {/* CTA pill */}
+          <div
+            className={cn(
+              "flex items-center gap-2 px-5 py-2 rounded-full",
+              "bg-white/[0.04] border border-white/[0.08]",
+              "group-hover:border-prism-violet/30 group-hover:bg-prism-violet/10",
+              "transition-all duration-500"
+            )}
+          >
+            <span className="font-body text-sm text-zinc-300">
+              Facebook Group
+            </span>
+            <motion.div
+              animate={{ x: [0, 3, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <ArrowUpRight className="w-3.5 h-3.5 text-prism-cyan" />
+            </motion.div>
+          </div>
+        </div>
+      </JoinCard>
+
+      {/* === RIGHT: Community Info Card === */}
+      <JoinCard index={1} accentColor="#22d3ee" isInView={isInView}>
+        <div className="relative flex flex-col justify-center">
+          {/* Icon + Title row */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <motion.div
+                className="flex items-center justify-center w-10 h-10 rounded-xl"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(34,211,238,0.15), rgba(34,211,238,0.05))",
+                  border: "1px solid rgba(34,211,238,0.2)",
+                }}
+                whileHover={{ rotate: 5, scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                <Zap className="w-5 h-5 text-prism-cyan" />
+              </motion.div>
+              <TitleText
+                tag="p"
+                className="text-base font-semibold text-zinc-100"
+              >
+                {APP_CONFIG.community}
+              </TitleText>
+            </div>
+          </div>
+
+          {/* Description with highlighted keywords */}
+          <BodyText className="text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 leading-relaxed">
+            Explore our{" "}
+            <span className="text-prism-cyan font-medium">Job Board</span>,
+            access insightful{" "}
+            <span className="text-prism-violet font-medium">
+              Tech Articles
+            </span>
+            , showcase your{" "}
+            <span className="text-prism-rose font-medium">Portfolio</span>, and
+            join a Community that thrives on mutual growth.
+          </BodyText>
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap gap-2 mt-5">
+            <FeaturePill
+              icon={Briefcase}
+              label="Jobs"
+              delay={0.7}
+              isInView={isInView}
+            />
+            <FeaturePill
+              icon={PenTool}
+              label="Articles"
+              delay={0.8}
+              isInView={isInView}
+            />
+            <FeaturePill
+              icon={Zap}
+              label="Portfolio"
+              delay={0.9}
+              isInView={isInView}
+            />
+            <FeaturePill
+              icon={MessageCircle}
+              label="Community"
+              delay={1.0}
+              isInView={isInView}
+            />
+          </div>
+        </div>
+      </JoinCard>
+    </div>
   );
 };
 export default JoinSection;

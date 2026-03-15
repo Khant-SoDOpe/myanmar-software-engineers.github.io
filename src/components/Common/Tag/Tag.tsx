@@ -1,13 +1,36 @@
 import { cn } from "@/utils";
 import { checkIsFoundTag } from "@/utils/profileHelper";
-import { MouseEvent, useCallback } from "react";
-import { IoClose } from "react-icons/io5";
-import TitleText from "../TitleText/TitleText";
+import { MouseEvent, useCallback, useMemo } from "react";
+import { X } from "lucide-react";
+
+/* ── Curated accent palette ── */
+const TAG_PALETTE = [
+  { bg: "#22d3ee", glow: "rgba(34,211,238,0.25)" },  // cyan
+  { bg: "#a78bfa", glow: "rgba(167,139,250,0.25)" },  // violet
+  { bg: "#fb7185", glow: "rgba(251,113,133,0.25)" },  // rose
+  { bg: "#fbbf24", glow: "rgba(251,191,36,0.25)" },   // amber
+  { bg: "#34d399", glow: "rgba(52,211,153,0.25)" },   // emerald
+  { bg: "#f472b6", glow: "rgba(244,114,182,0.25)" },  // pink
+  { bg: "#60a5fa", glow: "rgba(96,165,250,0.25)" },   // blue
+  { bg: "#c084fc", glow: "rgba(192,132,252,0.25)" },  // purple
+  { bg: "#fb923c", glow: "rgba(251,146,60,0.25)" },   // orange
+  { bg: "#2dd4bf", glow: "rgba(45,212,191,0.25)" },   // teal
+] as const;
+
+/* ── Deterministic hash → palette index from tag name ── */
+const hashTag = (tag: string): number => {
+  let hash = 0;
+  for (let i = 0; i < tag.length; i++) {
+    hash = (hash << 5) - hash + tag.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash) % TAG_PALETTE.length;
+};
 
 const Tag = ({
   tag,
   searchTag,
-  bgColor,
+  bgColor: _bgColor,
   isShowClose = false,
   onClick,
 }: {
@@ -18,33 +41,51 @@ const Tag = ({
   onClick?: (tag: string) => void;
 }) => {
   const isTagActive = checkIsFoundTag(tag, searchTag);
+  const accent = useMemo(() => TAG_PALETTE[hashTag(tag)], [tag]);
 
   const onClickTag = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
       onClick?.(tag);
-      // const tmpSearchParam = new URLSearchParams(searchParams.toString());
-      // tmpSearchParam.set("tag", !isTagActive ? tag : "");
-      // router.push(`/profile?${tmpSearchParam.toString()}`);
     },
     [onClick, tag]
   );
 
   return (
-    <TitleText
+    <span
       onClick={onClickTag}
       className={cn(
-        "inline-block cursor-pointer text-[10px] px-2 py-1 rounded-full mb-1 mr-[5px] bg-opacity-70 hover:bg-opacity-90",
-        bgColor,
-        isTagActive &&
-          "bg-green-600 bg-opacity-100 outline-dashed outline-2 outline-offset-2 relative"
+        "tag-pill relative inline-flex items-center gap-1.5 cursor-pointer font-display tracking-tight px-3 py-1.5 rounded-full mb-1 mr-[5px] select-none",
+        "text-[10px] transition-all duration-200",
+        isTagActive
+          ? "text-white active:scale-95"
+          : "bg-white/[0.06] text-zinc-400 hover:text-zinc-200 border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.1] active:scale-95"
       )}
-      key={tag}
-      tag="span"
+      style={
+        isTagActive
+          ? {
+              background: `linear-gradient(135deg, ${accent.bg}cc, ${accent.bg}88)`,
+              boxShadow: `0 0 12px ${accent.glow}`,
+              border: `1px solid ${accent.bg}60`,
+            }
+          : undefined
+      }
     >
+      {/* Colored dot indicator */}
+      <span
+        className={cn(
+          "inline-block w-1.5 h-1.5 rounded-full shrink-0",
+          isTagActive ? "opacity-100" : "opacity-40"
+        )}
+        style={{ backgroundColor: accent.bg }}
+      />
+
       {tag}
-      {isShowClose ? <IoClose /> : null}
-    </TitleText>
+
+      {isShowClose && (
+        <X className="w-3 h-3 opacity-70 hover:opacity-100 transition-opacity" />
+      )}
+    </span>
   );
 };
 

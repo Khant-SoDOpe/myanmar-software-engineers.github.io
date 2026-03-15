@@ -1,25 +1,35 @@
 import PageTransitionWrapper from "@/components/Animate/PageTransitionWrapper/PageTransitionWrapper";
-import BodyText from "@/components/Common/BodyText/BodyText";
-import Container from "@/components/Common/Container/Container";
-import TitleText from "@/components/Common/TitleText/TitleText";
-import SquareBox from "@/components/Ui/SquareBox/SquareBox";
 import APP_CONFIG from "@/config/config";
 import { Metadata } from "next";
+import { allBlogs } from "contentlayer/generated";
+import { compareDesc } from "date-fns";
+import BlogPageClient from "./BlogPageClient";
 
 export const metadata: Metadata = {
-  title: `Blog List | ${APP_CONFIG.title}`,
+  title: `Blog | ${APP_CONFIG.title}`,
   description: APP_CONFIG.description,
+  openGraph: {
+    title: `Blog | ${APP_CONFIG.title}`,
+    description: APP_CONFIG.description,
+    images: "https://mmswe.com/images/mmswe-seo.png",
+  },
 };
 
 const BlogListPage = () => {
+  const blogs = allBlogs
+    .filter((blog) => blog.published !== false)
+    .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
+    .map((blog) => ({
+      _id: blog._id,
+      title: blog.title,
+      description: blog.description,
+      date: blog.date,
+      slug: blog.slug,
+    }));
+
   return (
     <PageTransitionWrapper>
-      <Container>
-        <SquareBox>
-          <TitleText className="mb-2"> Welcome to the Blogs Page... </TitleText>
-          <BodyText> Exciting blogs are on the horizon, stay tuned! </BodyText>
-        </SquareBox>
-      </Container>
+      <BlogPageClient blogs={blogs} />
     </PageTransitionWrapper>
   );
 };

@@ -71,6 +71,10 @@ Key types:
 - `:lipstick: style: <description>` — UI/UX changes
 - `:recycle: refactor: <description>` — refactoring
 
+## Screenshots
+
+Save all screenshots (including Playwright MCP captures) to the `screen-shot/` folder in the project root.
+
 ## CI/CD
 
 GitHub Actions (`.github/workflows/build.yml`): on push/PR to `main`, installs with Bun, builds, deploys to GitHub Pages.

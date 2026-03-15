@@ -35,7 +35,7 @@ export async function generateMetadata(props: TPProfileDetailPageProps) {
       description: `Profile | ${profile.description}`,
       images: !!profile.image
         ? profile.image
-        : "https://mmswe.com/images/landing/galaxy.jpg",
+        : "https://mmswe.com/images/mmswe-seo.png",
       siteName: `https://mmswe.com/profile/${slug}`,
     },
   };

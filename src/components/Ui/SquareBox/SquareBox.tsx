@@ -11,13 +11,12 @@ const SquareBox = ({ children, className = "", onClick }: TSquareBox) => {
   return (
     <div
       className={cn(
-        "relative bg-white bg-opacity-10 rounded-2xl py-5 overflow-hidden ",
+        "relative bg-surface border border-white/5 rounded-2xl py-5 overflow-hidden",
         styles.paddingHelper,
         className
       )}
       onClick={onClick}
     >
-      <div className={cn(styles.squareAbsolute, styles.squareBackground)}></div>
       <div className="relative">{children}</div>
     </div>
   );

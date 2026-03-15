@@ -1,4 +1,3 @@
-import { titleFont, titleFontBold } from "@/fonts/fonts";
 import { cn } from "@/utils";
 import { MouseEvent, PropsWithChildren } from "react";
 
@@ -20,9 +19,9 @@ const TitleText: React.FC<TTitleText> = ({
   return (
     <Component
       className={cn(
-        titleFont.className,
+        "font-display tracking-tight",
         "text-lg",
-        isBold && titleFontBold.className,
+        isBold && "font-bold",
         className
       )}
       onClick={onClick}

@@ -1,4 +1,3 @@
-import { bodyFont } from "@/fonts/fonts";
 import { cn } from "@/utils";
 import { PropsWithChildren } from "react";
 
@@ -14,7 +13,7 @@ const BodyText: React.FC<TBodyText> = ({
 }) => {
   const Component = tag;
   return (
-    <Component className={cn(bodyFont.className, "text-sm", className)}>
+    <Component className={cn("font-body text-sm text-zinc-300 leading-relaxed", className)}>
       {children}
     </Component>
   );

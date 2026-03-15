@@ -5,28 +5,24 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const colors = ["bg-rose-500", "bg-indigo-500", "bg-yellow-500"];
+const colors = ["bg-prism-violet/30", "bg-prism-cyan/30", "bg-prism-rose/30"];
 
-const textColors = ["text-rose-400", "text-indigo-400", "text-yellow-400"];
+const textColors = ["text-prism-violet", "text-prism-cyan", "text-prism-rose"];
 
-const fillColors = ["fill-rose-500", "fill-indigo-500", "fill-yellow-500"];
+const fillColors = ["fill-prism-violet", "fill-prism-cyan", "fill-prism-rose"];
 
 const strokeColors = [
-  "stroke-rose-500",
-  "stroke-indigo-500",
-  "stroke-yellow-500",
+  "stroke-prism-violet",
+  "stroke-prism-cyan",
+  "stroke-prism-rose",
+  "stroke-violet-200",
+  "stroke-cyan-200",
   "stroke-rose-200",
-  "stroke-indigo-200",
-  "stroke-yellow-200",
 ];
 
 function getRandomItem(arr: string[]) {
-  // get random index value
   const randomIndex = Math.floor(Math.random() * arr.length);
-
-  // get random item
   const item = arr[randomIndex];
-
   return item;
 }
 

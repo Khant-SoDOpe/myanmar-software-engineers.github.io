@@ -1,5 +1,5 @@
 import Navbar from "@/components/Common/Navbar/Navbar";
-import { bodyFont } from "@/fonts/fonts";
+import { displayFont, bodyFontBase, monoFont } from "@/fonts/fonts";
 import { cn } from "@/utils";
 import styles from "@/styles/styles";
 import type { Metadata } from "next";
@@ -13,6 +13,18 @@ export const metadata: Metadata = {
   title: APP_CONFIG.title,
   description:
     "Explore our Job Board, access insightful Tech Articles, showcase your Portfolio, and join a Community that thrives on mutual growth.",
+  openGraph: {
+    title: APP_CONFIG.title,
+    description: APP_CONFIG.description,
+    images: "https://mmswe.com/images/mmswe-seo.png",
+    siteName: APP_CONFIG.title,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: APP_CONFIG.title,
+    description: APP_CONFIG.description,
+    images: "https://mmswe.com/images/mmswe-seo.png",
+  },
 };
 
 export default function RootLayout({
@@ -21,16 +33,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const cls = cn(
+    displayFont.variable,
+    bodyFontBase.variable,
+    monoFont.variable,
     styles.gradient,
-    bodyFont.className,
-    "min-h-screen text-white scroll-smooth"
+    "font-body min-h-screen text-zinc-200 scroll-smooth overflow-x-hidden"
   );
   return (
-    <html lang="en">
+    <html lang="en" data-theme="obsidian">
       <head>
         <Favicons />
       </head>
       <body className={cls}>
+        <div className="noise-overlay" />
         <Navbar />
         <main className="min-h-[calc(100vh-142px)]">{children}</main>
         <Footer />

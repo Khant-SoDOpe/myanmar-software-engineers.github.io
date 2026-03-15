@@ -47,3 +47,10 @@ skills-lock.json
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
+
+screen-shot
+
+# playwright mcp
+.playwright-mcp/
+
+/docs

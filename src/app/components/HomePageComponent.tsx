@@ -8,47 +8,42 @@ import JoinSection from "@/components/MSE/JoinSection";
 import LanguageIconSection from "@/components/MSE/LanguageIconSection";
 import MmsweTypoSection from "@/components/MSE/MmsweTypoSection";
 import PlatformSection from "@/components/MSE/PlatformSection";
-import { generateColor } from "@/utils";
+import styles from "@/styles/styles";
 
 export default function HomePageComponent() {
-  const color = generateColor();
-  const bgColor = `${color} bg-opacity-[0.35]`;
-
   return (
     <>
-      <Container withPadding>
-        {/* Home Section: Start */}
-        <HomeSection bgColor={bgColor} />
-        {/* Home Section: Finished */}
+      <Container>
+        <section className="w-full overflow-x-hidden lg:overflow-x-visible">
+          <HomeSection />
+        </section>
 
-        <SpacingDivider />
+        <section className={styles.paddingHelper}>
+          <JoinSection />
+        </section>
 
-        {/* Joined Section: Start */}
-        <JoinSection bgColor={bgColor} />
-        {/* Joined Section: Finished */}
-
-        <SpacingDivider size="lg" />
       </Container>
 
       <OverflowContainer>
-        {/* LanguageIcon Section: Start */}
         <SpacingDivider size="sm" />
 
-        <LanguageIconSection bgColor={bgColor} />
-        {/* LanguageIcon Section: Finished */}
+        <section>
+          <LanguageIconSection />
+        </section>
 
         <SpacingDivider size="sm" />
 
-        {/* Typo Sectino: Start */}
-        <MmsweTypoSection bgColor={bgColor} />
-        {/* Typo Sectino: Finished */}
+        <section>
+          <MmsweTypoSection />
+        </section>
+
         <SpacingDivider size="sm" />
       </OverflowContainer>
 
       <Container withPadding>
-        {/* Platform Section: Start */}
-        <PlatformSection bgColor={bgColor} />
-        {/* Platform Section: Start */}
+        <section>
+          <PlatformSection />
+        </section>
       </Container>
     </>
   );

@@ -1,5 +1,4 @@
 "use client";
-import { titleFont, titleFontBold } from "@/fonts/fonts";
 import { cn } from "@/utils";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
@@ -17,7 +16,7 @@ export const strokeAnimation = {
 } as const;
 
 const MseTypo = ({
-  bgColor = "bg-indigo-500",
+  bgColor = "bg-prism-violet",
   isWhite = false,
 }: {
   bgColor?: string;
@@ -51,25 +50,25 @@ const MseTypo = ({
       <g id="TextGroup">
         <motion.text
           variants={strokeAnimation}
-          className={cn("st10 st11 st12", titleFontBold.className, strokeColor)}
+          className={cn("st10 st11 st12 font-display font-bold", strokeColor)}
           transform="translate(10.957 106.424)"
         >
           {"M"}
         </motion.text>
         <text
-          className={cn("st13 st14", titleFont.className, fillColor)}
+          className={cn("st13 st14 font-display", fillColor)}
           transform="translate(87.933 59.278)"
         >
           {"yanmar"}
         </text>
         <text
-          className={cn("st13 st14", titleFont.className, fillColor)}
+          className={cn("st13 st14 font-display", fillColor)}
           transform="translate(340.562 108.983)"
         >
           {"ngineers"}
         </text>
         <text
-          className={cn("st13", titleFont.className, fillColor)}
+          className={cn("st13 font-display", fillColor)}
           style={{
             fontSize: 43,
           }}
@@ -79,7 +78,7 @@ const MseTypo = ({
         </text>
         <motion.text
           variants={strokeAnimation}
-          className={cn("st10 st11 st12", titleFontBold.className, strokeColor)}
+          className={cn("st10 st11 st12 font-display font-bold", strokeColor)}
           transform="translate(272.74 108.424)"
         >
           {"E"}

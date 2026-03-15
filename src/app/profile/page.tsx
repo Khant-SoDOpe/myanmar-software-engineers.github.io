@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Profile List | ${APP_CONFIG.title}`,
     description: APP_CONFIG.description,
-    images: "https://mmswe.com/images/landing/galaxy.jpg",
+    images: "https://mmswe.com/images/mmswe-seo.png",
   },
 };
 

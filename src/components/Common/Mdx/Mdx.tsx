@@ -15,7 +15,7 @@ const components = {
   h2: ({ className, ...rest }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "mt-10 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0",
+        "mt-10 border-b border-white/10 pb-1 text-3xl font-semibold tracking-tight first:mt-0",
         className
       )}
       {...rest}
@@ -60,7 +60,7 @@ const components = {
   a: ({ className, ...rest }: React.HTMLAttributes<HTMLAnchorElement>) => (
     <a
       className={cn(
-        "font-medium underline underline-offset-4 tracking-tight",
+        "font-medium underline underline-offset-4 tracking-tight text-prism-cyan hover:text-prism-violet transition-colors",
         className
       )}
       {...rest}
@@ -87,7 +87,7 @@ const components = {
   }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className={cn(
-        "mt-6 border-l-2 pl-6 italic [&>*]:text-muted-foreground",
+        "mt-6 border-l-2 border-prism-violet/40 pl-6 italic text-zinc-400",
         className
       )}
       {...rest}
@@ -99,10 +99,10 @@ const components = {
     ...rest
   }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // eslint-disable-next-line @next/next/no-img-element
-    (<img className={cn("rounded-md border", className)} alt={alt} {...rest} />)
+    (<img className={cn("rounded-md border border-white/10", className)} alt={alt} {...rest} />)
   ),
   hr: ({ className, ...rest }: React.HTMLAttributes<HTMLHRElement>) => (
-    <hr className={cn("my-4 md:my-8", className)} {...rest} />
+    <hr className={cn("my-4 md:my-8 border-white/10", className)} {...rest} />
   ),
   table: ({ className, ...rest }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
@@ -110,7 +110,7 @@ const components = {
     </div>
   ),
   tr: ({ className, ...rest }: React.HTMLAttributes<HTMLTableRowElement>) => (
-    <tr className={cn("m-0 border-t p-0 even:bg-muted", className)} {...rest} />
+    <tr className={cn("m-0 border-t border-white/10 p-0 even:bg-white/[0.02]", className)} {...rest} />
   ),
   th: ({
     className,
@@ -118,7 +118,7 @@ const components = {
   }: React.HTMLAttributes<HTMLTableHeaderCellElement>) => (
     <th
       className={cn(
-        "border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border border-white/10 px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...rest}
@@ -130,7 +130,7 @@ const components = {
   }: React.HTMLAttributes<HTMLTableDataCellElement>) => (
     <td
       className={cn(
-        "border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border border-white/10 px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...rest}
@@ -139,7 +139,7 @@ const components = {
   pre: ({ className, ...rest }: React.HTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        "mb-4 mt-6 overflow-x-auto rounded-lg border bg-black py-4 px-2",
+        "mb-4 mt-6 overflow-x-auto rounded-lg border border-white/10 bg-surface py-4 px-2",
         className
       )}
       {...rest}
