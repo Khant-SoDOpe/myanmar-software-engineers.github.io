@@ -56,7 +56,7 @@ export default async function RootLayout({
           <LanguageProvider>
             <div className="noise-overlay" />
             <Navbar />
-            <main className="min-h-[calc(100vh-142px)]">{children}</main>
+            <main className="min-h-[calc(100vh-142px)] pt-16">{children}</main>
             <Footer />
           </LanguageProvider>
         </NextIntlClientProvider>

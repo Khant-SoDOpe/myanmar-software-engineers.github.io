@@ -287,6 +287,8 @@ const Navbar = () => {
   const path = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
   const t = useTranslations("nav");
   const { isMyanmar } = useLanguage();
   const mmFont = isMyanmar ? khitHaungg.className : "";
@@ -294,7 +296,17 @@ const Navbar = () => {
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 20);
+      // Hide navbar when scrolling down past 80px, show when scrolling up
+      if (currentY > 80 && currentY > lastScrollY.current) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastScrollY.current = currentY;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -308,11 +320,11 @@ const Navbar = () => {
   return (
     <>
       <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ y: -80 }}
+        animate={{ y: hidden && !mobileOpen ? -80 : 0 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-40 w-full transition-[background,box-shadow] duration-500",
           scrolled
             ? "bg-obsidian/90 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
             : "bg-obsidian/60 backdrop-blur-xl"
