@@ -11,6 +11,7 @@ const linkList = [
   { label: "Home", href: "/" },
   { label: "Profiles", href: "/profile" },
   { label: "Editor", href: "/profile/editor" },
+  { label: "How to", href: "/how-to" },
   { label: "Blog", href: "/blog" },
 ];
 

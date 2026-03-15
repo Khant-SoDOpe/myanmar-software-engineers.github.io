@@ -16,11 +16,103 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useSearchParams } from "next/navigation";
-import { Search, Users, SlidersHorizontal, X, Sparkles } from "lucide-react";
+import { Search, Users, SlidersHorizontal, X, Sparkles, Code2 } from "lucide-react";
 import { useRef, useCallback, useState } from "react";
+import { useInView } from "framer-motion";
 
 type TPropsProfileCardList = {
   profiles: Profile[];
+};
+
+/* ── Hero section header ── */
+const HeroSection = ({ totalCount }: { totalCount: number }) => {
+  const heroRef = useRef(null);
+  const heroInView = useInView(heroRef, { amount: 0.3, once: true });
+
+  return (
+    <div ref={heroRef} className="relative pt-8 pb-4 md:pt-12 md:pb-6">
+      {/* Section label */}
+      <motion.div
+        className="flex items-center gap-3 mb-6"
+        initial={{ opacity: 0, x: -20 }}
+        animate={heroInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.div
+          className="flex items-center justify-center w-8 h-8 rounded-lg"
+          style={{
+            background: "linear-gradient(135deg, #22d3ee12, #a78bfa08)",
+            border: "1px solid rgba(34,211,238,0.15)",
+          }}
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          transition={{ type: "spring", stiffness: 400 }}
+        >
+          <Code2 className="w-4 h-4 text-prism-cyan" />
+        </motion.div>
+        <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
+          Developer Directory
+        </span>
+      </motion.div>
+
+      {/* Title */}
+      <motion.div
+        className="relative overflow-hidden mb-4"
+        initial={{ opacity: 0 }}
+        animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.1, delay: 0.1 }}
+      >
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.1) 50%, transparent 100%)",
+          }}
+          initial={{ x: "-100%" }}
+          animate={heroInView ? { x: "200%" } : { x: "-100%" }}
+          transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
+        />
+        <motion.h1
+          className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+          initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
+          animate={
+            heroInView
+              ? { y: 0, opacity: 1, filter: "blur(0px)" }
+              : { y: 50, opacity: 0, filter: "blur(6px)" }
+          }
+          transition={{
+            duration: 0.7,
+            delay: 0.15,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          Profiles
+        </motion.h1>
+      </motion.div>
+
+      {/* Subtitle */}
+      <motion.p
+        className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+        initial={{ opacity: 0, y: 15 }}
+        animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+        transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
+      >
+        Discover {totalCount}+ software engineers from Myanmar. Browse by
+        technology, search by name, and connect with the community.
+      </motion.p>
+
+      {/* Decorative divider */}
+      <motion.div
+        className="mt-8 h-[1px]"
+        style={{
+          background:
+            "linear-gradient(90deg, #22d3ee15, #a78bfa25, #fb718515, transparent 80%)",
+        }}
+        initial={{ scaleX: 0, originX: 0 }}
+        animate={heroInView ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+      />
+    </div>
+  );
 };
 
 /* ── Prismatic divider line ── */
@@ -306,6 +398,9 @@ const ProfileCardList = ({ profiles }: TPropsProfileCardList) => {
 
   return (
     <>
+      {/* Hero header */}
+      <HeroSection totalCount={profiles.length} />
+
       {/* Tag cloud section */}
       <TagCloud
         uniqueTags={uniqueTags}

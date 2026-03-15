@@ -1,36 +1,228 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+<img src="public/seo/favicon-original.png" alt="MMSWE" width="80" />
 
-First, run the development server:
+# Myanmar Software Engineers
+
+**A community platform connecting Myanmar's software engineering talent.**
+
+[![Deploy](https://github.com/myanmar-software-engineers/myanmar-software-engineers.github.io/actions/workflows/build.yml/badge.svg)](https://github.com/myanmar-software-engineers/myanmar-software-engineers.github.io/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-a78bfa.svg)](LICENSE)
+[![Profiles](https://img.shields.io/badge/Engineers-116+-22d3ee.svg)](#profiles)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)](https://nextjs.org)
+[![Made with Bun](https://img.shields.io/badge/Bun-runtime-fbf0df?logo=bun)](https://bun.sh)
+
+[**mmswe.com**](https://mmswe.com)
+
+</div>
+
+---
+
+## About
+
+MMSWE is an open-source platform where Myanmar software engineers can showcase their profiles, share technical articles, and connect with the community. Built as a static site deployed to GitHub Pages, it serves as a living directory of Myanmar's developer talent.
+
+### Features
+
+- **Developer Profiles** — 116+ engineer profiles with tech stacks, bios, and custom MDX pages
+- **Blog Platform** — Technical articles written by community members
+- **Profile Editor** — In-browser tool to create your profile MDX file without writing code
+- **Responsive Design** — Obsidian Prism dark theme with animated interactions
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | Next.js 16 (App Router, Static Export) |
+| **Language** | TypeScript, React 19 |
+| **Styling** | Tailwind CSS 3 + DaisyUI + Sass |
+| **Content** | Contentlayer2 with MDX |
+| **Animation** | Framer Motion, Three.js, React Three Fiber |
+| **Fonts** | Bricolage Grotesque, Plus Jakarta Sans, JetBrains Mono |
+| **Package Manager** | Bun |
+| **Deployment** | GitHub Pages via GitHub Actions |
+
+## Quick Start
+
+### Prerequisites
+
+- [Bun](https://bun.sh) (recommended) or Node.js 18+
+- Git
+
+### Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Clone the repository
+git clone https://github.com/myanmar-software-engineers/myanmar-software-engineers.github.io.git
+cd myanmar-software-engineers.github.io
+
+# Install dependencies
+bun install
+
+# Start development server
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+bun dev              # Start dev server
+bun run build        # Build static site (output: ./out)
+bun run serve        # Serve static build locally
+bun run lint         # Run ESLint
+bun run content:build # Rebuild contentlayer content
+bun run commit       # Interactive gitmoji commit helper
+```
 
-## Learn More
+## Add Your Profile
 
-To learn more about Next.js, take a look at the following resources:
+There are two ways to add your profile to MMSWE:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Option 1: Profile Editor (Recommended)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Visit [mmswe.com/profile/editor](https://mmswe.com/profile/editor) to create your profile using the visual editor. Fill in your details, preview in real-time, and download the `.mdx` file.
 
-## Deploy on Vercel
+### Option 2: Manual Creation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Fork** this repository
+2. Create a new file in `content/profile/` with your name (lowercase, no spaces):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+content/profile/yourname.mdx
+```
+
+3. Add frontmatter and content:
+
+```mdx
+---
+name: Your Name
+description: A short bio about yourself
+image: "https://avatars.githubusercontent.com/u/YOUR_ID?v=4"
+tags:
+  - Frontend
+  - React
+  - TypeScript
+---
+
+Write your profile content here using standard markdown.
+
+## About Me
+
+Hello! I'm a software engineer from Myanmar...
+```
+
+4. **Submit a Pull Request** to the `main` branch
+
+### Frontmatter Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Your display name |
+| `description` | No | Short bio (shown on profile card) |
+| `image` | No | Avatar URL (GitHub avatar recommended) |
+| `tags` | No | Technology/skill tags |
+
+## Project Structure
+
+```
+src/
+  app/                 # Next.js App Router pages
+    blog/              #   Blog listing & [slug] pages
+    profile/           #   Profile listing, [slug] & editor pages
+    contact-us/        #   Contact page
+  components/          # React components
+    MSE/               #   Homepage sections (Hero, Join, Platform, etc.)
+    Common/            #   Shared UI (Navbar, Footer, Container, Tag, Mdx)
+    Profile/           #   Profile cards & lists
+    ProfileEditor/     #   Profile creation tool components
+    Contributors/      #   Custom contributor page widgets
+    Ui/                #   Base UI elements
+  config/              # App configuration
+  data/                # Static data & animation variants
+  hooks/               # Custom React hooks
+  styles/              # Global SCSS & Tailwind tokens
+  utils/               # Utility functions
+content/
+  profile/             # Developer profile MDX files (116+)
+  blog/                # Blog post MDX files
+```
+
+## Design System
+
+MMSWE uses the **Obsidian Prism** theme — a dark interface with prismatic accent colors:
+
+| Token | Color | Usage |
+|-------|-------|-------|
+| `obsidian` | `#09090b` | Base background |
+| `surface` | `#1a1a22` | Card backgrounds |
+| `prism-cyan` | `#22d3ee` | Primary accent |
+| `prism-violet` | `#a78bfa` | Secondary accent |
+| `prism-rose` | `#fb7185` | Tertiary accent |
+| `accent-gold` | `#fbbf24` | Highlight accent |
+
+Typography uses **Bricolage Grotesque** for display, **Plus Jakarta Sans** for body, and **JetBrains Mono** for code.
+
+## Contributing
+
+We welcome contributions from all Myanmar software engineers!
+
+### Ways to Contribute
+
+- **Add your profile** — Follow the [profile guide](#add-your-profile) above
+- **Write a blog post** — Create an `.mdx` file in `content/blog/`
+- **Improve the platform** — Fix bugs, add features, improve UI
+- **Report issues** — Open an issue on GitHub
+
+### Commit Convention
+
+This project uses [gitmoji](https://gitmoji.dev/) commits enforced by commitlint + Husky:
+
+```
+:sparkles: feat: add new feature
+:bug: fix: fix a bug
+:lipstick: style: update UI/UX
+:fire: build(profile): add yourname profile
+:beers: build(blog): add blog post title
+:recycle: refactor: refactor code
+:zap: perf: improve performance
+:memo: docs: update documentation
+```
+
+Use `bun run commit` for an interactive commit helper.
+
+### Development Guidelines
+
+1. Fork and clone the repository
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Make your changes and ensure `bun run build` passes
+4. Submit a pull request to `main`
+
+## Deployment
+
+The site automatically deploys to GitHub Pages on every push to `main` via GitHub Actions:
+
+1. Installs dependencies with Bun
+2. Builds the static site (`next build` with `output: "export"`)
+3. Deploys the `./out` directory to GitHub Pages
+
+## Community
+
+- **Facebook Group**: [Myanmar Software Engineers](https://www.facebook.com/groups/myanmarsoftwareengineers)
+- **GitHub**: [myanmar-software-engineers](https://github.com/myanmar-software-engineers)
+- **Website**: [mmswe.com](https://mmswe.com)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Copyright (c) 2023 — [Lwin Moe Paing](https://github.com/lwinmoepaing)
+
+---
+
+<div align="center">
+
+**Built with love by the Myanmar Software Engineers community.**
+
+</div>
