@@ -27,6 +27,7 @@ MMSWE is an open-source platform where Myanmar software engineers can showcase t
 - **Developer Profiles** — 116+ engineer profiles with tech stacks, bios, and custom MDX pages
 - **Blog Platform** — Technical articles written by community members
 - **Profile Editor** — In-browser tool to create your profile MDX file without writing code
+- **Myanmar & English** — Full bilingual support with EN/MM toggle, powered by next-intl
 - **Responsive Design** — Obsidian Prism dark theme with animated interactions
 
 ## Tech Stack
@@ -38,7 +39,8 @@ MMSWE is an open-source platform where Myanmar software engineers can showcase t
 | **Styling** | Tailwind CSS 3 + DaisyUI + Sass |
 | **Content** | Contentlayer2 with MDX |
 | **Animation** | Framer Motion, Three.js, React Three Fiber |
-| **Fonts** | Bricolage Grotesque, Plus Jakarta Sans, JetBrains Mono |
+| **i18n** | next-intl (Myanmar & English) |
+| **Fonts** | Bricolage Grotesque, Plus Jakarta Sans, JetBrains Mono, KhitHaungg (Myanmar) |
 | **Package Manager** | Bun |
 | **Deployment** | GitHub Pages via GitHub Actions |
 
@@ -139,14 +141,20 @@ src/
     ProfileEditor/     #   Profile creation tool components
     Contributors/      #   Custom contributor page widgets
     Ui/                #   Base UI elements
+  context/             # React context (LanguageProvider)
   config/              # App configuration
   data/                # Static data & animation variants
   hooks/               # Custom React hooks
   styles/              # Global SCSS & Tailwind tokens
   utils/               # Utility functions
+  i18n/                # next-intl configuration
+  fonts/               # Local fonts (KhitHaungg Myanmar font)
 content/
   profile/             # Developer profile MDX files (116+)
   blog/                # Blog post MDX files
+messages/
+  en.json              # English translations
+  mm.json              # Myanmar translations
 ```
 
 ## Design System
@@ -162,7 +170,39 @@ MMSWE uses the **Obsidian Prism** theme — a dark interface with prismatic acce
 | `prism-rose` | `#fb7185` | Tertiary accent |
 | `accent-gold` | `#fbbf24` | Highlight accent |
 
-Typography uses **Bricolage Grotesque** for display, **Plus Jakarta Sans** for body, and **JetBrains Mono** for code.
+Typography uses **Bricolage Grotesque** for display, **Plus Jakarta Sans** for body, **JetBrains Mono** for code, and **KhitHaungg** for Myanmar script.
+
+## Internationalization (i18n)
+
+The site supports **Myanmar** and **English** with an EN/MM toggle in the Navbar. Localization is opt-in per component using [next-intl](https://next-intl.dev/).
+
+### How it works
+
+- **`LanguageProvider`** (`src/context/LanguageContext.tsx`) manages locale state with `useSyncExternalStore` + `localStorage` persistence
+- **`useLanguage`** hook (`src/hooks/useLanguage.ts`) provides `locale`, `setLocale`, `isMyanmar`, `isEnglish`
+- **Translation files** in `messages/en.json` and `messages/mm.json` with namespaced keys
+- **Myanmar font**: KhitHaungg (`src/fonts/khit-haungg/`) loaded via `next/font/local`, applied with `khitHaungg.className` when Myanmar is active
+
+### Adding translations
+
+1. Add keys to both `messages/en.json` and `messages/mm.json` under a namespace
+2. In your component, use `useTranslations("namespace")` and `useLanguage()`:
+
+```tsx
+const t = useTranslations("mySection");
+const { isMyanmar } = useLanguage();
+const mmFont = isMyanmar ? khitHaungg.className : "";
+
+return <h1 className={mmFont}>{t("title")}</h1>;
+```
+
+### Myanmar font guidelines
+
+- Use `khitHaungg.className` directly (not Tailwind `font-myanmar` class)
+- Avoid `bg-clip-text text-transparent` for Myanmar text — use solid colors instead (e.g. `text-prism-cyan`)
+- Remove `overflow-hidden` from parent containers when Myanmar is active
+- Use `leading-[1.6]` with `py-2` for large Myanmar headings
+- Disable character-by-character `AnimateText` for Myanmar — render plain text instead
 
 ## Contributing
 
