@@ -40,7 +40,7 @@ export default function RootLayout({
     "font-body min-h-screen text-zinc-200 scroll-smooth overflow-x-hidden"
   );
   return (
-    <html lang="en" data-theme="obsidian">
+    <html lang="en" data-theme="obsidian" className="overflow-x-hidden">
       <head>
         <Favicons />
       </head>

@@ -19,13 +19,9 @@ const letterConfig = [
 
 const particleData = [
   { color: "#22d3ee", size: 3, x: "8%", y: "15%", delay: 0 },
-  { color: "#a78bfa", size: 2.5, x: "22%", y: "82%", delay: 0.8 },
-  { color: "#fb7185", size: 3.5, x: "52%", y: "8%", delay: 1.6 },
-  { color: "#fbbf24", size: 2, x: "78%", y: "72%", delay: 0.4 },
-  { color: "#22d3ee", size: 3, x: "92%", y: "25%", delay: 1.2 },
-  { color: "#a78bfa", size: 2, x: "38%", y: "88%", delay: 2.0 },
-  { color: "#fb7185", size: 2.5, x: "68%", y: "12%", delay: 0.6 },
-  { color: "#fbbf24", size: 2, x: "15%", y: "55%", delay: 1.4 },
+  { color: "#a78bfa", size: 2.5, x: "52%", y: "8%", delay: 1.6 },
+  { color: "#fb7185", size: 2, x: "78%", y: "72%", delay: 0.4 },
+  { color: "#fbbf24", size: 2, x: "38%", y: "88%", delay: 2.0 },
 ];
 
 const FloatingParticle = ({
@@ -85,8 +81,7 @@ const PrismLetter = ({
         opacity: 0,
         y: 80,
         scale: 0.3,
-        rotateY: 90,
-        filter: "blur(16px)",
+        filter: "blur(6px)",
       }}
       animate={
         isInView
@@ -94,7 +89,6 @@ const PrismLetter = ({
               opacity: 1,
               y: 0,
               scale: 1,
-              rotateY: 0,
               filter: "blur(0px)",
             }
           : {}
@@ -159,21 +153,6 @@ const PrismLetter = ({
         }}
       />
 
-      {/* Bottom-left accent spark */}
-      <motion.div
-        className="absolute -bottom-1 left-1 w-1.5 h-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: color,
-          boxShadow: `0 0 6px ${color}`,
-        }}
-        animate={{ scale: [1, 1.3, 1] }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
       {/* Hover edge glow */}
       <div
         className="absolute bottom-1 left-1/4 right-1/4 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"
@@ -221,28 +200,26 @@ const subtitleText = "Myanmar Software Engineers";
 
 const SubtitleReveal = ({ isInView }: { isInView: boolean }) => (
   <motion.div
-    className="flex justify-center mt-5 overflow-hidden"
+    className="flex justify-center mt-5 overflow-hidden gap-2"
     initial={{ opacity: 0 }}
     animate={isInView ? { opacity: 1 } : {}}
     transition={{ delay: 1.2 }}
   >
-    <div className="flex">
-      {subtitleText.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-zinc-600 inline-block"
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 0.5, y: 0 } : {}}
-          transition={{
-            duration: 0.4,
-            delay: 1.3 + i * 0.025,
-            ease: "easeOut",
-          }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </div>
+    {subtitleText.split(" ").map((word, i) => (
+      <motion.span
+        key={i}
+        className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-zinc-600 inline-block"
+        initial={{ opacity: 0, y: 12 }}
+        animate={isInView ? { opacity: 0.5, y: 0 } : {}}
+        transition={{
+          duration: 0.4,
+          delay: 1.3 + i * 0.1,
+          ease: "easeOut",
+        }}
+      >
+        {word}
+      </motion.span>
+    ))}
   </motion.div>
 );
 
@@ -261,11 +238,8 @@ const MmsweTypoSection = () => {
             <FloatingParticle key={i} {...p} />
           ))}
 
-          {/* Letter row with 3D perspective */}
-          <div
-            className="flex items-baseline justify-center gap-1 md:gap-3"
-            style={{ perspective: "1200px" }}
-          >
+          {/* Letter row */}
+          <div className="flex items-baseline justify-center gap-1 md:gap-3">
             {letterConfig.map(({ char, color }, index) => (
               <PrismLetter
                 key={index}

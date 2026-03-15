@@ -24,10 +24,10 @@ const IconNode = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.85, filter: "blur(6px)" }}
+      initial={{ opacity: 0, y: 24, scale: 0.85 }}
       animate={
         isInView
-          ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+          ? { opacity: 1, y: 0, scale: 1 }
           : {}
       }
       transition={{
@@ -91,15 +91,13 @@ const IconNode = ({
             />
           </div>
 
-          {/* Top-right accent spark */}
-          <motion.div
+          {/* Top-right accent spark (CSS-only, no infinite JS animation) */}
+          <div
             className="absolute -top-1 -right-1 w-1.5 h-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
               background: color,
               boxShadow: `0 0 6px ${color}`,
             }}
-            animate={{ scale: [1, 1.5, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 

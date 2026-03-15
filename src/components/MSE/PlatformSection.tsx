@@ -5,8 +5,8 @@ import {
   motion,
   useInView,
   useMotionValue,
-  useTransform,
   useSpring,
+  useTransform,
 } from "framer-motion";
 import { useRef, useCallback } from "react";
 import TitleText from "../Common/TitleText/TitleText";
@@ -53,34 +53,15 @@ const PlatformCard = ({
   index: number;
   isInView: boolean;
 }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 200, damping: 30 });
-  const springY = useSpring(mouseY, { stiffness: 200, damping: 30 });
-
-  const spotlightX = useTransform(springX, (v) => `${v}px`);
-  const spotlightY = useTransform(springY, (v) => `${v}px`);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!cardRef.current) return;
-      const rect = cardRef.current.getBoundingClientRect();
-      mouseX.set(e.clientX - rect.left);
-      mouseY.set(e.clientY - rect.top);
-    },
-    [mouseX, mouseY]
-  );
-
   const Icon = platform.icon;
   const color = platform.color;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50, scale: 0.9, filter: "blur(6px)" }}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={
         isInView
-          ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+          ? { opacity: 1, y: 0, scale: 1 }
           : {}
       }
       transition={{
@@ -91,40 +72,24 @@ const PlatformCard = ({
       className="relative group h-full"
     >
       <div
-        ref={cardRef}
-        onMouseMove={handleMouseMove}
         className={cn(
           "relative flex flex-col items-center gap-4 p-6 md:p-8 rounded-2xl overflow-hidden cursor-default h-full",
-          "bg-surface/80 backdrop-blur-sm",
+          "bg-surface/80",
           "border border-white/[0.06]",
           "transition-all duration-500 ease-out",
           "hover:-translate-y-2 hover:border-white/[0.12]",
           "hover:shadow-[0_20px_60px_-15px_rgba(167,139,250,0.12)]"
         )}
       >
-        {/* Cursor-following spotlight */}
-        <motion.div
-          className="absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            left: spotlightX,
-            top: spotlightY,
-            width: 180,
-            height: 180,
-            x: -90,
-            y: -90,
-            background: `radial-gradient(circle, ${color}18 0%, transparent 70%)`,
-          }}
-        />
-
         {/* Top accent line */}
-        <motion.div
+        <div
           className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
             background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
           }}
         />
 
-        {/* Icon container with orbital ring */}
+        {/* Icon container */}
         <div className="relative">
           {/* Ambient glow behind icon */}
           <div
@@ -133,27 +98,6 @@ const PlatformCard = ({
               background: `radial-gradient(circle, ${color}, transparent 60%)`,
             }}
           />
-
-          {/* Orbital ring */}
-          <motion.div
-            className="absolute -inset-3 rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{ borderColor: `${color}20` }}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          >
-            {/* Orbiting dot */}
-            <div
-              className="absolute -top-[2px] left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-              style={{
-                background: color,
-                boxShadow: `0 0 6px ${color}`,
-              }}
-            />
-          </motion.div>
 
           {/* Icon box */}
           <motion.div
@@ -173,22 +117,6 @@ const PlatformCard = ({
               style={{ color }}
             />
           </motion.div>
-
-          {/* Top-right spark */}
-          <motion.div
-            className="absolute -top-1 -right-1 w-1.5 h-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: color,
-              boxShadow: `0 0 6px ${color}`,
-            }}
-            animate={{ scale: [1, 1.5, 1] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              delay: index * 0.3,
-              ease: "easeInOut",
-            }}
-          />
         </div>
 
         {/* Label */}
@@ -332,55 +260,32 @@ const TerminalBanner = ({ isInView }: { isInView: boolean }) => {
               echo
             </motion.span>
 
-            {/* Hello World - character by character */}
-            <span className="font-display text-sm sm:text-lg md:text-xl text-zinc-100 flex">
-              {helloText.split("").map((char, i) => (
-                <motion.span
-                  key={`h-${i}`}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{
-                    duration: 0.15,
-                    delay: 1.3 + i * 0.04,
-                    ease: "easeOut",
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </span>
+            {/* Hello World */}
+            <motion.span
+              className="font-display text-sm sm:text-lg md:text-xl text-zinc-100"
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 1.3, ease: "easeOut" }}
+            >
+              {helloText}
+            </motion.span>
 
             {/* From */}
-            <span className="font-display text-sm sm:text-lg md:text-xl flex">
-              {fromText.split("").map((char, i) => (
-                <motion.span
-                  key={`f-${i}`}
-                  className="text-zinc-400"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{
-                    duration: 0.15,
-                    delay: 1.3 + helloText.length * 0.04 + i * 0.04,
-                    ease: "easeOut",
-                  }}
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
+            <motion.span
+              className="font-display text-sm sm:text-lg md:text-xl text-zinc-400"
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: 1.5, ease: "easeOut" }}
+            >
+              {fromText}
+            </motion.span>
 
             {/* MMSWE with prism gradient */}
             <motion.span
               className="font-display font-bold text-sm sm:text-lg md:text-xl bg-prism-gradient bg-clip-text text-transparent"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{
-                duration: 0.5,
-                delay:
-                  1.3 +
-                  (helloText.length + fromText.length) * 0.04,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              transition={{ duration: 0.5, delay: 1.7, ease: [0.22, 1, 0.36, 1] }}
             >
               MMSWE
             </motion.span>
@@ -442,10 +347,10 @@ const SectionHeader = ({ isInView }: { isInView: boolean }) => (
 
     {/* Title */}
     <motion.div
-      initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+      initial={{ opacity: 0, y: 30 }}
       animate={
         isInView
-          ? { opacity: 1, y: 0, filter: "blur(0px)" }
+          ? { opacity: 1, y: 0 }
           : {}
       }
       transition={{

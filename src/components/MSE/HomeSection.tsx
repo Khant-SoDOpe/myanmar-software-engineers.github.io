@@ -51,19 +51,16 @@ const FloatingOrb = ({
   duration: number;
 }) => (
   <motion.div
-    className="absolute rounded-full pointer-events-none"
+    className="absolute rounded-full pointer-events-none blur-[40px]"
     style={{
       width: size,
       height: size,
       left: x,
       top: y,
       background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-      filter: "blur(40px)",
     }}
     animate={{
       y: [0, -20, 10, -15, 0],
-      x: [0, 10, -8, 12, 0],
-      scale: [1, 1.15, 0.95, 1.1, 1],
       opacity: [0.3, 0.5, 0.25, 0.45, 0.3],
     }}
     transition={{
@@ -196,11 +193,11 @@ const HeroWord = ({
           "bg-gradient-to-r bg-clip-text text-transparent leading-[1.1]",
           gradient
         )}
-        initial={{ y: 80, opacity: 0, filter: "blur(8px)" }}
+        initial={{ y: 80, opacity: 0, filter: "blur(4px)" }}
         animate={
           isInView
             ? { y: 0, opacity: 1, filter: "blur(0px)" }
-            : { y: 80, opacity: 0, filter: "blur(8px)" }
+            : { y: 80, opacity: 0, filter: "blur(4px)" }
         }
         transition={{
           duration: 0.8,
@@ -445,14 +442,6 @@ const HomeSection = () => {
         delay={1}
         duration={10}
       />
-      <FloatingOrb
-        size={180}
-        color="#fb7185"
-        x="85%"
-        y="5%"
-        delay={2}
-        duration={7}
-      />
 
       <PrismLine direction="horizontal" delay={0.5} />
       <PrismLine direction="vertical" delay={0.7} />
@@ -460,8 +449,6 @@ const HomeSection = () => {
       <FloatingIcon delay={1} x="12%" y="18%" index={0} />
       <FloatingIcon delay={2.5} x="82%" y="32%" index={1} />
       <FloatingIcon delay={4} x="48%" y="78%" index={2} />
-      <FloatingIcon delay={1.8} x="68%" y="12%" index={3} />
-      <FloatingIcon delay={3.2} x="22%" y="62%" index={4} />
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col gap-12 lg:gap-16">
