@@ -18,6 +18,9 @@ import {
   PenLine,
   Sparkles,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 /* ── Types ── */
 type BlogItem = {
@@ -141,6 +144,9 @@ const BlogCard = ({
   isInView: boolean;
   isFeatured?: boolean;
 }) => {
+  const t = useTranslations("blog");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -302,7 +308,7 @@ const BlogCard = ({
                 className="font-mono text-xs transition-colors duration-300"
                 style={{ color: `${accentColor}90` }}
               >
-                Read article
+                <span className={mmFont}>{t("readArticle")}</span>
               </span>
               <motion.span
                 className="inline-block"
@@ -331,7 +337,7 @@ const BlogCard = ({
 };
 
 /* ── Empty state with animation ── */
-const EmptyState = ({ isInView }: { isInView: boolean }) => (
+const EmptyState = ({ isInView, mmFont, t }: { isInView: boolean; mmFont: string; t: ReturnType<typeof useTranslations> }) => (
   <motion.div
     className="relative bg-surface/40 border border-white/[0.06] rounded-2xl py-20 px-8 text-center overflow-hidden"
     initial={{ opacity: 0, y: 30 }}
@@ -393,12 +399,11 @@ const EmptyState = ({ isInView }: { isInView: boolean }) => (
       </motion.div>
     </motion.div>
 
-    <h3 className="font-display text-xl font-bold text-zinc-300 mb-2">
-      No posts yet
+    <h3 className={`font-display text-xl font-bold text-zinc-300 mb-2 ${mmFont}`}>
+      {t("noPostsTitle")}
     </h3>
-    <p className="font-body text-sm text-zinc-500 max-w-sm mx-auto leading-relaxed">
-      Exciting articles are on the horizon. Our community of engineers
-      is crafting stories worth reading.
+    <p className={`font-body text-sm text-zinc-500 max-w-sm mx-auto leading-relaxed ${mmFont}`}>
+      {t("noPostsBody")}
     </p>
 
     {/* Decorative line */}
@@ -421,6 +426,9 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
   const gridRef = useRef(null);
   const heroInView = useInView(heroRef, { amount: 0.3, once: true });
   const gridInView = useInView(gridRef, { amount: 0.1, once: true });
+  const t = useTranslations("blog");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   const hasPosts = blogs.length > 0;
   const [featured, ...rest] = blogs;
@@ -483,14 +491,14 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
             >
               <BookOpen className="w-4 h-4 text-prism-violet" />
             </motion.div>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
-              Articles & Insights
+            <span className={`font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] ${mmFont}`}>
+              {t("label")}
             </span>
           </motion.div>
 
           {/* Title */}
           <motion.div
-            className="relative overflow-hidden mb-4"
+            className={`relative mb-4 ${mmFont ? "" : "overflow-hidden"}`}
             initial={{ opacity: 0 }}
             animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.1, delay: 0.1 }}
@@ -507,7 +515,7 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
               transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
             />
             <motion.h1
-              className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+              className={`font-bold text-4xl sm:text-5xl md:text-6xl ${mmFont ? `${mmFont} leading-[1.6] py-2 text-prism-violet` : "font-display leading-[1.15] bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent"}`}
               initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
               animate={
                 heroInView
@@ -520,21 +528,20 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              Blog
+              {t("title")}
             </motion.h1>
           </motion.div>
 
           {/* Subtitle */}
           <motion.p
-            className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+            className={`font-body text-base text-zinc-500 max-w-lg leading-relaxed ${mmFont}`}
             initial={{ opacity: 0, y: 15 }}
             animate={
               heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }
             }
             transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
           >
-            Stories, tutorials, and insights from Myanmar&apos;s software
-            engineering community.
+            {t("subtitle")}
           </motion.p>
 
           {/* Post count badge */}
@@ -565,8 +572,8 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
                   ease: "easeInOut",
                 }}
               />
-              <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                {blogs.length} {blogs.length === 1 ? "Article" : "Articles"}
+              <span className={`font-mono text-[10px] text-zinc-500 uppercase tracking-widest ${mmFont}`}>
+                {blogs.length} {blogs.length === 1 ? t("article") : t("articles")}
               </span>
             </motion.div>
           )}
@@ -589,7 +596,7 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
       <div ref={gridRef} className="relative z-10 pb-16">
         <Container withPadding>
           {!hasPosts ? (
-            <EmptyState isInView={gridInView} />
+            <EmptyState isInView={gridInView} mmFont={mmFont} t={t} />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {/* Featured (latest) post — spans 2 columns */}

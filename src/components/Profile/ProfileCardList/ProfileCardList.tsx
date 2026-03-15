@@ -19,6 +19,9 @@ import { useSearchParams } from "next/navigation";
 import { Search, Users, SlidersHorizontal, X, Sparkles, Code2 } from "lucide-react";
 import { useRef, useCallback, useState } from "react";
 import { useInView } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 type TPropsProfileCardList = {
   profiles: Profile[];
@@ -28,6 +31,9 @@ type TPropsProfileCardList = {
 const HeroSection = ({ totalCount }: { totalCount: number }) => {
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { amount: 0.3, once: true });
+  const t = useTranslations("profileHero");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <div ref={heroRef} className="relative pt-8 pb-4 md:pt-12 md:pb-6">
@@ -49,14 +55,14 @@ const HeroSection = ({ totalCount }: { totalCount: number }) => {
         >
           <Code2 className="w-4 h-4 text-prism-cyan" />
         </motion.div>
-        <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
-          Developer Directory
+        <span className={`font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] ${mmFont}`}>
+          {t("label")}
         </span>
       </motion.div>
 
       {/* Title */}
       <motion.div
-        className="relative overflow-hidden mb-4"
+        className={`relative mb-4 ${mmFont ? "" : "overflow-hidden"}`}
         initial={{ opacity: 0 }}
         animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.1, delay: 0.1 }}
@@ -72,7 +78,7 @@ const HeroSection = ({ totalCount }: { totalCount: number }) => {
           transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
         />
         <motion.h1
-          className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+          className={`font-bold text-4xl sm:text-5xl md:text-6xl ${mmFont ? `${mmFont} leading-[1.6] py-2 text-prism-cyan` : "font-display leading-[1.15] bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent"}`}
           initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
           animate={
             heroInView
@@ -85,19 +91,18 @@ const HeroSection = ({ totalCount }: { totalCount: number }) => {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          Profiles
+          {t("title")}
         </motion.h1>
       </motion.div>
 
       {/* Subtitle */}
       <motion.p
-        className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+        className={`font-body text-base text-zinc-500 max-w-lg leading-relaxed ${mmFont}`}
         initial={{ opacity: 0, y: 15 }}
         animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
         transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
       >
-        Discover {totalCount}+ software engineers from Myanmar. Browse by
-        technology, search by name, and connect with the community.
+        {t("subtitle", { count: totalCount })}
       </motion.p>
 
       {/* Decorative divider */}

@@ -13,6 +13,9 @@ import {
   RotateCcw,
   Sparkles,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 /* ── Floating ambient orbs ── */
 const FloatingOrb = ({
@@ -104,6 +107,9 @@ const FloatingSparkle = ({
 const ProfileEditorClient = () => {
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { amount: 0.3, once: true });
+  const t = useTranslations("profileEditor");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   const editor = useProfileEditor();
 
@@ -164,14 +170,14 @@ const ProfileEditorClient = () => {
             >
               <PenTool className="w-4 h-4 text-prism-violet" />
             </motion.div>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
-              Profile Editor
+            <span className={`font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] ${mmFont}`}>
+              {t("label")}
             </span>
           </motion.div>
 
           {/* Title */}
           <motion.div
-            className="relative overflow-hidden mb-4"
+            className={`relative mb-4 ${mmFont ? "" : "overflow-hidden"}`}
             initial={{ opacity: 0 }}
             animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.1, delay: 0.1 }}
@@ -187,7 +193,7 @@ const ProfileEditorClient = () => {
               transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
             />
             <motion.h1
-              className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-violet via-prism-cyan to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+              className={`font-bold text-4xl sm:text-5xl md:text-6xl ${mmFont ? `${mmFont} leading-[1.6] py-2 text-prism-violet` : "font-display leading-[1.15] bg-gradient-to-r from-prism-violet via-prism-cyan to-prism-rose bg-clip-text text-transparent"}`}
               initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
               animate={
                 heroInView
@@ -200,23 +206,24 @@ const ProfileEditorClient = () => {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              Create Your Profile
+              {t("title")}
             </motion.h1>
           </motion.div>
 
           {/* Subtitle */}
           <motion.p
-            className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+            className={`font-body text-base text-zinc-500 max-w-lg leading-relaxed ${mmFont}`}
             initial={{ opacity: 0, y: 15 }}
             animate={
               heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }
             }
             transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
           >
-            Fill in your details, preview your profile, and{" "}
-            <span className="text-prism-cyan">download</span> the{" "}
-            <span className="text-prism-violet">.mdx</span> file to submit as a
-            pull request.
+            {t("subtitle")}
+            <span className="text-prism-cyan">{t("download")}</span>
+            {t("subtitleMid")}
+            <span className="text-prism-violet">{t("mdx")}</span>
+            {t("subtitleEnd")}
           </motion.p>
 
           {/* Decorative divider */}
@@ -281,7 +288,7 @@ const ProfileEditorClient = () => {
               )}
             >
               <Download className="w-4 h-4" />
-              Download .mdx
+              <span className={mmFont}>{t("downloadBtn")}</span>
             </button>
 
             <button
@@ -296,7 +303,7 @@ const ProfileEditorClient = () => {
               )}
             >
               <RotateCcw className="w-4 h-4" />
-              Reset
+              <span className={mmFont}>{t("resetBtn")}</span>
             </button>
           </motion.div>
         </Container>

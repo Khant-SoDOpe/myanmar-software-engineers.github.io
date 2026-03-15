@@ -1,4 +1,5 @@
 import { Bricolage_Grotesque, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
 const displayFont = Bricolage_Grotesque({
   weight: ["400", "700"],
@@ -18,6 +19,17 @@ const monoFont = JetBrains_Mono({
   weight: ["400", "500"],
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+});
+
+export const khitHaungg = localFont({
+  src: [
+    { path: "./khit-haungg/Z20-KhitHaungg-Regular.otf", weight: "400" },
+    { path: "./khit-haungg/Z20-KhitHaungg-Medium.otf", weight: "500" },
+    { path: "./khit-haungg/Z20-KhitHaungg-SemiBold.otf", weight: "600" },
+    { path: "./khit-haungg/Z20-KhitHaungg-Bold.otf", weight: "700" },
+  ],
+  variable: "--font-myanmar",
   display: "swap",
 });
 

@@ -1,0 +1,197 @@
+{
+  "join": {
+    "title": "Join Our Community",
+    "description": "Connect with Myanmar's developer community on Facebook. Share knowledge, find opportunities, and grow together.",
+    "cta": "Facebook Group",
+    "communityTitle": "Myanmar Software Engineers Community",
+    "desc": {
+      "explore": "Explore our ",
+      "jobBoard": "Job Board",
+      "techArticles": "Tech Articles",
+      "portfolio": "Portfolio",
+      "outro": ", and join a Community that thrives on mutual growth."
+    },
+    "pill": {
+      "jobs": "Jobs",
+      "articles": "Articles",
+      "portfolio": "Portfolio",
+      "community": "Community"
+    }
+  },
+  "platform": {
+    "badge": "Multi-Platform",
+    "title": {
+      "prefix": "Not Only for ",
+      "highlight": "Web-Developers"
+    },
+    "description": {
+      "intro": "This platform welcomes all software engineers. Whether you're into ",
+      "desktop": "desktop",
+      "mobile": "mobile",
+      "cloud": "cloud",
+      "backend": "backend",
+      "outro": " engineering — this is your space to connect, learn, and share."
+    },
+    "desktop": {
+      "label": "Desktop",
+      "description": "Native apps, Electron, cross-platform"
+    },
+    "mobile": {
+      "label": "Mobile",
+      "description": "iOS, Android, React Native, Flutter"
+    },
+    "cloud": {
+      "label": "Cloud",
+      "description": "AWS, GCP, Azure, DevOps"
+    },
+    "backend": {
+      "label": "Backend",
+      "description": "APIs, databases, microservices"
+    },
+    "terminal": {
+      "hello": "Hello World!!",
+      "from": " From "
+    }
+  },
+  "mmsweTypo": {
+    "subtitle": "Myanmar Software Engineers"
+  },
+  "nav": {
+    "home": "Home",
+    "profiles": "Profiles",
+    "editor": "Editor",
+    "howTo": "How to",
+    "blog": "Blog",
+    "contact": "Contact",
+    "navigation": "Navigation",
+    "brandName": "Myanmar Software Engineers"
+  },
+  "home": {
+    "badge": "Community Platform",
+    "devProfiles": {
+      "title": "Dev-Profiles",
+      "body": "Create your developer profile and showcase your work. Explore the profiles of other engineers to connect and collaborate within our community."
+    },
+    "readArticles": {
+      "title": "Read-Articles",
+      "body": "Contribute articles and blogs to our developer community. Access knowledge shared by others to learn, grow, and stay up to date."
+    }
+  },
+  "profileEditor": {
+    "label": "Profile Editor",
+    "title": "Create Your Profile",
+    "subtitle": "Fill in your details, preview your profile, and ",
+    "download": "download",
+    "subtitleMid": " the ",
+    "mdx": ".mdx",
+    "subtitleEnd": " file to submit as a pull request.",
+    "downloadBtn": "Download .mdx",
+    "resetBtn": "Reset",
+    "editorHeader": "Editor",
+    "name": "Name",
+    "description": "Description",
+    "imageUrl": "Image URL",
+    "tags": "Tags",
+    "markdownBody": "Markdown Body",
+    "namePlaceholder": "Your full name",
+    "descriptionPlaceholder": "A brief bio or tagline",
+    "bodyPlaceholder": "Write about yourself using Markdown...\n\n# Hello\n\nI'm a software engineer from Myanmar.\n\n- Skill 1\n- Skill 2",
+    "preview": "Preview",
+    "raw": "Raw",
+    "mdx": "MDX",
+    "emptyPreview": "Start typing to see your profile preview...",
+    "cardPreview": "Card Preview"
+  },
+  "howTo": {
+    "label": "Getting Started",
+    "title": "How to Add Your Profile",
+    "subtitle": "Follow these {count} steps to add your developer profile to the MMSWE community platform.",
+    "step1Title": "Fork the Repository",
+    "step1Desc": "Go to the MMSWE GitHub repository and click the \"Fork\" button to create your own copy.",
+    "step2Title": "Clone to Your Machine",
+    "step2Desc": "Clone the forked repository to your local machine using git.",
+    "step3Title": "Install Dependencies",
+    "step3Desc": "Navigate to the project directory and install dependencies using Bun.",
+    "step4Title": "Create Your Branch",
+    "step4Desc": "Create a new branch using your name. This keeps your changes separate from the main branch.",
+    "step5Title": "Start Development",
+    "step5Desc": "Run the development server to see your changes in real time.",
+    "step6Title": "Open in Browser",
+    "step6Desc": "Visit localhost:3000 in your browser to see the site running locally.",
+    "step7Title": "Create Your Profile",
+    "step7Desc": "You have two options: use the visual Profile Editor or manually create an MDX file.",
+    "step8Title": "Check Your Profile",
+    "step8Desc": "Navigate to the profiles page. Your card should appear. Use the search bar if there are many profiles.",
+    "optionEditor": "Profile Editor",
+    "optionManual": "Manual",
+    "ctaComplete": "complete",
+    "ctaStepsComplete": "All {count} steps complete —",
+    "ctaProfileReady": "profile ready!",
+    "ctaReadyTo": "Ready to ",
+    "ctaContribute": "contribute?",
+    "ctaJoinPrefix": "Add your profile and join ",
+    "ctaJoinSuffix": " Myanmar software engineers on the platform.",
+    "step7Line1": "1. Visit  localhost:3000/profile/editor",
+    "step7Line2": "2. Fill in your details & preview",
+    "step7Line3": "3. Click  Download .mdx",
+    "step7Line4": "4. Save the file to:",
+    "step8Line1": "Your profile card appears in the grid!",
+    "step8Line2": "Search by typing your name if needed.",
+    "ctaOpenEditor": "Open Profile Editor",
+    "ctaViewProfiles": "View Profiles"
+  },
+  "contact": {
+    "label": "Get in Touch",
+    "title": "Contact Us",
+    "subtitlePrefix": "Connect with Myanmar's developer community. Whether you want to ",
+    "collaborate": "collaborate",
+    "subtitleMid": ", ",
+    "contribute": "contribute",
+    "subtitleEnd": ", or simply say hello — we're here.",
+    "fbLabel": "Facebook Community",
+    "fbDesc": "Join our Facebook group to connect with fellow Myanmar software engineers. Share knowledge, find opportunities, and grow together.",
+    "fbTagline": "Community & Networking",
+    "fbCta": "Join Facebook Group",
+    "ghLabel": "GitHub",
+    "ghDesc": "Contribute to our open-source projects, add your developer profile, and collaborate on community-driven initiatives.",
+    "ghTagline": "Open Source & Contributions",
+    "ghCta": "View on GitHub",
+    "openTo": "Open to everyone",
+    "allWelcome": "all skill levels welcome"
+  },
+  "blog": {
+    "label": "Articles & Insights",
+    "title": "Blog",
+    "subtitle": "Stories, tutorials, and insights from Myanmar's software engineering community.",
+    "article": "Article",
+    "articles": "Articles",
+    "readArticle": "Read article",
+    "noPostsTitle": "No posts yet",
+    "noPostsBody": "Exciting articles are on the horizon. Our community of engineers is crafting stories worth reading."
+  },
+  "profileHero": {
+    "label": "Developer Directory",
+    "title": "Profiles",
+    "subtitle": "Discover {count}+ software engineers from Myanmar. Browse by technology, search by name, and connect with the community."
+  },
+  "footer": {
+    "tagline": {
+      "prefix": "Empowering Myanmar's Software Engineers to ",
+      "innovate": "innovate",
+      "collaborate": "collaborate",
+      "build": "build",
+      "suffix": " — one line of code at a time."
+    },
+    "openSource": "Open Source",
+    "navigate": "Navigate",
+    "home": "Home",
+    "profiles": "Profiles",
+    "profileEditor": "Profile Editor",
+    "blog": "Blog",
+    "contactUs": "Contact Us",
+    "community": "Community",
+    "github": "GitHub Organization",
+    "facebook": "Facebook Group",
+    "copyright": "Myanmar Software Engineers"
+  }
+}

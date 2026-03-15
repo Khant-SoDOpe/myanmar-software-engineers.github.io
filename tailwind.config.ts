@@ -16,6 +16,7 @@ const config: Config = {
         display: ["var(--font-display)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+        myanmar: ["var(--font-myanmar)", "Padauk", "Noto Sans Myanmar", "sans-serif"],
       },
       colors: {
         // Obsidian Prism palette

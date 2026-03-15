@@ -1,5 +1,9 @@
 const { withContentlayer } = require("next-contentlayer2");
+const createNextIntlPlugin = require("next-intl/plugin");
 const path = require("path");
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -13,4 +17,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withContentlayer(nextConfig);
+module.exports = withContentlayer(withNextIntl(nextConfig));

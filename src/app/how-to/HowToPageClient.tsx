@@ -18,6 +18,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 /* ── Prism accent colors cycling ── */
 const prismColors = ["#22d3ee", "#a78bfa", "#fb7185", "#fbbf24"] as const;
@@ -41,11 +44,11 @@ type StepData = {
   };
 };
 
-const steps: StepData[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSteps = (t: any): StepData[] => [
   {
-    title: "Fork the Repository",
-    description:
-      "Go to the MMSWE GitHub repository and click the \"Fork\" button to create your own copy.",
+    title: t("step1Title"),
+    description: t("step1Desc"),
     icon: GitFork,
     terminal: {
       label: "github.com",
@@ -59,9 +62,8 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Clone to Your Machine",
-    description:
-      "Clone the forked repository to your local machine using git.",
+    title: t("step2Title"),
+    description: t("step2Desc"),
     icon: Terminal,
     terminal: {
       label: "terminal",
@@ -75,9 +77,8 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Install Dependencies",
-    description:
-      "Navigate to the project directory and install dependencies using Bun.",
+    title: t("step3Title"),
+    description: t("step3Desc"),
     icon: Package,
     terminal: {
       label: "terminal",
@@ -95,9 +96,8 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Create Your Branch",
-    description:
-      "Create a new branch using your name. This keeps your changes separate from the main branch.",
+    title: t("step4Title"),
+    description: t("step4Desc"),
     icon: GitBranch,
     terminal: {
       label: "terminal",
@@ -111,9 +111,8 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Start Development",
-    description:
-      "Run the development server to see your changes in real time.",
+    title: t("step5Title"),
+    description: t("step5Desc"),
     icon: Play,
     terminal: {
       label: "terminal",
@@ -129,8 +128,8 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Open in Browser",
-    description: "Visit localhost:3000 in your browser to see the site running locally.",
+    title: t("step6Title"),
+    description: t("step6Desc"),
     icon: Globe,
     terminal: {
       label: "browser",
@@ -142,24 +141,23 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Create Your Profile",
-    description:
-      "You have two options: use the visual Profile Editor or manually create an MDX file.",
+    title: t("step7Title"),
+    description: t("step7Desc"),
     icon: FileEdit,
     terminal: {
       label: "profile editor",
       lines: [],
     },
     optionToggle: {
-      labels: ["Profile Editor", "Manual"],
+      labels: [t("optionEditor"), t("optionManual")],
       terminals: [
         {
           label: "profile editor",
           lines: [
-            { text: "1. Visit  localhost:3000/profile/editor", accent: "#fb7185" },
-            { text: "2. Fill in your details & preview" },
-            { text: "3. Click  Download .mdx" },
-            { text: "4. Save the file to:" },
+            { text: t("step7Line1"), accent: "#fb7185" },
+            { text: t("step7Line2") },
+            { text: t("step7Line3") },
+            { text: t("step7Line4") },
             {
               prompt: true,
               text: "content/profile/your_name.mdx",
@@ -187,26 +185,26 @@ const steps: StepData[] = [
     },
   },
   {
-    title: "Check Your Profile",
-    description:
-      "Navigate to the profiles page. Your card should appear. Use the search bar if there are many profiles.",
+    title: t("step8Title"),
+    description: t("step8Desc"),
     icon: CheckCircle2,
     terminal: {
       label: "browser",
       lines: [
         { text: "🌐  http://localhost:3000/profile", accent: "#fbbf24" },
         { text: "" },
-        { text: "Your profile card appears in the grid!" },
-        { text: "Search by typing your name if needed.", accent: "#fbbf24" },
+        { text: t("step8Line1") },
+        { text: t("step8Line2"), accent: "#fbbf24" },
       ],
     },
   },
 ];
 
 /* ── Hero Section ── */
-const HeroSection = () => {
+const HeroSection = ({ stepCount, mmFont }: { stepCount: number; mmFont: string }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { amount: 0.3, once: true });
+  const t = useTranslations("howTo");
 
   return (
     <div ref={ref} className="relative pt-8 pb-4 md:pt-12 md:pb-6">
@@ -228,14 +226,14 @@ const HeroSection = () => {
         >
           <BookOpen className="w-4 h-4 text-prism-cyan" />
         </motion.div>
-        <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
-          Getting Started
+        <span className={`font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] ${mmFont}`}>
+          {t("label")}
         </span>
       </motion.div>
 
       {/* Title */}
       <motion.div
-        className="relative overflow-hidden mb-4"
+        className={`relative mb-4 ${mmFont ? "" : "overflow-hidden"}`}
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.1, delay: 0.1 }}
@@ -251,7 +249,7 @@ const HeroSection = () => {
           transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
         />
         <motion.h1
-          className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+          className={`font-bold text-4xl sm:text-5xl md:text-6xl ${mmFont ? `${mmFont} leading-[1.6] py-2 text-prism-cyan` : "font-display leading-[1.15] bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent"}`}
           initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
           animate={
             inView
@@ -264,19 +262,18 @@ const HeroSection = () => {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          How to Add Your Profile
+          {t("title")}
         </motion.h1>
       </motion.div>
 
       {/* Subtitle */}
       <motion.p
-        className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+        className={`font-body text-base text-zinc-500 max-w-lg leading-relaxed ${mmFont}`}
         initial={{ opacity: 0, y: 15 }}
         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
         transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
       >
-        Follow these {steps.length} steps to add your developer profile to the
-        MMSWE community platform.
+        {t("subtitle", { count: stepCount })}
       </motion.p>
 
       {/* Prismatic divider */}
@@ -405,10 +402,12 @@ const StepCard = ({
   step,
   index,
   isLast,
+  mmFont = "",
 }: {
   step: StepData;
   index: number;
   isLast: boolean;
+  mmFont?: string;
 }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { amount: 0.3, once: true });
@@ -508,13 +507,13 @@ const StepCard = ({
           >
             <Icon className="w-4 h-4" style={{ color }} />
           </motion.div>
-          <h3 className="font-display font-bold text-lg md:text-xl text-zinc-100">
+          <h3 className={`font-display font-bold text-lg md:text-xl text-zinc-100 ${mmFont}`}>
             {step.title}
           </h3>
         </div>
 
         {/* Description */}
-        <p className="font-body text-sm text-zinc-500 leading-relaxed mb-4 max-w-lg">
+        <p className={`font-body text-sm text-zinc-500 leading-relaxed mb-4 max-w-lg ${mmFont}`}>
           {step.description}
         </p>
 
@@ -562,9 +561,10 @@ const StepCard = ({
 };
 
 /* ── Final CTA Section ── */
-const CtaSection = () => {
+const CtaSection = ({ stepCount, mmFont }: { stepCount: number; mmFont: string }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { amount: 0.3, once: true });
+  const t = useTranslations("howTo");
 
   return (
     <div ref={ref} className="relative py-12 md:py-20">
@@ -643,7 +643,7 @@ const CtaSection = () => {
                 <div className="w-2 h-2 rounded-full bg-prism-cyan/60" />
               </div>
               <span className="font-mono text-[10px] text-zinc-600 ml-1">
-                complete
+                {t("ctaComplete")}
               </span>
             </div>
             <div className="px-4 py-3 flex items-center gap-2">
@@ -660,11 +660,11 @@ const CtaSection = () => {
               >
                 <CheckCircle2 className="w-4 h-4" />
               </motion.span>
-              <span className="font-mono text-xs text-zinc-400">
-                All {steps.length} steps complete —
+              <span className={`font-mono text-xs text-zinc-400 ${mmFont}`}>
+                {t("ctaStepsComplete", { count: stepCount })}
               </span>
-              <span className="font-mono text-xs bg-prism-gradient bg-clip-text text-transparent font-semibold">
-                profile ready!
+              <span className={`font-mono text-xs bg-prism-gradient bg-clip-text text-transparent font-semibold ${mmFont}`}>
+                {t("ctaProfileReady")}
               </span>
             </div>
           </motion.div>
@@ -681,9 +681,9 @@ const CtaSection = () => {
               }
               transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="text-zinc-100">Ready to </span>
-              <span className="bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent">
-                contribute?
+              <span className={`text-zinc-100 ${mmFont}`}>{t("ctaReadyTo")}</span>
+              <span className={`bg-gradient-to-r from-prism-cyan via-prism-violet to-prism-rose bg-clip-text text-transparent ${mmFont}`}>
+                {t("ctaContribute")}
               </span>
             </motion.h2>
             <motion.p
@@ -694,9 +694,9 @@ const CtaSection = () => {
               }
               transition={{ duration: 0.5, delay: 0.45, ease: "easeOut" }}
             >
-              Add your profile and join{" "}
-              <span className="text-prism-violet font-medium">116+</span> Myanmar
-              software engineers on the platform.
+              <span className={mmFont}>{t("ctaJoinPrefix")}</span>
+              <span className="text-prism-violet font-medium">116+</span>
+              <span className={mmFont}>{t("ctaJoinSuffix")}</span>
             </motion.p>
           </div>
 
@@ -741,7 +741,7 @@ const CtaSection = () => {
               />
               <span className="relative z-10 flex items-center gap-2.5">
                 <FileEdit className="w-4 h-4 text-prism-violet" />
-                Open Profile Editor
+                <span className={mmFont}>{t("ctaOpenEditor")}</span>
                 <motion.span
                   className="inline-flex"
                   animate={{ x: [0, 3, 0] }}
@@ -770,7 +770,7 @@ const CtaSection = () => {
               )}
             >
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              View Profiles
+              <span className={mmFont}>{t("ctaViewProfiles")}</span>
             </MseLink>
           </motion.div>
         </div>
@@ -781,23 +781,29 @@ const CtaSection = () => {
 
 /* ── Main Client Component ── */
 const HowToPageClient = () => {
+  const t = useTranslations("howTo");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
+  const steps = getSteps(t);
+
   return (
     <div className="relative">
-      <HeroSection />
+      <HeroSection stepCount={steps.length} mmFont={mmFont} />
 
       {/* Step timeline */}
       <div className="relative pt-8 md:pt-12">
         {steps.map((step, i) => (
           <StepCard
-            key={step.title}
+            key={i}
             step={step}
             index={i}
             isLast={i === steps.length - 1}
+            mmFont={mmFont}
           />
         ))}
       </div>
 
-      <CtaSection />
+      <CtaSection stepCount={steps.length} mmFont={mmFont} />
     </div>
   );
 };

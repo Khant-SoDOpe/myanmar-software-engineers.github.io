@@ -1,0 +1,197 @@
+{
+  "join": {
+    "title": "ကျွန်ုပ်တို့နှင့် ပူးပေါင်းပါ",
+    "description": "Facebook တွင် မြန်မာ developer အသိုင်းအဝိုင်းနှင့် ချိတ်ဆက်ပါ။ အသိပညာများ မျှဝေပါ၊ အခွင့်အလမ်းများ ရှာဖွေပါ၊ အတူတကွ တိုးတက်ပါ။",
+    "cta": "Facebook အဖွဲ့အစည်း",
+    "communityTitle": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများ အသိုင်းအဝိုင်း",
+    "desc": {
+      "explore": "ကျွန်ုပ်တို့၏ ",
+      "jobBoard": "အလုပ်အကိုင် ဘုတ်",
+      "techArticles": "နည်းပညာ ဆောင်းပါးများ",
+      "portfolio": "ကိုယ်ရေးမှတ်တမ်း",
+      "outro": " တို့ကို လေ့လာပြီး အပြန်အလှန် တိုးတက်မှုဖြင့် ရှင်သန်သော အသိုင်းအဝိုင်းတွင် ပါဝင်ပါ။"
+    },
+    "pill": {
+      "jobs": "အလုပ်များ",
+      "articles": "ဆောင်းပါးများ",
+      "portfolio": "ကိုယ်ရေးမှတ်တမ်း",
+      "community": "အသိုင်းအဝိုင်း"
+    }
+  },
+  "platform": {
+    "badge": "ပလက်ဖောင်း အမျိုးမျိုး",
+    "title": {
+      "prefix": "Web-Developer များအတွက်သာ မဟုတ်ပါ ",
+      "highlight": ""
+    },
+    "description": {
+      "intro": "ဤ platform သည် software engineer အားလုံးကို ကြိုဆိုပါသည်။ သင်သည် ",
+      "desktop": "desktop",
+      "mobile": "mobile",
+      "cloud": "cloud",
+      "backend": "backend",
+      "outro": " engineering ကို စိတ်ဝင်စားပါက — ဤနေရာသည် ချိတ်ဆက်ရန်၊ သင်ယူရန်နှင့် မျှဝေရန် သင့်နေရာဖြစ်ပါသည်။"
+    },
+    "desktop": {
+      "label": "Desktop",
+      "description": "Native apps, Electron, cross-platform"
+    },
+    "mobile": {
+      "label": "Mobile",
+      "description": "iOS, Android, React Native, Flutter"
+    },
+    "cloud": {
+      "label": "Cloud",
+      "description": "AWS, GCP, Azure, DevOps"
+    },
+    "backend": {
+      "label": "Backend",
+      "description": "APIs, databases, microservices"
+    },
+    "terminal": {
+      "hello": "မင်္ဂလာပါ ကမ္ဘာ!!",
+      "from": " မှ "
+    }
+  },
+  "mmsweTypo": {
+    "subtitle": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများ"
+  },
+  "nav": {
+    "home": "ပင်မစာမျက်နှာ",
+    "profiles": "ပရိုဖိုင်များ",
+    "editor": "အယ်ဒီတာ",
+    "howTo": "လမ်းညွှန်",
+    "blog": "ဘလော့ဂ်",
+    "contact": "ဆက်သွယ်ရန်",
+    "navigation": "လမ်းညွှန်",
+    "brandName": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများ"
+  },
+  "home": {
+    "badge": "ကွန်မြူနတီ ပလက်ဖောင်း",
+    "devProfiles": {
+      "title": "Dev-Profiles",
+      "body": "သင့်ရဲ့ developer profile ကို ဖန်တီးပြီး သင့်လုပ်ငန်းများကို ပြသပါ။ အခြား engineer များ၏ profile များကို လေ့လာပြီး ချိတ်ဆက်ကာ ပူးပေါင်းဆောင်ရွက်ပါ။"
+    },
+    "readArticles": {
+      "title": "ဆောင်းပါးများ ဖတ်ရှုရန်",
+      "body": "ကျွန်ုပ်တို့၏ developer အသိုင်းအဝိုင်းသို့ ဆောင်းပါးများနှင့် blog များ ရေးသားပါ။ အခြားသူများ မျှဝေထားသော အသိပညာများကို ရယူပြီး သင်ယူတိုးတက်ပါ။"
+    }
+  },
+  "profileEditor": {
+    "label": "ပရိုဖိုင် အယ်ဒီတာ",
+    "title": "သင့်ပရိုဖိုင် ဖန်တီးပါ",
+    "subtitle": "သင့်အချက်အလက်များ ဖြည့်ပါ၊ ပရိုဖိုင်ကို အစမ်းကြည့်ပါ၊ ",
+    "download": "ဒေါင်းလုဒ်",
+    "subtitleMid": " လုပ်ပြီး ",
+    "mdx": ".mdx",
+    "subtitleEnd": " ဖိုင်ကို pull request အဖြစ် တင်သွင်းပါ။",
+    "downloadBtn": ".mdx ဒေါင်းလုဒ်",
+    "resetBtn": "ပြန်လည်စတင်",
+    "editorHeader": "အယ်ဒီတာ",
+    "name": "အမည်",
+    "description": "ဖော်ပြချက်",
+    "imageUrl": "ပုံ URL",
+    "tags": "တက်ဂ်များ",
+    "markdownBody": "Markdown အကြောင်းအရာ",
+    "namePlaceholder": "သင့်အမည် အပြည့်အစုံ",
+    "descriptionPlaceholder": "အကျဉ်းချုပ် မိတ်ဆက်စာ",
+    "bodyPlaceholder": "Markdown ဖြင့် သင့်အကြောင်း ရေးပါ...\n\n# မင်္ဂလာပါ\n\nကျွန်တော်/ကျွန်မသည် မြန်မာနိုင်ငံမှ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာ တစ်ဦးဖြစ်ပါသည်။\n\n- ကျွမ်းကျင်မှု ၁\n- ကျွမ်းကျင်မှု ၂",
+    "preview": "အစမ်းကြည့်",
+    "raw": "Raw",
+    "mdx": "MDX",
+    "emptyPreview": "သင့်ပရိုဖိုင် အစမ်းကြည့်ရန် စာရိုက်ပါ...",
+    "cardPreview": "ကတ် အစမ်းကြည့်"
+  },
+  "howTo": {
+    "label": "စတင်ရန်",
+    "title": "ပရိုဖိုင် ထည့်နည်း",
+    "subtitle": "MMSWE community platform တွင် သင့် developer ပရိုဖိုင်ကို ထည့်ရန် ဤအဆင့် {count} ဆင့်ကို လိုက်နာပါ။",
+    "step1Title": "Repository ကို Fork လုပ်ပါ",
+    "step1Desc": "MMSWE GitHub repository သို့သွားပြီး \"Fork\" ခလုတ်ကို နှိပ်၍ သင့်ကိုယ်ပိုင် copy ဖန်တီးပါ။",
+    "step2Title": "သင့်စက်သို့ Clone လုပ်ပါ",
+    "step2Desc": "Fork လုပ်ထားသော repository ကို git သုံးပြီး သင့်စက်သို့ clone လုပ်ပါ။",
+    "step3Title": "Dependencies များ Install လုပ်ပါ",
+    "step3Desc": "Project directory သို့သွားပြီး Bun သုံး၍ dependencies များ install လုပ်ပါ။",
+    "step4Title": "သင့် Branch ဖန်တီးပါ",
+    "step4Desc": "သင့်အမည်ဖြင့် branch အသစ်ဖန်တီးပါ။ ဤသို့ဖြင့် သင့်ပြောင်းလဲမှုများကို main branch နှင့် သီးခြားထားနိုင်ပါသည်။",
+    "step5Title": "Development စတင်ပါ",
+    "step5Desc": "Development server ကို run ပြီး သင့်ပြောင်းလဲမှုများကို real time တွင် ကြည့်ပါ။",
+    "step6Title": "Browser တွင် ဖွင့်ပါ",
+    "step6Desc": "သင့် browser တွင် localhost:3000 သို့သွားပြီး site ကို locally ကြည့်ပါ။",
+    "step7Title": "သင့်ပရိုဖိုင် ဖန်တီးပါ",
+    "step7Desc": "ရွေးချယ်စရာ နှစ်ခုရှိပါသည်: Profile Editor ကို အသုံးပြုပါ သို့မဟုတ် MDX ဖိုင်ကို ကိုယ်တိုင်ဖန်တီးပါ။",
+    "step8Title": "သင့်ပရိုဖိုင် စစ်ဆေးပါ",
+    "step8Desc": "Profiles စာမျက်နှာသို့ သွားပါ။ သင့်ကတ် ပေါ်လာပါမည်။ ပရိုဖိုင်များ များပါက search bar ကို အသုံးပြုပါ။",
+    "optionEditor": "Profile Editor",
+    "optionManual": "ကိုယ်တိုင်ရေးရန်",
+    "ctaComplete": "complete",
+    "ctaStepsComplete": "အဆင့် {count} ဆင့်လုံး ပြီးပါပြီ —",
+    "ctaProfileReady": "ပရိုဖိုင် အဆင်သင့်ဖြစ်ပါပြီ!",
+    "ctaReadyTo": "ပါဝင် ",
+    "ctaContribute": "ကူညီမည်လား?",
+    "ctaJoinPrefix": "သင့်ပရိုဖိုင် ထည့်ပြီး မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာ ",
+    "ctaJoinSuffix": " ဦးနှင့် ပူးပေါင်းပါ။",
+    "step7Line1": "1. localhost:3000/profile/editor သို့ သွားပါ",
+    "step7Line2": "2. သင့်အချက်အလက်များ ဖြည့်ပြီး အစမ်းကြည့်ပါ",
+    "step7Line3": "3. Download .mdx ကို နှိပ်ပါ",
+    "step7Line4": "4. ဖိုင်ကို ဤနေရာတွင် သိမ်းပါ:",
+    "step8Line1": "သင့်ပရိုဖိုင်ကတ် grid ထဲတွင် ပေါ်လာပါပြီ!",
+    "step8Line2": "လိုအပ်ပါက သင့်အမည်ရိုက်ပြီး ရှာဖွေပါ။",
+    "ctaOpenEditor": "Profile Editor ဖွင့်ရန်",
+    "ctaViewProfiles": "ပရိုဖိုင်များ ကြည့်ရန်"
+  },
+  "contact": {
+    "label": "ဆက်သွယ်ရန်",
+    "title": "ဆက်သွယ်ပါ",
+    "subtitlePrefix": "မြန်မာ developer အသိုင်းအဝိုင်းနှင့် ချိတ်ဆက်ပါ။ ",
+    "collaborate": "ပူးပေါင်းဆောင်ရွက်",
+    "subtitleMid": "၊ ",
+    "contribute": "ကူညီပံ့ပိုး",
+    "subtitleEnd": " လိုသည်ဖြစ်စေ၊ နှုတ်ဆက်လိုသည်ဖြစ်စေ — ကျွန်ုပ်တို့ ဤနေရာတွင် ရှိပါသည်။",
+    "fbLabel": "Facebook အသိုင်းအဝိုင်း",
+    "fbDesc": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများနှင့် ချိတ်ဆက်ရန် Facebook အုပ်စုသို့ ပါဝင်ပါ။ အသိပညာများ မျှဝေပါ၊ အခွင့်အလမ်းများ ရှာဖွေပါ၊ အတူတကွ တိုးတက်ပါ။",
+    "fbTagline": "အသိုင်းအဝိုင်းနှင့် ကွန်ရက်",
+    "fbCta": "Facebook အုပ်စု ပါဝင်ရန်",
+    "ghLabel": "GitHub",
+    "ghDesc": "ကျွန်ုပ်တို့၏ open-source ပရောဂျက်များတွင် ပါဝင်ကူညီပါ၊ သင့် developer ပရိုဖိုင် ထည့်ပါ၊ community ဦးဆောင်သော ပရောဂျက်များတွင် ပူးပေါင်းပါ။",
+    "ghTagline": "Open Source နှင့် ပံ့ပိုးမှုများ",
+    "ghCta": "GitHub တွင် ကြည့်ရန်",
+    "openTo": "လူတိုင်းအတွက် ဖွင့်ထားပါသည်",
+    "allWelcome": "ကျွမ်းကျင်မှု အဆင့်တိုင်း ကြိုဆိုပါသည်"
+  },
+  "blog": {
+    "label": "ဆောင်းပါးများနှင့် အသိပညာများ",
+    "title": "ဘလော့ဂ်",
+    "subtitle": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာ အသိုင်းအဝိုင်းမှ ပုံပြင်များ၊ သင်ခန်းစာများနှင့် အသိပညာများ။",
+    "article": "ဆောင်းပါး",
+    "articles": "ဆောင်းပါးများ",
+    "readArticle": "ဆောင်းပါး ဖတ်ရန်",
+    "noPostsTitle": "ဆောင်းပါး မရှိသေးပါ",
+    "noPostsBody": "စိတ်လှုပ်ရှားဖွယ် ဆောင်းပါးများ မကြာမီ ရောက်လာပါမည်။ ကျွန်ုပ်တို့၏ အင်ဂျင်နီယာ အသိုင်းအဝိုင်းသည် ဖတ်ရှုရကျိုးနပ်သော ပုံပြင်များ ရေးသားနေပါသည်။"
+  },
+  "profileHero": {
+    "label": "Developer လမ်းညွှန်",
+    "title": "ပရိုဖိုင်များ",
+    "subtitle": "မြန်မာမှ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာ {count}+ ဦးကို ရှာဖွေပါ။ နည်းပညာအလိုက် ရှာဖွေပါ၊ အမည်ဖြင့် ရှာပါ၊ အသိုင်းအဝိုင်းနှင့် ချိတ်ဆက်ပါ။"
+  },
+  "footer": {
+    "tagline": {
+      "prefix": "မြန်မာ့ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများကို ",
+      "innovate": "ဆန်းသစ်တီထွင်",
+      "collaborate": "ပူးပေါင်းဆောင်ရွက်",
+      "build": "တည်ဆောက်",
+      "suffix": " နိုင်စေရန် — ကုဒ်တစ်ကြောင်းချင်းစီဖြင့်။"
+    },
+    "openSource": "Open Source",
+    "navigate": "လမ်းညွှန်",
+    "home": "ပင်မစာမျက်နှာ",
+    "profiles": "ပရိုဖိုင်များ",
+    "profileEditor": "ပရိုဖိုင် အယ်ဒီတာ",
+    "blog": "ဘလော့ဂ်",
+    "contactUs": "ဆက်သွယ်ရန်",
+    "community": "အသိုင်းအဝိုင်း",
+    "github": "GitHub အဖွဲ့အစည်း",
+    "facebook": "Facebook အဖွဲ့အစည်း",
+    "copyright": "မြန်မာ ဆော့ဖ်ဝဲ အင်ဂျင်နီယာများ"
+  }
+}

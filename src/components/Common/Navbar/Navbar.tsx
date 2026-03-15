@@ -1,19 +1,23 @@
 "use client";
 import MseLink from "@/components/Ui/MseLink/MseLink";
 import MseLogo from "@/components/Ui/MseLogo/MseLogo";
+import LanguageToggle from "@/components/Ui/LanguageToggle/LanguageToggle";
 import { cn } from "@/utils";
 import Container from "@/components/Common/Container/Container";
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
-const linkList = [
-  { label: "Home", href: "/" },
-  { label: "Profiles", href: "/profile" },
-  { label: "Editor", href: "/profile/editor" },
-  { label: "How to", href: "/how-to" },
-  { label: "Blog", href: "/blog" },
-];
+const linkKeys = [
+  { key: "home", href: "/" },
+  { key: "profiles", href: "/profile" },
+  { key: "editor", href: "/profile/editor" },
+  { key: "howTo", href: "/how-to" },
+  { key: "blog", href: "/blog" },
+] as const;
 
 /* ── Prismatic shimmer line along the navbar bottom ── */
 const PrismBorder = () => (
@@ -96,11 +100,13 @@ const NavLink = ({
   label,
   isActive,
   index,
+  mmFont = "",
 }: {
   href: string;
   label: string;
   isActive: boolean;
   index: number;
+  mmFont?: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -155,7 +161,8 @@ const NavLink = ({
           "relative font-display text-[13px] font-bold uppercase tracking-[0.15em] py-2 px-1 transition-colors duration-300",
           isActive
             ? "text-white"
-            : "text-zinc-500 hover:text-zinc-200"
+            : "text-zinc-500 hover:text-zinc-200",
+          mmFont
         )}
       >
         <span className="relative z-10">{label}</span>
@@ -208,12 +215,14 @@ const MobileNavLink = ({
   isActive,
   index,
   onClick,
+  mmFont = "",
 }: {
   href: string;
   label: string;
   isActive: boolean;
   index: number;
   onClick: () => void;
+  mmFont?: string;
 }) => (
   <motion.div
     initial={{ opacity: 0, x: -40, filter: "blur(8px)" }}
@@ -241,7 +250,8 @@ const MobileNavLink = ({
             "font-display text-4xl sm:text-5xl font-bold tracking-tight transition-all duration-300",
             isActive
               ? "bg-prism-gradient bg-clip-text text-transparent"
-              : "text-zinc-400 group-hover:text-white"
+              : "text-zinc-400 group-hover:text-white",
+            mmFont
           )}
         >
           {label}
@@ -277,6 +287,9 @@ const Navbar = () => {
   const path = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const t = useTranslations("nav");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
@@ -325,15 +338,25 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex flex-row items-center gap-10">
-            {linkList.map((link, i) => (
+            {linkKeys.map((link, i) => (
               <NavLink
-                key={link.label}
+                key={link.key}
                 href={link.href}
-                label={link.label}
+                label={t(link.key)}
                 isActive={path === link.href}
                 index={i}
+                mmFont={mmFont}
               />
             ))}
+
+            {/* Language Toggle */}
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <LanguageToggle />
+            </motion.div>
 
             {/* CTA-style Contact link */}
             <motion.div
@@ -372,7 +395,7 @@ const Navbar = () => {
                   }}
                   whileHover={{ opacity: 1 }}
                 />
-                <span className="relative z-10">Contact</span>
+                <span className={cn("relative z-10", mmFont)}>{t("contact")}</span>
               </MseLink>
             </motion.div>
           </div>
@@ -442,29 +465,31 @@ const Navbar = () => {
                 exit={{ opacity: 0 }}
                 transition={{ delay: 0.15 }}
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-                  Navigation
+                <span className={cn("font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-600", mmFont)}>
+                  {t("navigation")}
                 </span>
               </motion.div>
 
               {/* Links */}
               <nav className="flex flex-col gap-2">
-                {linkList.map((link, i) => (
+                {linkKeys.map((link, i) => (
                   <MobileNavLink
-                    key={link.label}
+                    key={link.key}
                     href={link.href}
-                    label={link.label}
+                    label={t(link.key)}
                     isActive={path === link.href}
                     index={i}
                     onClick={closeMobile}
+                    mmFont={mmFont}
                   />
                 ))}
                 <MobileNavLink
                   href="/contact-us"
-                  label="Contact"
+                  label={t("contact")}
                   isActive={path === "/contact-us"}
-                  index={linkList.length}
+                  index={linkKeys.length}
                   onClick={closeMobile}
+                  mmFont={mmFont}
                 />
               </nav>
 
@@ -476,9 +501,12 @@ const Navbar = () => {
                 transition={{ delay: 0.6 }}
               >
                 <div className="h-[1px] w-full bg-white/5 mb-4" />
-                <p className="font-mono text-[10px] text-zinc-600 tracking-widest uppercase">
-                  Myanmar Software Engineers
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className={cn("font-mono text-[10px] text-zinc-600 tracking-widest uppercase", mmFont)}>
+                    {t("brandName")}
+                  </p>
+                  <LanguageToggle />
+                </div>
               </motion.div>
             </div>
           </motion.div>

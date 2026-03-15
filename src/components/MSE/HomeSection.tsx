@@ -24,6 +24,9 @@ import AnimateText from "../Common/AnimateText/AnimateText";
 import BodyText from "../Common/BodyText/BodyText";
 import TitleText from "../Common/TitleText/TitleText";
 import styles from "@/styles/styles";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 const title = ["Myanmar", "Software", "Engineers"];
 
@@ -221,6 +224,7 @@ const Card = ({
   index,
   accentColor,
   isInView,
+  mmFont = "",
 }: {
   title: string;
   body: string;
@@ -229,6 +233,7 @@ const Card = ({
   index: number;
   accentColor: string;
   isInView: boolean;
+  mmFont?: string;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -315,9 +320,9 @@ const Card = ({
               </motion.div>
               <TitleText
                 tag="p"
-                className="text-base font-semibold text-zinc-100"
+                className={cn("text-base font-semibold text-zinc-100", mmFont)}
               >
-                <AnimateText text={title} />
+                {mmFont ? title : <AnimateText text={title} />}
               </TitleText>
             </div>
             <motion.div
@@ -330,7 +335,7 @@ const Card = ({
           </div>
 
           {/* Body text */}
-          <BodyText className="text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 leading-relaxed">
+          <BodyText className={cn("text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 leading-relaxed", mmFont)}>
             {body}
           </BodyText>
 
@@ -349,7 +354,7 @@ const Card = ({
 
 // --- Badge ---
 
-const Badge = ({ isInView }: { isInView: boolean }) => (
+const Badge = ({ isInView, label, mmFont = "" }: { isInView: boolean; label: string; mmFont?: string }) => (
   <motion.div
     className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/[0.08] bg-surface/60 backdrop-blur-sm"
     initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -366,8 +371,8 @@ const Badge = ({ isInView }: { isInView: boolean }) => (
     >
       <Sparkles className="w-3.5 h-3.5 text-prism-cyan" />
     </motion.div>
-    <span className="font-mono text-xs text-zinc-400 tracking-wider uppercase">
-      Community Platform
+    <span className={cn("font-mono text-xs text-zinc-400 tracking-wider uppercase", mmFont)}>
+      {label}
     </span>
   </motion.div>
 );
@@ -421,6 +426,9 @@ const StatItem = ({
 const HomeSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.2, once: true });
+  const t = useTranslations("home");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <div ref={ref} className="relative min-h-[70vh] flex flex-col justify-center pt-10 lg:pt-16 pb-6 lg:pb-10">
@@ -454,7 +462,7 @@ const HomeSection = () => {
       <div className="relative z-10 flex flex-col gap-12 lg:gap-16">
         {/* Hero text section */}
         <div className="flex flex-col items-center text-center gap-6">
-          <Badge isInView={isInView} />
+          <Badge isInView={isInView} label={t("badge")} mmFont={mmFont} />
 
           {/* Massive title stack */}
           <div className="flex flex-col items-center gap-1 sm:gap-2">
@@ -507,23 +515,25 @@ const HomeSection = () => {
             icon={
               <Code2 className="w-5 h-5 text-prism-cyan" />
             }
-            title="Dev-Profiles"
-            body="Create your developer profile and showcase your work. Explore the profiles of other engineers to connect and collaborate within our community."
+            title={t("devProfiles.title")}
+            body={t("devProfiles.body")}
             link="/profile"
             index={0}
             accentColor="#22d3ee"
             isInView={isInView}
+            mmFont={mmFont}
           />
           <Card
             icon={
               <BookOpen className="w-5 h-5 text-prism-violet" />
             }
-            title="Read-Articles"
-            body="Contribute articles and blogs to our developer community. Access knowledge shared by others to learn, grow, and stay up to date."
+            title={t("readArticles.title")}
+            body={t("readArticles.body")}
             link="/blog"
             index={1}
             accentColor="#a78bfa"
             isInView={isInView}
+            mmFont={mmFont}
           />
         </div>
       </div>

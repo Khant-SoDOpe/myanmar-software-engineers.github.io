@@ -21,6 +21,9 @@ import {
   Heart,
   type LucideIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 /* ── Types ── */
 type ContactLink = {
@@ -150,6 +153,7 @@ const ContactCard = ({
   isInView,
   tagline,
   ctaLabel,
+  mmFont = "",
 }: {
   link: ContactLink;
   icon: LucideIcon;
@@ -159,6 +163,7 @@ const ContactCard = ({
   isInView: boolean;
   tagline: string;
   ctaLabel: string;
+  mmFont?: string;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -277,20 +282,20 @@ const ContactCard = ({
             </div>
 
             {/* Label */}
-            <h2 className="font-display font-bold text-xl md:text-2xl text-zinc-100 mb-2 group-hover:text-white transition-colors duration-300">
+            <h2 className={`font-display font-bold text-xl md:text-2xl text-zinc-100 mb-2 group-hover:text-white transition-colors duration-300 ${mmFont}`}>
               {link.label}
             </h2>
 
             {/* Tagline */}
             <p
-              className="font-mono text-[11px] uppercase tracking-[0.15em] mb-4"
+              className={`font-mono text-[11px] uppercase tracking-[0.15em] mb-4 ${mmFont}`}
               style={{ color: `${accentColor}90` }}
             >
               {tagline}
             </p>
 
             {/* Description */}
-            <p className="font-body text-sm text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors duration-500 mb-6">
+            <p className={`font-body text-sm text-zinc-500 leading-relaxed group-hover:text-zinc-400 transition-colors duration-500 mb-6 ${mmFont}`}>
               {link.description}
             </p>
 
@@ -307,7 +312,7 @@ const ContactCard = ({
                   className="w-4 h-4 transition-colors duration-300"
                   style={{ color: `${accentColor}70` }}
                 />
-                <span className="font-body text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300">
+                <span className={`font-body text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300 ${mmFont}`}>
                   {ctaLabel}
                 </span>
                 <motion.div
@@ -346,6 +351,9 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
   const cardsRef = useRef(null);
   const heroInView = useInView(heroRef, { amount: 0.3, once: true });
   const cardsInView = useInView(cardsRef, { amount: 0.2, once: true });
+  const t = useTranslations("contact");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <div className="relative min-h-[60vh]">
@@ -404,14 +412,14 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
             >
               <Send className="w-4 h-4 text-prism-cyan" />
             </motion.div>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em]">
-              Get in Touch
+            <span className={`font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] ${mmFont}`}>
+              {t("label")}
             </span>
           </motion.div>
 
           {/* Title */}
           <motion.div
-            className="relative overflow-hidden mb-4"
+            className={`relative mb-4 ${mmFont ? "" : "overflow-hidden"}`}
             initial={{ opacity: 0 }}
             animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.1, delay: 0.1 }}
@@ -428,7 +436,7 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
               transition={{ duration: 1.2, delay: 0.6, ease: "easeInOut" }}
             />
             <motion.h1
-              className="font-display font-bold text-4xl sm:text-5xl md:text-6xl bg-gradient-to-r from-prism-violet via-prism-cyan to-prism-rose bg-clip-text text-transparent leading-[1.15]"
+              className={`font-bold text-4xl sm:text-5xl md:text-6xl ${mmFont ? `${mmFont} leading-[1.6] py-2 text-prism-cyan` : "font-display leading-[1.15] bg-gradient-to-r from-prism-violet via-prism-cyan to-prism-rose bg-clip-text text-transparent"}`}
               initial={{ y: 50, opacity: 0, filter: "blur(6px)" }}
               animate={
                 heroInView
@@ -441,23 +449,24 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              Contact Us
+              {t("title")}
             </motion.h1>
           </motion.div>
 
           {/* Subtitle */}
           <motion.p
-            className="font-body text-base text-zinc-500 max-w-lg leading-relaxed"
+            className={`font-body text-base text-zinc-500 max-w-lg leading-relaxed ${mmFont}`}
             initial={{ opacity: 0, y: 15 }}
             animate={
               heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }
             }
             transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
           >
-            Connect with Myanmar&apos;s developer community. Whether
-            you want to <span className="text-prism-violet">collaborate</span>,{" "}
-            <span className="text-prism-cyan">contribute</span>, or simply say
-            hello — we&apos;re here.
+            {t("subtitlePrefix")}
+            <span className="text-prism-violet">{t("collaborate")}</span>
+            {t("subtitleMid")}
+            <span className="text-prism-cyan">{t("contribute")}</span>
+            {t("subtitleEnd")}
           </motion.p>
 
           {/* Decorative divider */}
@@ -479,25 +488,27 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
         <Container withPadding>
           <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[900px]">
             <ContactCard
-              link={links[0]}
+              link={{ ...links[0], label: t("fbLabel"), description: t("fbDesc") }}
               icon={Users}
               secondaryIcon={MessageCircle}
               accentColor="#a78bfa"
               index={0}
               isInView={cardsInView}
-              tagline="Community & Networking"
-              ctaLabel="Join Facebook Group"
+              tagline={t("fbTagline")}
+              ctaLabel={t("fbCta")}
+              mmFont={mmFont}
             />
 
             <ContactCard
-              link={links[1]}
+              link={{ ...links[1], label: t("ghLabel"), description: t("ghDesc") }}
               icon={Github}
               secondaryIcon={GitPullRequest}
               accentColor="#22d3ee"
               index={1}
               isInView={cardsInView}
-              tagline="Open Source & Contributions"
-              ctaLabel="View on GitHub"
+              tagline={t("ghTagline")}
+              ctaLabel={t("ghCta")}
+              mmFont={mmFont}
             />
           </div>
 
@@ -514,7 +525,7 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
               className="inline-flex items-center gap-2 text-xs text-zinc-600 font-mono"
               whileHover={{ scale: 1.02 }}
             >
-              <span>Open to everyone</span>
+              <span className={mmFont}>{t("openTo")}</span>
               <motion.span
                 className="inline-flex"
                 animate={{ scale: [1, 1.2, 1] }}
@@ -527,7 +538,7 @@ const ContactPageClient = ({ links }: { links: ContactLink[] }) => {
               >
                 <Heart className="w-3 h-3 text-prism-rose fill-prism-rose" />
               </motion.span>
-              <span>all skill levels welcome</span>
+              <span className={mmFont}>{t("allWelcome")}</span>
             </motion.p>
           </motion.div>
         </Container>

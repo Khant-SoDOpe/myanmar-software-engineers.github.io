@@ -1,5 +1,5 @@
 import Navbar from "@/components/Common/Navbar/Navbar";
-import { displayFont, bodyFontBase, monoFont } from "@/fonts/fonts";
+import { displayFont, bodyFontBase, monoFont, khitHaungg } from "@/fonts/fonts";
 import { cn } from "@/utils";
 import styles from "@/styles/styles";
 import type { Metadata } from "next";
@@ -8,6 +8,9 @@ import Favicons from "@/components/Favicons/Favicons";
 // Styles
 import "@/styles/globals.scss";
 import Footer from "@/components/Common/Footer/Footer";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: APP_CONFIG.title,
@@ -27,28 +30,36 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   const cls = cn(
     displayFont.variable,
     bodyFontBase.variable,
     monoFont.variable,
+    khitHaungg.variable,
     styles.gradient,
     "font-body min-h-screen text-zinc-200 scroll-smooth overflow-x-hidden"
   );
   return (
-    <html lang="en" data-theme="obsidian" className="overflow-x-hidden">
+    <html lang={locale} data-theme="obsidian" className="overflow-x-hidden">
       <head>
         <Favicons />
       </head>
       <body className={cls}>
-        <div className="noise-overlay" />
-        <Navbar />
-        <main className="min-h-[calc(100vh-142px)]">{children}</main>
-        <Footer />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <LanguageProvider>
+            <div className="noise-overlay" />
+            <Navbar />
+            <main className="min-h-[calc(100vh-142px)]">{children}</main>
+            <Footer />
+          </LanguageProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

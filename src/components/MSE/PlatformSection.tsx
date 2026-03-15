@@ -13,43 +13,33 @@ import TitleText from "../Common/TitleText/TitleText";
 import BodyText from "../Common/BodyText/BodyText";
 import SpacingDivider from "../Common/SpacingDivider/SpacingDivider";
 import { Monitor, Smartphone, Cloud, Server } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
-// Prism accent for each platform
-const platforms = [
-  {
-    icon: Monitor,
-    label: "Desktop",
-    color: "#22d3ee",
-    description: "Native apps, Electron, cross-platform",
-  },
-  {
-    icon: Smartphone,
-    label: "Mobile",
-    color: "#a78bfa",
-    description: "iOS, Android, React Native, Flutter",
-  },
-  {
-    icon: Cloud,
-    label: "Cloud",
-    color: "#fb7185",
-    description: "AWS, GCP, Azure, DevOps",
-  },
-  {
-    icon: Server,
-    label: "Backend",
-    color: "#fbbf24",
-    description: "APIs, databases, microservices",
-  },
+// Platform icon/color config (labels/descriptions are translated in the component)
+const platformConfigs = [
+  { icon: Monitor, key: "desktop", color: "#22d3ee" },
+  { icon: Smartphone, key: "mobile", color: "#a78bfa" },
+  { icon: Cloud, key: "cloud", color: "#fb7185" },
+  { icon: Server, key: "backend", color: "#fbbf24" },
 ];
 
 // --- Platform Card with spotlight ---
+
+type PlatformData = {
+  icon: typeof Monitor;
+  label: string;
+  color: string;
+  description: string;
+};
 
 const PlatformCard = ({
   platform,
   index,
   isInView,
 }: {
-  platform: (typeof platforms)[number];
+  platform: PlatformData;
   index: number;
   isInView: boolean;
 }) => {
@@ -152,10 +142,7 @@ const PlatformCard = ({
 
 // --- Terminal-style Hello World banner ---
 
-const helloText = 'Hello World!!';
-const fromText = ' From ';
-
-const TerminalBanner = ({ isInView }: { isInView: boolean }) => {
+const TerminalBanner = ({ isInView, helloText, fromText, isMyanmar }: { isInView: boolean; helloText: string; fromText: string; isMyanmar: boolean }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -260,14 +247,14 @@ const TerminalBanner = ({ isInView }: { isInView: boolean }) => {
               echo
             </motion.span>
 
-            {/* Hello World */}
+            {/* First item: helloText (en) or MMSWE (mm) */}
             <motion.span
-              className="font-display text-sm sm:text-lg md:text-xl text-zinc-100"
+              className={`font-display text-sm sm:text-lg md:text-xl ${isMyanmar ? "font-bold bg-prism-gradient bg-clip-text text-transparent" : "text-zinc-100"}`}
               initial={{ opacity: 0, y: 8 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 1.3, ease: "easeOut" }}
+              animate={isInView ? { opacity: 1, y: isMyanmar ? 0 : 0 } : {}}
+              transition={{ duration: isMyanmar ? 0.5 : 0.4, delay: 1.3, ease: isMyanmar ? [0.22, 1, 0.36, 1] : "easeOut" }}
             >
-              {helloText}
+              {isMyanmar ? "MMSWE" : helloText}
             </motion.span>
 
             {/* From */}
@@ -280,14 +267,14 @@ const TerminalBanner = ({ isInView }: { isInView: boolean }) => {
               {fromText}
             </motion.span>
 
-            {/* MMSWE with prism gradient */}
+            {/* Last item: MMSWE (en) or helloText (mm) */}
             <motion.span
-              className="font-display font-bold text-sm sm:text-lg md:text-xl bg-prism-gradient bg-clip-text text-transparent"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              className={`font-display text-sm sm:text-lg md:text-xl ${isMyanmar ? "text-zinc-100" : "font-bold bg-prism-gradient bg-clip-text text-transparent"}`}
+              initial={{ opacity: 0, scale: isMyanmar ? 1 : 0.8, y: isMyanmar ? 8 : 0 }}
+              animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 1.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              MMSWE
+              {isMyanmar ? helloText : "MMSWE"}
             </motion.span>
 
             {/* Blinking cursor */}
@@ -321,7 +308,7 @@ const TerminalBanner = ({ isInView }: { isInView: boolean }) => {
 
 // --- Section title with animated reveal ---
 
-const SectionHeader = ({ isInView }: { isInView: boolean }) => (
+const SectionHeader = ({ isInView, t, mmFont }: { isInView: boolean; t: ReturnType<typeof useTranslations>; mmFont: string }) => (
   <div className="max-w-[860px] text-center mx-auto px-5">
     {/* Badge */}
     <motion.div
@@ -340,8 +327,8 @@ const SectionHeader = ({ isInView }: { isInView: boolean }) => (
       >
         <Server className="w-3.5 h-3.5 text-prism-rose" />
       </motion.div>
-      <span className="font-mono text-xs text-zinc-400 tracking-wider uppercase">
-        Multi-Platform
+      <span className={cn("font-mono text-xs text-zinc-400 tracking-wider uppercase", mmFont)}>
+        {t("badge")}
       </span>
     </motion.div>
 
@@ -361,12 +348,14 @@ const SectionHeader = ({ isInView }: { isInView: boolean }) => (
     >
       <TitleText
         tag="h2"
-        className="text-3xl md:text-4xl font-bold mb-5"
+        className={cn("text-3xl md:text-4xl font-bold mb-5", mmFont)}
       >
-        <span className="text-zinc-100">Not Only for </span>
-        <span className="bg-prism-gradient bg-clip-text text-transparent">
-          Web-Developers
-        </span>
+        <span className="text-zinc-100">{t("title.prefix")}</span>
+        {t("title.highlight") && (
+          <span className="bg-prism-gradient bg-clip-text text-transparent">
+            {t("title.highlight")}
+          </span>
+        )}
       </TitleText>
     </motion.div>
 
@@ -380,13 +369,13 @@ const SectionHeader = ({ isInView }: { isInView: boolean }) => (
         ease: [0.22, 1, 0.36, 1],
       }}
     >
-      <BodyText className="text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-        This platform welcomes all software engineers. Whether you&apos;re into{" "}
-        <span className="text-prism-cyan font-medium">desktop</span>,{" "}
-        <span className="text-prism-violet font-medium">mobile</span>,{" "}
-        <span className="text-prism-rose font-medium">cloud</span>, or{" "}
-        <span className="text-accent-gold font-medium">backend</span>{" "}
-        engineering — this is your space to connect, learn, and share.
+      <BodyText className={cn("text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto", mmFont)}>
+        {t("description.intro")}
+        <span className="text-prism-cyan font-medium">{t("description.desktop")}</span>,{" "}
+        <span className="text-prism-violet font-medium">{t("description.mobile")}</span>,{" "}
+        <span className="text-prism-rose font-medium">{t("description.cloud")}</span>,{" "}
+        <span className="text-accent-gold font-medium">{t("description.backend")}</span>
+        {t("description.outro")}
       </BodyText>
     </motion.div>
   </div>
@@ -425,10 +414,21 @@ const PrismDivider = ({ isInView }: { isInView: boolean }) => (
 const PlatformSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.2, once: true });
+  const { isMyanmar } = useLanguage();
+  const t = useTranslations("platform");
+
+  const mmFont = isMyanmar ? khitHaungg.className : "";
+
+  const platforms: PlatformData[] = platformConfigs.map((cfg) => ({
+    icon: cfg.icon,
+    color: cfg.color,
+    label: t(`${cfg.key}.label`),
+    description: t(`${cfg.key}.description`),
+  }));
 
   return (
     <div ref={ref} className="relative py-10">
-      <SectionHeader isInView={isInView} />
+      <SectionHeader isInView={isInView} t={t} mmFont={mmFont} />
 
       <SpacingDivider size="base" />
 
@@ -451,7 +451,12 @@ const PlatformSection = () => {
       <SpacingDivider size="lg" />
 
       {/* Terminal Hello World banner */}
-      <TerminalBanner isInView={isInView} />
+      <TerminalBanner
+        isInView={isInView}
+        helloText={t("terminal.hello")}
+        fromText={t("terminal.from")}
+        isMyanmar={isMyanmar}
+      />
 
       <SpacingDivider size="lg" />
       <SpacingDivider size="lg" />

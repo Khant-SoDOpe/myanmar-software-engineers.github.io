@@ -5,6 +5,9 @@ import styles from "@/styles/styles";
 import { motion } from "framer-motion";
 import { User, FileText, ImageIcon, TagsIcon, PenLine } from "lucide-react";
 import TagInput from "./TagInput";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 const INPUT_CLASS = cn(
   "w-full bg-obsidian border border-white/[0.08] rounded-lg px-4 py-2.5",
@@ -17,12 +20,14 @@ const FieldLabel = ({
   icon: Icon,
   label,
   required,
+  mmFont = "",
 }: {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   label: string;
   required?: boolean;
+  mmFont?: string;
 }) => (
-  <label className="flex items-center gap-2 font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] mb-2">
+  <label className={`flex items-center gap-2 font-mono text-[11px] text-zinc-500 uppercase tracking-[0.2em] mb-2 ${mmFont}`}>
     <Icon className="w-3 h-3 text-prism-violet/60" />
     {label}
     {required && <span className="text-prism-rose/60">*</span>}
@@ -54,29 +59,33 @@ const EditorPane = ({
   removeTag: (t: string) => void;
   setBody: (v: string) => void;
 }) => {
+  const t = useTranslations("profileEditor");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
+
   const fields = [
     {
       key: "name",
-      label: "Name",
+      label: t("name"),
       icon: User,
       required: true,
       value: name,
       onChange: setName,
-      placeholder: "Your full name",
+      placeholder: t("namePlaceholder"),
       type: "text",
     },
     {
       key: "description",
-      label: "Description",
+      label: t("description"),
       icon: FileText,
       value: description,
       onChange: setDescription,
-      placeholder: "A brief bio or tagline",
+      placeholder: t("descriptionPlaceholder"),
       type: "text",
     },
     {
       key: "image",
-      label: "Image URL",
+      label: t("imageUrl"),
       icon: ImageIcon,
       value: image,
       onChange: setImage,
@@ -103,8 +112,8 @@ const EditorPane = ({
         >
           <PenLine className="w-3.5 h-3.5 text-prism-violet" />
         </div>
-        <span className="font-mono text-[11px] text-zinc-400 uppercase tracking-[0.15em]">
-          Editor
+        <span className={`font-mono text-[11px] text-zinc-400 uppercase tracking-[0.15em] ${mmFont}`}>
+          {t("editorHeader")}
         </span>
       </motion.div>
 
@@ -124,6 +133,7 @@ const EditorPane = ({
             icon={field.icon}
             label={field.label}
             required={field.required}
+            mmFont={mmFont}
           />
           <input
             type={field.type}
@@ -145,7 +155,7 @@ const EditorPane = ({
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <FieldLabel icon={TagsIcon} label="Tags" />
+        <FieldLabel icon={TagsIcon} label={t("tags")} mmFont={mmFont} />
         <TagInput tags={tags} onAdd={addTag} onRemove={removeTag} />
       </motion.div>
 
@@ -168,11 +178,11 @@ const EditorPane = ({
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <FieldLabel icon={FileText} label="Markdown Body" />
+        <FieldLabel icon={FileText} label={t("markdownBody")} mmFont={mmFont} />
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder={"Write about yourself using Markdown...\n\n# Hello\n\nI'm a software engineer from Myanmar.\n\n- Skill 1\n- Skill 2"}
+          placeholder={t("bodyPlaceholder")}
           className={cn(
             INPUT_CLASS,
             "font-mono text-sm min-h-[300px] resize-y leading-relaxed"

@@ -12,6 +12,9 @@ import {
 } from "framer-motion";
 import { useRef, useCallback } from "react";
 import { Github, Users, Heart, ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 /* ── Prismatic shimmer line along the footer top ── */
 const PrismBorderTop = () => (
@@ -93,6 +96,7 @@ const FooterLink = ({
   external = false,
   index,
   isInView,
+  mmFont = "",
 }: {
   href: string;
   children: React.ReactNode;
@@ -100,6 +104,7 @@ const FooterLink = ({
   external?: boolean;
   index: number;
   isInView: boolean;
+  mmFont?: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -156,7 +161,7 @@ const FooterLink = ({
       <Component
         href={href}
         {...linkProps}
-        className="relative flex items-center gap-2 text-sm text-zinc-500 transition-colors duration-300 group-hover:text-zinc-200 py-1"
+        className={cn("relative flex items-center gap-2 text-sm text-zinc-500 transition-colors duration-300 group-hover:text-zinc-200 py-1", mmFont)}
       >
         <span className="relative z-10">{children}</span>
         <motion.span
@@ -185,6 +190,7 @@ const SocialLink = ({
   color,
   index,
   isInView,
+  mmFont = "",
 }: {
   href: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -192,6 +198,7 @@ const SocialLink = ({
   color: string;
   index: number;
   isInView: boolean;
+  mmFont?: string;
 }) => (
   <motion.a
     href={href}
@@ -232,7 +239,7 @@ const SocialLink = ({
       />
     </motion.div>
 
-    <span className="text-sm text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300">
+    <span className={cn("text-sm text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300", mmFont)}>
       {label}
     </span>
 
@@ -264,6 +271,9 @@ const HeartPulse = () => (
 const Footer = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.15, once: true });
+  const t = useTranslations("footer");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <footer ref={ref} className="relative">
@@ -320,18 +330,18 @@ const Footer = () => {
 
               {/* Tagline */}
               <motion.p
-                className="mt-4 text-sm text-zinc-500 leading-relaxed max-w-xs"
+                className={cn("mt-4 text-sm text-zinc-500 leading-relaxed max-w-xs", mmFont)}
                 initial={{ opacity: 0, y: 10 }}
                 animate={
                   isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }
                 }
                 transition={{ duration: 0.5, delay: 0.15 }}
               >
-                Empowering Myanmar&apos;s Software Engineers to{" "}
-                <span className="text-prism-cyan">innovate</span>,{" "}
-                <span className="text-prism-violet">collaborate</span>, and{" "}
-                <span className="text-prism-rose">build</span> — one line of
-                code at a time.
+                {t("tagline.prefix")}
+                <span className="text-prism-cyan">{t("tagline.innovate")}</span>,{" "}
+                <span className="text-prism-violet">{t("tagline.collaborate")}</span>,{" "}
+                <span className="text-prism-rose">{t("tagline.build")}</span>
+                {t("tagline.suffix")}
               </motion.p>
 
               {/* Status indicator */}
@@ -357,8 +367,8 @@ const Footer = () => {
                   }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                  Open Source
+                <span className={cn("font-mono text-[10px] text-zinc-500 uppercase tracking-widest", mmFont)}>
+                  {t("openSource")}
                 </span>
               </motion.div>
             </motion.div>
@@ -367,48 +377,52 @@ const Footer = () => {
           {/* Navigation column */}
           <div className="md:col-span-3">
             <motion.h4
-              className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em] mb-4"
+              className={cn("font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em] mb-4", mmFont)}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Navigate
+              {t("navigate")}
             </motion.h4>
             <nav className="flex flex-col gap-1">
-              <FooterLink href="/" color="#22d3ee" index={0} isInView={isInView}>
-                Home
+              <FooterLink href="/" color="#22d3ee" index={0} isInView={isInView} mmFont={mmFont}>
+                {t("home")}
               </FooterLink>
               <FooterLink
                 href="/profile"
                 color="#a78bfa"
                 index={1}
                 isInView={isInView}
+                mmFont={mmFont}
               >
-                Profiles
+                {t("profiles")}
               </FooterLink>
               <FooterLink
                 href="/profile/editor"
                 color="#22d3ee"
                 index={2}
                 isInView={isInView}
+                mmFont={mmFont}
               >
-                Profile Editor
+                {t("profileEditor")}
               </FooterLink>
               <FooterLink
                 href="/blog"
                 color="#fb7185"
                 index={3}
                 isInView={isInView}
+                mmFont={mmFont}
               >
-                Blog
+                {t("blog")}
               </FooterLink>
               <FooterLink
                 href="/contact-us"
                 color="#fbbf24"
                 index={4}
                 isInView={isInView}
+                mmFont={mmFont}
               >
-                Contact Us
+                {t("contactUs")}
               </FooterLink>
             </nav>
           </div>
@@ -416,29 +430,31 @@ const Footer = () => {
           {/* Community column */}
           <div className="md:col-span-4">
             <motion.h4
-              className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em] mb-4"
+              className={cn("font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em] mb-4", mmFont)}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
             >
-              Community
+              {t("community")}
             </motion.h4>
             <div className="flex flex-col gap-1">
               <SocialLink
                 href="https://github.com/myanmar-software-engineers"
                 icon={Github}
-                label="GitHub Organization"
+                label={t("github")}
                 color="#22d3ee"
                 index={0}
                 isInView={isInView}
+                mmFont={mmFont}
               />
               <SocialLink
                 href="https://www.facebook.com/groups/myanmarsoftwareengineers"
                 icon={Users}
-                label="Facebook Group"
+                label={t("facebook")}
                 color="#a78bfa"
                 index={1}
                 isInView={isInView}
+                mmFont={mmFont}
               />
             </div>
           </div>
@@ -466,8 +482,8 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-zinc-600 font-mono">
-              &copy; {new Date().getFullYear()} Myanmar Software Engineers
+            <p className={cn("text-xs text-zinc-600 font-mono", mmFont)}>
+              &copy; {new Date().getFullYear()} {t("copyright")}
             </p>
             <motion.p
               className="flex items-center gap-1.5 text-xs text-zinc-600"

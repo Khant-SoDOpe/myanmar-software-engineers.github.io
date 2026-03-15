@@ -7,9 +7,9 @@ import {
   useTransform,
   useSpring,
 } from "framer-motion";
+import { khitHaungg } from "@/fonts/fonts";
 import BodyText from "../Common/BodyText/BodyText";
 import TitleText from "../Common/TitleText/TitleText";
-import APP_CONFIG from "@/config/config";
 import { cn } from "@/utils";
 import Link from "next/link";
 import {
@@ -21,6 +21,8 @@ import {
   PenTool,
 } from "lucide-react";
 import { ReactNode, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
 
 // --- Shared Card (same pattern as HomeSection) ---
 
@@ -170,6 +172,10 @@ const FeaturePill = ({
 const JoinSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3, once: true });
+  const { isMyanmar } = useLanguage();
+  const t = useTranslations("join");
+
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <div
@@ -201,9 +207,9 @@ const JoinSection = () => {
             </motion.div>
             <TitleText
               tag="p"
-              className="text-base font-semibold text-zinc-100"
+              className={cn("text-base font-semibold text-zinc-100", mmFont)}
             >
-              Join Our Community
+              {t("title")}
             </TitleText>
             <motion.div
               className="text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300"
@@ -215,9 +221,8 @@ const JoinSection = () => {
           </div>
 
           {/* Body */}
-          <BodyText className="text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 text-center max-w-xs">
-            Connect with Myanmar&apos;s developer community on Facebook. Share
-            knowledge, find opportunities, and grow together.
+          <BodyText className={cn("text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 text-center max-w-xs", mmFont)}>
+            {t("description")}
           </BodyText>
 
           {/* CTA pill */}
@@ -229,8 +234,8 @@ const JoinSection = () => {
               "transition-all duration-500"
             )}
           >
-            <span className="font-body text-sm text-zinc-300">
-              Facebook Group
+            <span className={cn("font-body text-sm text-zinc-300", mmFont)}>
+              {t("cta")}
             </span>
             <motion.div
               animate={{ x: [0, 3, 0] }}
@@ -266,49 +271,49 @@ const JoinSection = () => {
               </motion.div>
               <TitleText
                 tag="p"
-                className="text-base font-semibold text-zinc-100"
+                className={cn("text-base font-semibold text-zinc-100", mmFont)}
               >
-                {APP_CONFIG.community}
+                {t("communityTitle")}
               </TitleText>
             </div>
           </div>
 
           {/* Description with highlighted keywords */}
-          <BodyText className="text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 leading-relaxed">
-            Explore our{" "}
-            <span className="text-prism-cyan font-medium">Job Board</span>,
-            access insightful{" "}
+          <BodyText className={cn("text-zinc-400 group-hover:text-zinc-300 transition-colors duration-500 leading-relaxed", mmFont)}>
+            {t("desc.explore")}
+            <span className="text-prism-cyan font-medium">{t("desc.jobBoard")}</span>,
+            {" "}{isMyanmar ? "" : "access insightful "}
             <span className="text-prism-violet font-medium">
-              Tech Articles
+              {t("desc.techArticles")}
             </span>
-            , showcase your{" "}
-            <span className="text-prism-rose font-medium">Portfolio</span>, and
-            join a Community that thrives on mutual growth.
+            , {isMyanmar ? "" : "showcase your "}
+            <span className="text-prism-rose font-medium">{t("desc.portfolio")}</span>
+            {t("desc.outro")}
           </BodyText>
 
           {/* Feature pills */}
           <div className="flex flex-wrap gap-2 mt-5">
             <FeaturePill
               icon={Briefcase}
-              label="Jobs"
+              label={t("pill.jobs")}
               delay={0.7}
               isInView={isInView}
             />
             <FeaturePill
               icon={PenTool}
-              label="Articles"
+              label={t("pill.articles")}
               delay={0.8}
               isInView={isInView}
             />
             <FeaturePill
               icon={Zap}
-              label="Portfolio"
+              label={t("pill.portfolio")}
               delay={0.9}
               isInView={isInView}
             />
             <FeaturePill
               icon={MessageCircle}
-              label="Community"
+              label={t("pill.community")}
               delay={1.0}
               isInView={isInView}
             />

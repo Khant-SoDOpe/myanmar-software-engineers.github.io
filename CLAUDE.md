@@ -71,6 +71,18 @@ Key types:
 - `:lipstick: style: <description>` — UI/UX changes
 - `:recycle: refactor: <description>` — refactoring
 
+## Myanmar Font Guidelines
+
+When localizing hero sections or large headings with Myanmar text:
+
+- **Font**: Use `khitHaungg.className` (from `@/fonts/fonts`) directly, NOT Tailwind `font-myanmar` class
+- **`bg-clip-text` issue**: Myanmar script has tall stacking diacritics that get clipped by `bg-clip-text text-transparent` with gradient backgrounds. For Myanmar, use a solid color (e.g. `text-prism-cyan`) instead of the gradient clip technique. English can keep `bg-clip-text` gradient.
+- **`overflow-hidden` issue**: Remove `overflow-hidden` from parent containers when Myanmar is active — it clips top/bottom of Myanmar characters
+- **Line height**: Use `leading-[1.6]` with `py-2` for Myanmar large text (vs `leading-[1.15]` for English)
+- **AnimateText**: Disable character-by-character `AnimateText` for Myanmar — render plain text instead
+- **Pattern**: `const mmFont = isMyanmar ? khitHaungg.className : ""` then conditionally apply classes
+- **Localization hook**: Use `useLanguage` from `@/hooks/useLanguage` (NOT from `@/context/LanguageContext`)
+
 ## Screenshots
 
 Save all screenshots (including Playwright MCP captures) to the `screen-shot/` folder in the project root.

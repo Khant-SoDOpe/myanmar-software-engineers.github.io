@@ -5,6 +5,9 @@ import Container from "../Common/Container/Container";
 import HorizontalWrapper from "../Common/HorizontalWrapper/HorizontalWrapper";
 import { cn } from "@/utils";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 // Prism accent for each letter of MMSWE
 const letterConfig = [
@@ -196,9 +199,7 @@ const PrismUnderline = ({ isInView }: { isInView: boolean }) => (
 
 // --- Subtitle with stagger letter reveal ---
 
-const subtitleText = "Myanmar Software Engineers";
-
-const SubtitleReveal = ({ isInView }: { isInView: boolean }) => (
+const SubtitleReveal = ({ isInView, subtitleText, mmFont }: { isInView: boolean; subtitleText: string; mmFont: string }) => (
   <motion.div
     className="flex justify-center mt-5 overflow-hidden gap-2"
     initial={{ opacity: 0 }}
@@ -208,7 +209,7 @@ const SubtitleReveal = ({ isInView }: { isInView: boolean }) => (
     {subtitleText.split(" ").map((word, i) => (
       <motion.span
         key={i}
-        className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-zinc-600 inline-block"
+        className={cn("font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase text-zinc-600 inline-block", mmFont)}
         initial={{ opacity: 0, y: 12 }}
         animate={isInView ? { opacity: 0.5, y: 0 } : {}}
         transition={{
@@ -228,6 +229,10 @@ const SubtitleReveal = ({ isInView }: { isInView: boolean }) => (
 const MmsweTypoSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3, once: true });
+  const { isMyanmar } = useLanguage();
+  const t = useTranslations("mmsweTypo");
+
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   return (
     <Container withPadding>
@@ -257,7 +262,7 @@ const MmsweTypoSection = () => {
           </div>
 
           {/* Subtitle with per-letter stagger */}
-          <SubtitleReveal isInView={isInView} />
+          <SubtitleReveal isInView={isInView} subtitleText={t("subtitle")} mmFont={mmFont} />
         </div>
       </HorizontalWrapper>
     </Container>

@@ -7,6 +7,9 @@ import { motion } from "framer-motion";
 import { Eye, FileCode, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import MarkdownPreviewRenderer from "./MarkdownPreviewRenderer";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 const PreviewPane = ({
   name,
@@ -24,6 +27,9 @@ const PreviewPane = ({
   mdxOutput: string;
 }) => {
   const [showRaw, setShowRaw] = useState(false);
+  const t = useTranslations("profileEditor");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
 
   const hasContent = name.trim() || description.trim() || image.trim() || tags.length > 0 || body.trim();
 
@@ -46,8 +52,8 @@ const PreviewPane = ({
           >
             <Eye className="w-3.5 h-3.5 text-prism-cyan" />
           </div>
-          <span className="font-mono text-[11px] text-zinc-400 uppercase tracking-[0.15em]">
-            Preview
+          <span className={`font-mono text-[11px] text-zinc-400 uppercase tracking-[0.15em] ${mmFont}`}>
+            {t("preview")}
           </span>
         </div>
 
@@ -64,7 +70,7 @@ const PreviewPane = ({
           )}
         >
           <FileCode className="w-3 h-3" />
-          {showRaw ? "MDX" : "Raw"}
+          {showRaw ? t("mdx") : t("raw")}
         </button>
       </motion.div>
 
@@ -85,8 +91,8 @@ const PreviewPane = ({
           >
             <Eye className="w-7 h-7 text-zinc-700" />
           </div>
-          <p className="text-sm text-zinc-600 font-body">
-            Start typing to see your profile preview...
+          <p className={`text-sm text-zinc-600 font-body ${mmFont}`}>
+            {t("emptyPreview")}
           </p>
         </motion.div>
       ) : showRaw ? (
@@ -112,8 +118,8 @@ const PreviewPane = ({
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <LayoutGrid className="w-3 h-3 text-prism-violet/50" />
-                <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
-                  Card Preview
+                <span className={`font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] ${mmFont}`}>
+                  {t("cardPreview")}
                 </span>
               </div>
               <div className="pointer-events-none max-w-sm">
