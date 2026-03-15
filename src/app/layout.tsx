@@ -12,21 +12,32 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { LanguageProvider } from "@/context/LanguageContext";
 
+const SITE_URL = "https://mmswe.com";
+const OG_IMAGE = {
+  url: `${SITE_URL}/images/mmswe-seo.png`,
+  width: 1536,
+  height: 1024,
+  alt: APP_CONFIG.title,
+  type: "image/png",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: APP_CONFIG.title,
-  description:
-    "Explore our Job Board, access insightful Tech Articles, showcase your Portfolio, and join a Community that thrives on mutual growth.",
+  description: APP_CONFIG.description,
   openGraph: {
+    type: "website",
+    url: SITE_URL,
     title: APP_CONFIG.title,
     description: APP_CONFIG.description,
-    images: "https://mmswe.com/images/mmswe-seo.png",
     siteName: APP_CONFIG.title,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: APP_CONFIG.title,
     description: APP_CONFIG.description,
-    images: "https://mmswe.com/images/mmswe-seo.png",
+    images: [OG_IMAGE],
   },
 };
 
