@@ -8,7 +8,7 @@ import { FC } from "react";
 
 const getProfileFromParam = async (slug: string) => {
   const profileDetail = allProfiles.find(
-    (profile) => profile.slugAsParams === slug
+    (profile) => profile.slugAsParams === slug,
   );
 
   if (!profileDetail) {
@@ -21,9 +21,7 @@ const getProfileFromParam = async (slug: string) => {
 export async function generateMetadata(props: TPProfileDetailPageProps) {
   const params = await props.params;
 
-  const {
-    slug
-  } = params;
+  const { slug } = params;
 
   const profile = await getProfileFromParam(slug);
 
@@ -50,22 +48,22 @@ type TPProfileDetailPageProps = {
   }>;
 };
 
-const PProfileDetailPage: FC<TPProfileDetailPageProps> = async props => {
+const PProfileDetailPage: FC<TPProfileDetailPageProps> = async (props) => {
   const params = await props.params;
 
-  const {
-    slug
-  } = params;
+  const { slug } = params;
 
   const profile = await getProfileFromParam(slug);
 
   return (
     <PageTransitionWrapper>
       <Container>
-        <Mdx
-          code={profile.body.code}
-          extraText={`${profile.name} | ${profile.description}`}
-        />
+        <section className="py-16">
+          <Mdx
+            code={profile.body.code}
+            extraText={`${profile.name} | ${profile.description}`}
+          />
+        </section>
 
         <SpacingDivider size="lg" />
       </Container>

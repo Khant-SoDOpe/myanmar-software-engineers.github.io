@@ -387,9 +387,17 @@ const Footer = () => {
                 Profiles
               </FooterLink>
               <FooterLink
+                href="/profile/editor"
+                color="#22d3ee"
+                index={2}
+                isInView={isInView}
+              >
+                Profile Editor
+              </FooterLink>
+              <FooterLink
                 href="/blog"
                 color="#fb7185"
-                index={2}
+                index={3}
                 isInView={isInView}
               >
                 Blog
@@ -397,7 +405,7 @@ const Footer = () => {
               <FooterLink
                 href="/contact-us"
                 color="#fbbf24"
-                index={3}
+                index={4}
                 isInView={isInView}
               >
                 Contact Us

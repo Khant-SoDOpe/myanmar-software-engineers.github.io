@@ -10,6 +10,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 const linkList = [
   { label: "Home", href: "/" },
   { label: "Profiles", href: "/profile" },
+  { label: "Editor", href: "/profile/editor" },
   { label: "Blog", href: "/blog" },
 ];
 
