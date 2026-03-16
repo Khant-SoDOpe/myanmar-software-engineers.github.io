@@ -16,6 +16,9 @@ import {
   CheckCircle2,
   ArrowRight,
   ChevronRight,
+  GitCommitHorizontal,
+  Upload,
+  GitPullRequestArrow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -27,21 +30,26 @@ const prismColors = ["#22d3ee", "#a78bfa", "#fb7185", "#fbbf24"] as const;
 const colorAt = (i: number) => prismColors[i % prismColors.length];
 
 /* ── Step data ── */
+type TerminalData = {
+  label: string;
+  lines: { prompt?: boolean; text: string; accent?: string }[];
+};
+
+type SubStepData = {
+  label: string;
+  terminal: TerminalData;
+};
+
 type StepData = {
   title: string;
   description: string;
   icon: LucideIcon;
-  terminal: {
-    label: string;
-    lines: { prompt?: boolean; text: string; accent?: string }[];
-  };
+  terminal: TerminalData;
   optionToggle?: {
     labels: [string, string];
-    terminals: [
-      { label: string; lines: { prompt?: boolean; text: string; accent?: string }[] },
-      { label: string; lines: { prompt?: boolean; text: string; accent?: string }[] },
-    ];
+    terminals: [TerminalData, TerminalData];
   };
+  subSteps?: SubStepData[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -197,6 +205,108 @@ const getSteps = (t: any): StepData[] => [
         { text: t("step8Line2"), accent: "#fbbf24" },
       ],
     },
+  },
+  {
+    title: t("step9Title"),
+    description: t("step9Desc"),
+    icon: GitCommitHorizontal,
+    terminal: { label: "terminal", lines: [] },
+    subSteps: [
+      {
+        label: t("step9Sub1"),
+        terminal: {
+          label: "terminal",
+          lines: [
+            { prompt: true, text: "git add content/profile/your_name.mdx" },
+          ],
+        },
+      },
+      {
+        label: t("step9Sub2"),
+        terminal: {
+          label: "terminal",
+          lines: [
+            { prompt: true, text: "bun commit" },
+            { text: "? Select the type of change:", accent: "#a78bfa" },
+          ],
+        },
+      },
+      {
+        label: t("step9Sub3"),
+        terminal: {
+          label: "gitmoji interactive",
+          lines: [
+            { text: "? Choose a gitmoji:  :fire:  build", accent: "#fbbf24" },
+            { text: "? Choose the type:   build", accent: "#22d3ee" },
+            { text: "? Scope:             profile" },
+            { text: '? Message:           add your_name profile', accent: "#fb7185" },
+          ],
+        },
+      },
+      {
+        label: t("step9Sub4"),
+        terminal: {
+          label: "terminal",
+          lines: [
+            { text: ":fire: build(profile): add your_name profile", accent: "#22d3ee" },
+            { text: "1 file changed, 12 insertions(+)" },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    title: t("step10Title"),
+    description: t("step10Desc"),
+    icon: Upload,
+    terminal: {
+      label: "terminal",
+      lines: [
+        { prompt: true, text: "git push origin your_name" },
+        { text: "Enumerating objects: 5, done.", accent: "#a78bfa" },
+        { text: "Writing objects: 100% (3/3), done." },
+        { text: "remote: Create a pull request for 'your_name' on GitHub by visiting:", accent: "#fb7185" },
+        { text: "remote:   https://github.com/YOUR_USERNAME/...github.io/pull/new/your_name" },
+      ],
+    },
+  },
+  {
+    title: t("step11Title"),
+    description: t("step11Desc"),
+    icon: GitPullRequestArrow,
+    terminal: { label: "github.com", lines: [] },
+    subSteps: [
+      {
+        label: t("step11Sub1"),
+        terminal: {
+          label: "github.com",
+          lines: [
+            { text: t("step11Line1"), accent: "#fbbf24" },
+            { text: "" },
+            { text: t("step11Line2") },
+          ],
+        },
+      },
+      {
+        label: t("step11Sub2"),
+        terminal: {
+          label: "github.com — pull request",
+          lines: [
+            { text: t("step11Line3"), accent: "#22d3ee" },
+            { text: t("step11Line4") },
+          ],
+        },
+      },
+      {
+        label: t("step11Sub3"),
+        terminal: {
+          label: "github.com",
+          lines: [
+            { text: t("step11Line5"), accent: "#fb7185" },
+          ],
+        },
+      },
+    ],
   },
 ];
 
@@ -356,6 +466,143 @@ const TerminalBlock = ({
       ))}
     </div>
   </motion.div>
+);
+
+/* ── Sub-Steps Block ── */
+const subStepLetters = "abcdefghijklmnopqrstuvwxyz";
+
+const SubStepsBlock = ({
+  subSteps,
+  color,
+  isInView,
+  mmFont = "",
+}: {
+  subSteps: SubStepData[];
+  color: string;
+  isInView: boolean;
+  mmFont?: string;
+}) => (
+  <div className="space-y-0">
+    {subSteps.map((sub, i) => {
+      const isLast = i === subSteps.length - 1;
+      return (
+        <div key={i} className="flex gap-3">
+          {/* Sub-step indicator: letter + connecting line */}
+          <div className="flex flex-col items-center shrink-0 pt-1">
+            <motion.div
+              className="relative flex items-center justify-center w-6 h-6 rounded-full z-10"
+              style={{
+                background: `linear-gradient(135deg, ${color}14, ${color}06)`,
+                border: `1.5px solid ${color}30`,
+              }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={
+                isInView
+                  ? { scale: 1, opacity: 1 }
+                  : { scale: 0, opacity: 0 }
+              }
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+                delay: 0.2 + i * 0.1,
+              }}
+            >
+              <span
+                className="font-mono text-[10px] font-bold"
+                style={{ color }}
+              >
+                {subStepLetters[i]}
+              </span>
+            </motion.div>
+            {!isLast && (
+              <motion.div
+                className="w-[1.5px] flex-1 min-h-[12px] origin-top"
+                style={{
+                  background: `linear-gradient(180deg, ${color}25, ${color}08)`,
+                }}
+                initial={{ scaleY: 0 }}
+                animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.35 + i * 0.1,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              />
+            )}
+          </div>
+
+          {/* Sub-step content */}
+          <motion.div
+            className={cn("flex-1", isLast ? "" : "pb-3")}
+            initial={{ opacity: 0, x: -8 }}
+            animate={
+              isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }
+            }
+            transition={{
+              duration: 0.4,
+              delay: 0.25 + i * 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            {/* Sub-step label */}
+            <p
+              className={cn(
+                "font-mono text-[11px] text-zinc-500 mb-1.5 tracking-wide",
+                mmFont
+              )}
+            >
+              {sub.label}
+            </p>
+            {/* Mini terminal */}
+            <div
+              className={cn(
+                "rounded-xl overflow-hidden",
+                "bg-surface/60 backdrop-blur-sm",
+                "border border-white/[0.04]"
+              )}
+            >
+              <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-white/[0.03]">
+                <div className="flex gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-prism-rose/40" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent-gold/40" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-prism-cyan/40" />
+                </div>
+                <span className="font-mono text-[9px] text-zinc-600 ml-0.5">
+                  {sub.terminal.label}
+                </span>
+              </div>
+              <div className="px-3 py-2.5 space-y-0.5">
+                {sub.terminal.lines.map((line, j) => (
+                  <div key={j} className="flex items-start gap-1.5">
+                    {line.prompt && (
+                      <span
+                        className="font-mono text-[11px] shrink-0"
+                        style={{ color: `${color}80` }}
+                      >
+                        $
+                      </span>
+                    )}
+                    <span
+                      className={cn(
+                        "font-mono text-[11px] leading-relaxed break-all",
+                        line.accent ? "" : "text-zinc-400"
+                      )}
+                      style={
+                        line.accent ? { color: line.accent } : undefined
+                      }
+                    >
+                      {line.text || "\u00A0"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      );
+    })}
+  </div>
 );
 
 /* ── Option Toggle for Step 7 ── */
@@ -527,8 +774,15 @@ const StepCard = ({
           />
         )}
 
-        {/* Terminal block */}
-        {step.optionToggle ? (
+        {/* Terminal / Sub-steps / Option toggle */}
+        {step.subSteps ? (
+          <SubStepsBlock
+            subSteps={step.subSteps}
+            color={color}
+            isInView={inView}
+            mmFont={mmFont}
+          />
+        ) : step.optionToggle ? (
           <AnimatePresence mode="wait">
             <motion.div
               key={activeOption}
