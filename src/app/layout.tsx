@@ -11,6 +11,7 @@ import Footer from "@/components/Common/Footer/Footer";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const SITE_URL = "https://mmswe.com";
 const OG_IMAGE = {
@@ -65,10 +66,12 @@ export default async function RootLayout({
       <body className={cls}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LanguageProvider>
-            <div className="noise-overlay" />
-            <Navbar />
-            <main className="min-h-[calc(100vh-142px)] pt-16">{children}</main>
-            <Footer />
+            <AuthProvider>
+              <div className="noise-overlay" />
+              <Navbar />
+              <main className="min-h-[calc(100vh-142px)] pt-16">{children}</main>
+              <Footer />
+            </AuthProvider>
           </LanguageProvider>
         </NextIntlClientProvider>
       </body>

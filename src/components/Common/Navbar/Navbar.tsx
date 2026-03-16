@@ -10,6 +10,9 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
 import { khitHaungg } from "@/fonts/fonts";
+import { useAuth } from "@/hooks/useAuth";
+import UserAvatar from "@/components/Auth/UserAvatar";
+import SignInButton from "@/components/Auth/SignInButton";
 
 const linkKeys = [
   { key: "home", href: "/" },
@@ -292,6 +295,7 @@ const Navbar = () => {
   const t = useTranslations("nav");
   const { isMyanmar } = useLanguage();
   const mmFont = isMyanmar ? khitHaungg.className : "";
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
@@ -410,6 +414,17 @@ const Navbar = () => {
                 <span className={cn("relative z-10", mmFont)}>{t("contact")}</span>
               </MseLink>
             </motion.div>
+
+            {/* Auth */}
+            {!authLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {isAuthenticated ? <UserAvatar /> : <SignInButton className="text-[11px] px-3 py-1.5" />}
+              </motion.div>
+            )}
           </div>
 
           {/* Mobile hamburger */}

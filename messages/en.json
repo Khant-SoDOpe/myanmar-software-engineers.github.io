@@ -185,7 +185,27 @@
     "articles": "Articles",
     "readArticle": "Read article",
     "noPostsTitle": "No posts yet",
-    "noPostsBody": "Exciting articles are on the horizon. Our community of engineers is crafting stories worth reading."
+    "noPostsBody": "Exciting articles are on the horizon. Our community of engineers is crafting stories worth reading.",
+    "write": "Write",
+    "writeBlog": "Write Blog",
+    "newBlog": "New Blog",
+    "myBlogs": "My Blogs",
+    "saveDraft": "Save Draft",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "editBlog": "Edit Blog",
+    "deleteBlog": "Delete Blog",
+    "communityPost": "Community"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signInRequired": "Sign in required",
+    "signInDesc": "Sign in with your Google account to access this feature.",
+    "signInWithGoogle": "Sign in with Google",
+    "accessDenied": "Access denied",
+    "accessDeniedDesc": "You don't have permission to view this page.",
+    "backToBlog": "Back to Blog"
   },
   "profileHero": {
     "label": "Developer Directory",

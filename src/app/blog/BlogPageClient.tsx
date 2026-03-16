@@ -22,6 +22,8 @@ import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
 import { khitHaungg } from "@/fonts/fonts";
 
+import { useBlogList } from "@/hooks/blog/useBlogList";
+
 /* ── Types ── */
 type BlogItem = {
   _id: string;
@@ -29,6 +31,7 @@ type BlogItem = {
   description?: string;
   date: string;
   slug: string;
+  source?: "static" | "firestore";
 };
 
 /* ── Floating ambient orbs ── */
@@ -421,7 +424,7 @@ const EmptyState = ({ isInView, mmFont, t }: { isInView: boolean; mmFont: string
 );
 
 /* ── Main Blog Page Client ── */
-const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
+const BlogPageClient = ({ blogs: staticBlogs }: { blogs: BlogItem[] }) => {
   const heroRef = useRef(null);
   const gridRef = useRef(null);
   const heroInView = useInView(heroRef, { amount: 0.3, once: true });
@@ -429,6 +432,19 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
   const t = useTranslations("blog");
   const { isMyanmar } = useLanguage();
   const mmFont = isMyanmar ? khitHaungg.className : "";
+
+  // Merge static + Firestore blogs with pagination
+  const { firestoreBlogs, loading: firestoreLoading, hasMore, loadMore, loadingMore } = useBlogList(10);
+  const firestoreItems: BlogItem[] = firestoreBlogs.map((p) => ({
+    _id: p.id,
+    title: p.title,
+    description: p.description,
+    date: (p.publishedAt ?? p.createdAt).toISOString(),
+    slug: `/blog/post?slug=${p.slug}`,
+    source: "firestore" as const,
+  }));
+  const blogs = [...staticBlogs.map((b) => ({ ...b, source: "static" as const })), ...firestoreItems]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const hasPosts = blogs.length > 0;
   const [featured, ...rest] = blogs;
@@ -595,7 +611,20 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
       {/* Blog grid */}
       <div ref={gridRef} className="relative z-10 pb-16">
         <Container withPadding>
-          {!hasPosts ? (
+          {firestoreLoading && staticBlogs.length === 0 ? (
+            <motion.div
+              className="flex items-center justify-center py-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-6 h-6 border-2 border-prism-violet/30 border-t-prism-violet rounded-full animate-spin" />
+                <span className={cn("text-[11px] font-mono text-zinc-600", mmFont)}>
+                  Loading blogs...
+                </span>
+              </div>
+            </motion.div>
+          ) : !hasPosts ? (
             <EmptyState isInView={gridInView} mmFont={mmFont} t={t} />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -617,6 +646,38 @@ const BlogPageClient = ({ blogs }: { blogs: BlogItem[] }) => {
                 />
               ))}
             </div>
+          )}
+
+          {/* Load More */}
+          {hasMore && (
+            <motion.div
+              className="flex justify-center mt-10"
+              initial={{ opacity: 0 }}
+              animate={gridInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <button
+                type="button"
+                onClick={loadMore}
+                disabled={loadingMore}
+                className={cn(
+                  "inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium",
+                  "bg-white/[0.04] border border-white/[0.08]",
+                  "text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.12]",
+                  "transition-all duration-300",
+                  "disabled:opacity-40 disabled:cursor-not-allowed"
+                )}
+              >
+                {loadingMore ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  "Load more posts"
+                )}
+              </button>
+            </motion.div>
           )}
         </Container>
       </div>
