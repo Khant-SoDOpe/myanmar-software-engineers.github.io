@@ -228,18 +228,18 @@ const MobileNavLink = ({
   mmFont?: string;
 }) => (
   <motion.div
-    initial={{ opacity: 0, x: -40, filter: "blur(8px)" }}
-    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-    exit={{ opacity: 0, x: 40, filter: "blur(8px)" }}
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: 20 }}
     transition={{
-      delay: 0.08 + index * 0.1,
-      duration: 0.5,
+      delay: 0.05 + index * 0.06,
+      duration: 0.35,
       ease: [0.22, 1, 0.36, 1],
     }}
   >
     <MseLink
       href={href}
-      className="group relative block py-3"
+      className="group relative block py-2 sm:py-3"
     >
       <span onClick={onClick} className="flex items-center gap-4">
         {/* Index number */}
@@ -250,7 +250,7 @@ const MobileNavLink = ({
         {/* Link label */}
         <span
           className={cn(
-            "font-display text-4xl sm:text-5xl font-bold tracking-tight transition-all duration-300",
+            "font-display text-[22px] xs:text-3xl sm:text-5xl font-bold tracking-tight transition-all duration-300",
             isActive
               ? "bg-prism-gradient bg-clip-text text-transparent"
               : "text-zinc-400 group-hover:text-white",
@@ -267,20 +267,14 @@ const MobileNavLink = ({
             className="w-2 h-2 rounded-full"
             style={{
               background: "linear-gradient(135deg, #22d3ee, #fb7185)",
-              boxShadow: "0 0 12px rgba(167,139,250,0.6)",
             }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
           />
         )}
       </span>
 
-      {/* Hover line reveal */}
-      <motion.div
-        className="absolute bottom-0 left-8 right-0 h-[1px] bg-white/5 origin-left"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
-      />
+      {/* Divider line */}
+      <div className="absolute bottom-0 left-8 right-0 h-[1px] bg-white/5" />
     </MseLink>
   </motion.div>
 );
@@ -419,50 +413,29 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Backdrop with gradient */}
-            <motion.div
+            {/* Backdrop */}
+            <div
               className="absolute inset-0"
               style={{
                 background:
                   "radial-gradient(ellipse at top right, rgba(167,139,250,0.08), transparent 50%), radial-gradient(ellipse at bottom left, rgba(34,211,238,0.05), transparent 50%), #09090bf5",
               }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
             />
 
             {/* Decorative grid lines */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <motion.div
-                className="absolute top-0 left-8 w-[1px] h-full bg-white/[0.03]"
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
-              />
-              <motion.div
-                className="absolute top-0 right-8 w-[1px] h-full bg-white/[0.03]"
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-                style={{ transformOrigin: "top" }}
-              />
+              <div className="absolute top-0 left-6 sm:left-8 w-[1px] h-full bg-white/[0.03]" />
+              <div className="absolute top-0 right-6 sm:right-8 w-[1px] h-full bg-white/[0.03]" />
             </div>
 
             {/* Menu content */}
-            <div className="relative h-full flex flex-col justify-center px-8 sm:px-12">
+            <div className="relative h-full flex flex-col justify-center px-6 sm:px-12">
               {/* Section label */}
-              <motion.div
-                className="mb-8"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.15 }}
-              >
+              <div className="mb-8">
                 <span className={cn("font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-600", mmFont)}>
                   {t("navigation")}
                 </span>
-              </motion.div>
+              </div>
 
               {/* Links */}
               <nav className="flex flex-col gap-2">
@@ -480,12 +453,7 @@ const Navbar = () => {
               </nav>
 
               {/* Bottom section — auth + branding */}
-              <motion.div
-                className="absolute bottom-12 left-8 right-8"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-              >
+              <div className="absolute bottom-12 left-6 right-6 sm:left-8 sm:right-8">
                 {/* Auth */}
                 {!authLoading && (
                   <div className="mb-5">
@@ -504,7 +472,7 @@ const Navbar = () => {
                   </p>
                   <LanguageToggle />
                 </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

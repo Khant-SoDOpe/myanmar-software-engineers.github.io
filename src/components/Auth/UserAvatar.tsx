@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/utils";
 import { motion, AnimatePresence } from "motion/react";
@@ -9,34 +9,51 @@ import MseLink from "@/components/Ui/MseLink/MseLink";
 import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
 import { khitHaungg } from "@/fonts/fonts";
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  autoUpdate,
+  useClick,
+  useDismiss,
+  useInteractions,
+  FloatingPortal,
+} from "@floating-ui/react";
 
 export default function UserAvatar() {
   const { user, signOut, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
   const t = useTranslations("auth");
   const tBlog = useTranslations("blog");
   const { isMyanmar } = useLanguage();
   const mmFont = isMyanmar ? khitHaungg.className : "";
 
-  useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, []);
+  const { refs, floatingStyles, context } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    placement: "bottom-end",
+    middleware: [
+      offset(12),
+      flip({ fallbackPlacements: ["top-end", "top-start", "bottom-start"] }),
+      shift({ padding: 8 }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const click = useClick(context);
+  const dismiss = useDismiss(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
 
   if (!user) return null;
 
   return (
-    <div ref={ref} className="relative">
+    <div className="relative">
       {/* Avatar button with prismatic ring */}
       <motion.button
+        ref={refs.setReference}
+        {...getReferenceProps()}
         type="button"
-        onClick={() => setOpen(!open)}
         className="relative w-9 h-9 rounded-full p-[2px]"
         style={{
           background: open
@@ -70,18 +87,24 @@ export default function UserAvatar() {
 
       <AnimatePresence>
         {open && (
+          <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps()}
+            className="z-[9999]"
+          >
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.92 }}
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.92 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "absolute right-0 top-full mt-3 w-60",
+              "w-60",
               "rounded-2xl overflow-hidden",
               "bg-surface/95 backdrop-blur-2xl",
               "border border-white/[0.06]",
               "shadow-[0_16px_48px_rgba(0,0,0,0.5),0_0_1px_rgba(255,255,255,0.05)]",
-              "z-50"
             )}
           >
             {/* Prismatic top accent line */}
@@ -167,6 +190,8 @@ export default function UserAvatar() {
               </button>
             </div>
           </motion.div>
+          </div>
+          </FloatingPortal>
         )}
       </AnimatePresence>
     </div>
