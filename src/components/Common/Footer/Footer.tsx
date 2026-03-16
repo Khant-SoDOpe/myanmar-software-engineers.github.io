@@ -3,14 +3,8 @@
 import { cn } from "@/utils";
 import Container from "../Container/Container";
 import Link from "next/link";
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import { useRef, useCallback } from "react";
+import { motion, useInView } from "motion/react";
+import { useRef } from "react";
 import { Github, Users, Heart, ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -88,7 +82,7 @@ const GridDecoration = () => (
   </div>
 );
 
-/* ── Footer nav link with glow hover ── */
+/* ── Footer nav link ── */
 const FooterLink = ({
   href,
   children,
@@ -106,24 +100,6 @@ const FooterLink = ({
   isInView: boolean;
   mmFont?: string;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 300, damping: 30 });
-  const springY = useSpring(mouseY, { stiffness: 300, damping: 30 });
-  const glowOpacity = useMotionValue(0);
-  const springOpacity = useSpring(glowOpacity, { stiffness: 200, damping: 25 });
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      mouseX.set(e.clientX - rect.left);
-      mouseY.set(e.clientY - rect.top);
-    },
-    [mouseX, mouseY]
-  );
-
   const linkProps = external
     ? { target: "_blank" as const, rel: "noopener noreferrer" }
     : {};
@@ -132,7 +108,6 @@ const FooterLink = ({
 
   return (
     <motion.div
-      ref={ref}
       className="relative group"
       initial={{ opacity: 0, x: -10 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
@@ -141,39 +116,19 @@ const FooterLink = ({
         delay: 0.3 + index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => glowOpacity.set(1)}
-      onMouseLeave={() => glowOpacity.set(0)}
     >
-      {/* Cursor-following glow */}
-      <motion.div
-        className="pointer-events-none absolute -inset-2 rounded-lg"
-        style={{
-          x: useTransform(springX, (v) => v - 50),
-          y: useTransform(springY, (v) => v - 50),
-          width: 100,
-          height: 100,
-          background: `radial-gradient(circle, ${color}18 0%, transparent 70%)`,
-          opacity: springOpacity,
-        }}
-      />
-
       <Component
         href={href}
         {...linkProps}
         className={cn("relative flex items-center gap-2 text-sm text-zinc-500 transition-colors duration-300 group-hover:text-zinc-200 py-1", mmFont)}
       >
-        <span className="relative z-10">{children}</span>
-        <motion.span
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          initial={{ x: -4 }}
-          whileHover={{ x: 0 }}
-        >
+        <span>{children}</span>
+        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <ArrowUpRight className="w-3 h-3" style={{ color }} />
-        </motion.span>
+        </span>
 
         {/* Underline reveal on hover */}
-        <motion.span
+        <span
           className="absolute -bottom-0 left-0 right-6 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
           style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
         />
@@ -213,39 +168,25 @@ const SocialLink = ({
       delay: 0.5 + index * 0.12,
       ease: [0.22, 1, 0.36, 1],
     }}
-    whileHover={{ x: 4 }}
   >
-    {/* Icon container with glow */}
-    <motion.div
-      className="relative flex items-center justify-center w-9 h-9 rounded-xl overflow-hidden"
+    {/* Icon container */}
+    <div
+      className="relative flex items-center justify-center w-9 h-9 rounded-xl overflow-hidden group-hover:brightness-125 transition-all duration-300"
       style={{
         background: `linear-gradient(135deg, ${color}12, ${color}06)`,
         border: `1px solid ${color}20`,
       }}
-      whileHover={{
-        scale: 1.1,
-        boxShadow: `0 0 20px ${color}30, 0 0 40px ${color}10`,
-      }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
-      <Icon className="w-4 h-4 relative z-10" style={{ color }} />
-
-      {/* Shimmer on hover */}
-      <motion.div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{
-          background: `linear-gradient(135deg, ${color}15, transparent)`,
-        }}
-      />
-    </motion.div>
+      <Icon className="w-4 h-4" style={{ color }} />
+    </div>
 
     <span className={cn("text-sm text-zinc-500 group-hover:text-zinc-300 transition-colors duration-300", mmFont)}>
       {label}
     </span>
 
-    <motion.span className="opacity-0 group-hover:opacity-70 transition-opacity duration-300">
+    <span className="opacity-0 group-hover:opacity-70 transition-opacity duration-300">
       <ArrowUpRight className="w-3 h-3" style={{ color }} />
-    </motion.span>
+    </span>
   </motion.a>
 );
 
