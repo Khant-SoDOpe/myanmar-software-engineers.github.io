@@ -1,24 +1,24 @@
 import type { EditorThemeClasses } from "lexical";
 
 const editorTheme: EditorThemeClasses = {
-  root: "text-zinc-200 font-body text-base leading-relaxed focus:outline-none min-h-[200px]",
-  paragraph: "mb-3 leading-7",
+  root: "text-zinc-300 font-body text-base leading-relaxed focus:outline-none min-h-[200px]",
+  paragraph: "mb-4 leading-[1.8] text-[15px]",
   heading: {
-    h1: "text-4xl font-bold font-display text-white mt-6 mb-4",
-    h2: "text-3xl font-semibold font-display text-white mt-8 mb-3 border-b border-white/10 pb-1",
-    h3: "text-2xl font-semibold font-display text-white mt-6 mb-2",
+    h1: "text-3xl sm:text-4xl font-bold font-display text-white mt-10 mb-5 tracking-tight",
+    h2: "text-2xl sm:text-3xl font-semibold font-display text-white mt-10 mb-4 tracking-tight pb-3 border-b border-white/[0.06]",
+    h3: "text-xl sm:text-2xl font-semibold font-display text-zinc-100 mt-8 mb-3 tracking-tight",
   },
   text: {
     bold: "font-bold text-white",
-    italic: "italic",
-    underline: "underline underline-offset-4",
+    italic: "italic text-zinc-200",
+    underline: "underline underline-offset-4 decoration-prism-violet/40",
     strikethrough: "line-through text-zinc-500",
-    code: "px-1.5 py-0.5 rounded bg-surface-light font-mono text-sm text-prism-cyan",
+    code: "px-1.5 py-0.5 rounded-md bg-white/[0.06] border border-white/[0.04] font-mono text-[13px] text-prism-cyan",
   },
   list: {
-    ul: "list-disc ml-6 my-4",
-    ol: "list-decimal ml-6 my-4",
-    listitem: "mt-2 leading-7",
+    ul: "list-disc ml-6 my-5 space-y-1",
+    ol: "list-decimal ml-6 my-5 space-y-1",
+    listitem: "mt-1.5 leading-[1.8] text-[15px] marker:text-zinc-600",
     nested: {
       listitem: "list-none",
     },
@@ -28,9 +28,9 @@ const editorTheme: EditorThemeClasses = {
       "relative ml-6 list-none",
   },
   quote:
-    "border-l-2 border-prism-violet/40 pl-6 italic text-zinc-400 my-4",
-  link: "text-prism-cyan underline underline-offset-4 hover:text-prism-violet transition-colors cursor-pointer",
-  code: "bg-surface rounded-lg border border-white/10 p-4 font-mono text-sm my-4 overflow-x-auto block",
+    "border-l-[3px] border-prism-violet/30 pl-6 py-1 italic text-zinc-400 my-6 bg-prism-violet/[0.02] rounded-r-lg",
+  link: "text-prism-cyan underline underline-offset-4 decoration-prism-cyan/30 hover:decoration-prism-cyan/60 hover:text-white transition-all duration-200 cursor-pointer",
+  code: "bg-surface/80 rounded-xl border border-white/[0.06] p-5 font-mono text-[13px] my-6 overflow-x-auto block leading-6",
   codeHighlight: {
     atrule: "text-prism-violet",
     attr: "text-prism-cyan",

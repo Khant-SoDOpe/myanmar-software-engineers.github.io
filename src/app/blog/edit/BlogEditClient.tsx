@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { cn } from "@/utils";
 import { motion } from "motion/react";
 import { PenLine, Save, Tag, X, Image as ImageIcon, CheckCircle } from "lucide-react";
@@ -75,6 +75,7 @@ function TagInput({
 }
 
 function BlogEditForm({ postId }: { postId: string }) {
+  const router = useRouter();
   const { user, isAdmin } = useAuth();
   const {
     title,
@@ -106,6 +107,7 @@ function BlogEditForm({ postId }: { postId: string }) {
 
   const handleSave = async () => {
     await save();
+    router.push("/blog/my-posts");
   };
 
   const handlePublishToggle = async () => {
@@ -118,7 +120,7 @@ function BlogEditForm({ postId }: { postId: string }) {
       } else {
         await publishBlogPost(postId, user.uid, isAdmin);
       }
-      window.location.reload();
+      router.push("/blog/my-posts");
     } catch (err) {
       if (err instanceof Error) {
         setPublishError(err.message);

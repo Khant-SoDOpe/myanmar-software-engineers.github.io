@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/utils";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   FileText,
   PenLine,
@@ -10,6 +10,8 @@ import {
   CheckCircle,
   Clock,
   Plus,
+  ChevronRight,
+  CalendarDays,
 } from "lucide-react";
 import AuthGuard from "@/components/Auth/AuthGuard";
 import MseLink from "@/components/Ui/MseLink/MseLink";
@@ -86,8 +88,14 @@ function PostsList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="w-6 h-6 border-2 border-prism-violet/30 border-t-prism-violet rounded-full animate-spin" />
+      <div className="flex flex-col items-center justify-center py-24 gap-3">
+        <div className="relative w-8 h-8">
+          <div className="absolute inset-0 rounded-full border-2 border-white/[0.06]" />
+          <div
+            className="absolute inset-0 rounded-full border-2 border-transparent animate-spin"
+            style={{ borderTopColor: "#a78bfa", borderRightColor: "#22d3ee" }}
+          />
+        </div>
       </div>
     );
   }
@@ -97,18 +105,36 @@ function PostsList() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center py-20"
+        transition={{ ease: [0.22, 1, 0.36, 1] }}
+        className="text-center py-24"
       >
-        <div className="mx-auto mb-4 w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.04] border border-white/[0.08]">
-          <FileText className="w-6 h-6 text-zinc-600" />
+        <div
+          className="mx-auto mb-5 w-16 h-16 rounded-2xl flex items-center justify-center border border-white/[0.06]"
+          style={{ background: "linear-gradient(135deg, rgba(167,139,250,0.08), rgba(34,211,238,0.08))" }}
+        >
+          <FileText className="w-7 h-7 text-zinc-500" />
         </div>
-        <p className={cn("text-zinc-500 text-sm mb-4", mmFont)}>{t("noPostsTitle")}</p>
+        <p className={cn("text-zinc-400 text-sm mb-6", mmFont)}>{t("noPostsTitle")}</p>
         <MseLink
           href="/blog/write"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium bg-prism-violet text-white hover:bg-prism-violet/90 transition-colors"
+          className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold uppercase tracking-wider text-zinc-300 hover:text-white transition-colors duration-300 overflow-hidden"
         >
-          <Plus className="w-4 h-4" />
-          <span className={mmFont}>{t("writeBlog")}</span>
+          <span
+            className="absolute inset-0 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              padding: "1.5px",
+              background: "linear-gradient(135deg, #22d3ee, #a78bfa, #fb7185)",
+              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              maskComposite: "exclude",
+            }}
+          />
+          <span
+            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.06), rgba(167,139,250,0.06), rgba(251,113,133,0.06))" }}
+          />
+          <Plus className="relative z-10 w-4 h-4" />
+          <span className={cn("relative z-10", mmFont)}>{t("writeBlog")}</span>
         </MseLink>
       </motion.div>
     );
@@ -116,92 +142,148 @@ function PostsList() {
 
   return (
     <div>
-      <div className="space-y-3">
-        {posts.map((post, i) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className={cn(
-              "flex items-center gap-4 p-4 rounded-xl",
-              "bg-white/[0.02] border border-white/[0.06]",
-              "hover:border-white/[0.1] transition-all duration-200"
-            )}
-          >
-            {/* Status icon */}
-            <div
+      {/* Post count label */}
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-600">
+          {posts.length} {posts.length === 1 ? "post" : "posts"}
+        </span>
+        <div className="flex-1 h-px bg-gradient-to-r from-white/[0.04] to-transparent" />
+      </div>
+
+      <div className="space-y-2.5">
+        <AnimatePresence>
+          {posts.map((post, i) => (
+            <motion.div
+              key={post.id}
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, x: -16, transition: { duration: 0.2 } }}
+              transition={{ delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                post.status === "published"
-                  ? "bg-emerald-500/10"
-                  : "bg-zinc-500/10"
+                "group relative flex items-stretch rounded-2xl overflow-hidden",
+                "bg-white/[0.015] border border-white/[0.05]",
+                "hover:bg-white/[0.035] hover:border-white/[0.1]",
+                "transition-all duration-300"
               )}
             >
-              {post.status === "published" ? (
-                <CheckCircle className="w-4 h-4 text-emerald-400" />
-              ) : (
-                <Clock className="w-4 h-4 text-zinc-500" />
-              )}
-            </div>
+              {/* Left accent bar */}
+              <div
+                className="w-[3px] shrink-0"
+                style={{
+                  background: post.status === "published"
+                    ? "linear-gradient(to bottom, #34d399, #22d3ee)"
+                    : "linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
+                }}
+              />
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-zinc-200 truncate">
-                {post.title || "Untitled"}
-              </h3>
-              <p className="text-[11px] text-zinc-600 font-mono">
-                {post.status === "published" ? t("publish") : t("saveDraft")} ·{" "}
-                {post.updatedAt.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
+              {/* Card content */}
+              <div className="flex items-center gap-4 p-4 flex-1 min-w-0">
+                {/* Status icon with ring */}
+                <div
+                  className={cn(
+                    "relative w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
+                    "border transition-colors duration-300",
+                    post.status === "published"
+                      ? "bg-emerald-500/[0.06] border-emerald-500/15 group-hover:border-emerald-500/25"
+                      : "bg-white/[0.03] border-white/[0.06] group-hover:border-white/[0.1]"
+                  )}
+                >
+                  {post.status === "published" ? (
+                    <CheckCircle className="w-4.5 h-4.5 text-emerald-400" />
+                  ) : (
+                    <Clock className="w-4.5 h-4.5 text-zinc-500" />
+                  )}
+                </div>
 
-            {/* Actions */}
-            <div className="flex items-center gap-2">
-              <MseLink
-                href={`/blog/edit?id=${post.id}`}
-                className="p-2 rounded-lg text-zinc-500 hover:text-prism-cyan hover:bg-white/[0.04] transition-colors"
-              >
-                <PenLine className="w-4 h-4" />
-              </MseLink>
-              <button
-                type="button"
-                onClick={() => handleDelete(post.id)}
-                disabled={deleting === post.id}
-                className="p-2 rounded-lg text-zinc-500 hover:text-prism-rose hover:bg-prism-rose/[0.04] transition-colors disabled:opacity-30"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </motion.div>
-        ))}
+                {/* Post info */}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors duration-300">
+                    {post.title || "Untitled"}
+                  </h3>
+                  <div className="flex items-center gap-2.5 mt-1.5">
+                    {/* Status badge */}
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-md",
+                        post.status === "published"
+                          ? "text-emerald-400/80 bg-emerald-500/[0.08] border border-emerald-500/10"
+                          : "text-zinc-500 bg-white/[0.03] border border-white/[0.04]"
+                      )}
+                    >
+                      <span className={cn(
+                        "w-1 h-1 rounded-full",
+                        post.status === "published" ? "bg-emerald-400" : "bg-zinc-600"
+                      )} />
+                      {post.status === "published" ? t("publish") : t("saveDraft")}
+                    </span>
+
+                    {/* Separator dot */}
+                    <span className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
+
+                    {/* Date with micro icon */}
+                    <span className="inline-flex items-center gap-1 text-[10px] text-zinc-600 font-mono">
+                      <CalendarDays className="w-2.5 h-2.5" />
+                      {post.updatedAt.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-1 shrink-0 opacity-30 group-hover:opacity-100 transition-opacity duration-300">
+                  <MseLink
+                    href={`/blog/edit?id=${post.id}`}
+                    className="p-2 rounded-xl text-zinc-400 hover:text-prism-cyan hover:bg-prism-cyan/[0.08] transition-all duration-200"
+                  >
+                    <PenLine className="w-4 h-4" />
+                  </MseLink>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(post.id)}
+                    disabled={deleting === post.id}
+                    className="p-2 rounded-xl text-zinc-400 hover:text-prism-rose hover:bg-prism-rose/[0.08] transition-all duration-200 disabled:opacity-30"
+                  >
+                    {deleting === post.id ? (
+                      <div className="w-4 h-4 border-2 border-prism-rose/30 border-t-prism-rose rounded-full animate-spin" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
+                  </button>
+                  <MseLink
+                    href={`/blog/edit?id=${post.id}`}
+                    className="p-1.5 rounded-xl text-zinc-600 group-hover:text-zinc-400 transition-colors duration-200"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </MseLink>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Load More */}
       {hasMore && (
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-10">
           <button
             type="button"
             onClick={loadMore}
             disabled={loadingMore}
             className={cn(
-              "inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium",
-              "bg-white/[0.04] border border-white/[0.08]",
-              "text-zinc-400 hover:text-white hover:bg-white/[0.08]",
+              "inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full text-sm font-medium",
+              "bg-white/[0.03] border border-white/[0.06]",
+              "text-zinc-400 hover:text-white hover:border-white/[0.12] hover:bg-white/[0.06]",
               "transition-all duration-300",
               "disabled:opacity-40 disabled:cursor-not-allowed"
             )}
           >
             {loadingMore ? (
-              <>
-                <div className="w-4 h-4 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
-                Loading...
-              </>
+              <div className="w-4 h-4 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
             ) : (
-              "Load more"
+              <span className="font-mono text-xs uppercase tracking-wider">{t("loadMore") || "Load more"}</span>
             )}
           </button>
         </div>
@@ -232,23 +314,43 @@ export default function MyPostsClient() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between mb-8"
+            transition={{ ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center justify-between mb-10"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-gradient-to-br from-prism-violet/20 to-prism-cyan/20 border border-white/[0.08]">
-                <FileText className="w-4.5 h-4.5 text-prism-cyan" />
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center border border-white/[0.06]"
+                style={{ background: "linear-gradient(135deg, rgba(167,139,250,0.12), rgba(34,211,238,0.12))" }}
+              >
+                <FileText className="w-5 h-5 text-prism-cyan" />
               </div>
-              <h1 className={cn("text-xl font-semibold font-display text-white tracking-tight", mmFont)}>
-                {t("myBlogs")}
-              </h1>
+              <div>
+                <h1 className={cn("text-lg font-semibold font-display text-white tracking-tight", mmFont)}>
+                  {t("myBlogs")}
+                </h1>
+              </div>
             </div>
 
             <MseLink
               href="/blog/write"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-prism-violet text-white hover:bg-prism-violet/90 transition-colors"
+              className="group relative flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider text-zinc-300 hover:text-white transition-colors duration-300 overflow-hidden"
             >
-              <Plus className="w-4 h-4" />
-              <span className={mmFont}>{t("newBlog")}</span>
+              <span
+                className="absolute inset-0 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  padding: "1.5px",
+                  background: "linear-gradient(135deg, #22d3ee, #a78bfa, #fb7185)",
+                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+              <span
+                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(135deg, rgba(34,211,238,0.06), rgba(167,139,250,0.06), rgba(251,113,133,0.06))" }}
+              />
+              <Plus className="relative z-10 w-4 h-4" />
+              <span className={cn("relative z-10", mmFont)}>{t("newBlog")}</span>
             </MseLink>
           </motion.div>
 

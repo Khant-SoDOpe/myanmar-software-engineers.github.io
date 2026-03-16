@@ -26,11 +26,25 @@ export default function ContentRenderer({
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={cn("ce-renderer", className)}>
+      <div
+        className={cn(
+          "ce-renderer",
+          "relative rounded-2xl",
+          "bg-white/[0.01] border border-white/[0.04]",
+          "p-6 sm:p-8 md:p-10",
+          className
+        )}
+      >
+        {/* Subtle top accent */}
+        <div
+          className="absolute top-0 left-6 right-6 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(167,139,250,0.12), rgba(34,211,238,0.08), transparent)" }}
+        />
+
         <RichTextPlugin
           contentEditable={
             <ContentEditable
-              className="text-zinc-200 text-base leading-relaxed focus:outline-none"
+              className="text-zinc-300 text-[15px] leading-[1.8] focus:outline-none"
             />
           }
           placeholder={null}
