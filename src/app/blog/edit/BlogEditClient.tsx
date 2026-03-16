@@ -12,6 +12,9 @@ import type { SerializedEditorState } from "@/components/ContentEditor";
 import { useBlogEditor } from "@/hooks/blog/useBlogEditor";
 import { useAuth } from "@/hooks/useAuth";
 import { publishBlogPost, unpublishBlogPost } from "@/lib/firebase/firestore";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 const INPUT_CLASS = cn(
   "w-full px-4 py-3 rounded-xl text-sm",
@@ -25,10 +28,12 @@ function TagInput({
   tags,
   onAdd,
   onRemove,
+  placeholder = "Add tags (press Enter)",
 }: {
   tags: string[];
   onAdd: (tag: string) => void;
   onRemove: (tag: string) => void;
+  placeholder?: string;
 }) {
   const [value, setValue] = useState("");
 
@@ -67,7 +72,7 @@ function TagInput({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Add tags (press Enter)"
+        placeholder={placeholder}
         className={INPUT_CLASS}
       />
     </div>
@@ -76,6 +81,9 @@ function TagInput({
 
 function BlogEditForm({ postId }: { postId: string }) {
   const router = useRouter();
+  const t = useTranslations("blog");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
   const { user, isAdmin } = useAuth();
   const {
     title,
@@ -168,19 +176,19 @@ function BlogEditForm({ postId }: { postId: string }) {
                 <PenLine className="w-4.5 h-4.5 text-prism-cyan" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold font-display text-white tracking-tight">
-                  Edit Blog
+                <h1 className={cn("text-xl font-semibold font-display text-white tracking-tight", mmFont)}>
+                  {t("editBlog")}
                 </h1>
-                <p className="text-[11px] text-zinc-600 font-mono">
-                  {post?.status === "published" ? "Published" : "Draft"} · Auto-saves every 5s
+                <p className={cn("text-[11px] text-zinc-600 font-mono", mmFont)}>
+                  {post?.status === "published" ? t("published") : t("draft")} · {t("autoSaveNote")}
                 </p>
               </div>
             </div>
 
             {post?.status === "published" && (
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className={cn("flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20", mmFont)}>
                 <CheckCircle className="w-3 h-3" />
-                Published
+                {t("published")}
               </span>
             )}
           </div>
@@ -194,65 +202,66 @@ function BlogEditForm({ postId }: { postId: string }) {
           className="space-y-5"
         >
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Title
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formTitle")}
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Post title"
+              placeholder={t("formTitlePlaceholder")}
               className={cn(INPUT_CLASS, "text-lg font-display")}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Description
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formDescription")}
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Brief summary"
+              placeholder={t("formDescriptionPlaceholder")}
               rows={2}
               className={cn(INPUT_CLASS, "resize-none")}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
               <ImageIcon className="w-3 h-3 inline mr-1" />
-              Cover Image URL
+              {t("formCoverImage")}
             </label>
             <input
               type="url"
               value={coverImageURL ?? ""}
               onChange={(e) => setCoverImageURL(e.target.value || null)}
-              placeholder="https://example.com/image.jpg (optional)"
+              placeholder={t("formCoverImagePlaceholder")}
               className={INPUT_CLASS}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
               <Tag className="w-3 h-3 inline mr-1" />
-              Tags
+              {t("formTags")}
             </label>
             <TagInput
               tags={tags}
               onAdd={(tag) => setTags([...tags, tag])}
               onRemove={(tag) => setTags(tags.filter((t) => t !== tag))}
+              placeholder={t("formTagsPlaceholder")}
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Content
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formContent")}
             </label>
             <ContentEditor
               value={content}
               onChange={handleContentChange}
-              placeholder="Start writing..."
+              placeholder={t("formContentPlaceholder")}
             />
           </div>
 
@@ -272,7 +281,7 @@ function BlogEditForm({ postId }: { postId: string }) {
               )}
             >
               <Save className="w-4 h-4" />
-              {saving ? "Saving..." : "Save"}
+              <span className={mmFont}>{saving ? t("saving") : t("saveDraft")}</span>
             </button>
 
             <button
@@ -288,16 +297,18 @@ function BlogEditForm({ postId }: { postId: string }) {
               )}
             >
               <CheckCircle className="w-4 h-4" />
-              {publishing
-                ? "..."
-                : post?.status === "published"
-                  ? "Unpublish"
-                  : "Publish"}
+              <span className={mmFont}>
+                {publishing
+                  ? "..."
+                  : post?.status === "published"
+                    ? t("unpublish")
+                    : t("publish")}
+              </span>
             </button>
 
             {!isAdmin && post?.status !== "published" && (
-              <span className="text-[11px] text-zinc-600 font-mono">
-                Max 3 posts/day
+              <span className={cn("text-[11px] text-zinc-600 font-mono", mmFont)}>
+                {t("maxPostsPerDay")}
               </span>
             )}
           </div>

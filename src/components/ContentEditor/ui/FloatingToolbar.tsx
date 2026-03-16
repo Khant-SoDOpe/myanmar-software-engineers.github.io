@@ -44,22 +44,19 @@ function FormatButton({
 }
 
 export default function FloatingToolbar() {
-  const { isVisible, position, toolbarState, formatText, editor } =
+  const { isVisible, floatingStyles, floatingRef, toolbarState, formatText, editor } =
     useFloatingToolbar();
 
   if (!isVisible) return null;
 
   const toolbarEl = (
     <div
+      ref={floatingRef}
       className={cn(
-        "fixed z-50 flex items-center gap-0.5 px-1.5 py-1 rounded-lg",
+        "z-50 flex items-center gap-0.5 px-1.5 py-1 rounded-lg",
         "bg-obsidian border border-white/10 shadow-xl shadow-black/40"
       )}
-      style={{
-        top: `${position.top}px`,
-        left: `${position.left}px`,
-        transform: "translate(-50%, -100%)",
-      }}
+      style={floatingStyles}
       onMouseDown={(e) => e.preventDefault()}
     >
       <FormatButton

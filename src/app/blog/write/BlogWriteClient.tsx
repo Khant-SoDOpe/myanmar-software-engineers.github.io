@@ -9,6 +9,9 @@ import AuthGuard from "@/components/Auth/AuthGuard";
 import { ContentEditor } from "@/components/ContentEditor";
 import type { SerializedEditorState } from "@/components/ContentEditor";
 import { useBlogEditor } from "@/hooks/blog/useBlogEditor";
+import { useTranslations } from "next-intl";
+import { useLanguage } from "@/hooks/useLanguage";
+import { khitHaungg } from "@/fonts/fonts";
 
 const INPUT_CLASS = cn(
   "w-full px-4 py-3 rounded-xl text-sm",
@@ -22,10 +25,12 @@ function TagInput({
   tags,
   onAdd,
   onRemove,
+  placeholder = "Add tags (press Enter)",
 }: {
   tags: string[];
   onAdd: (tag: string) => void;
   onRemove: (tag: string) => void;
+  placeholder?: string;
 }) {
   const [value, setValue] = useState("");
 
@@ -64,7 +69,7 @@ function TagInput({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Add tags (press Enter)"
+        placeholder={placeholder}
         className={INPUT_CLASS}
       />
     </div>
@@ -73,6 +78,9 @@ function TagInput({
 
 function BlogWriteForm() {
   const router = useRouter();
+  const t = useTranslations("blog");
+  const { isMyanmar } = useLanguage();
+  const mmFont = isMyanmar ? khitHaungg.className : "";
   const {
     title,
     setTitle,
@@ -127,8 +135,8 @@ function BlogWriteForm() {
             <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-gradient-to-br from-prism-violet/20 to-prism-cyan/20 border border-white/[0.08]">
               <PenLine className="w-4.5 h-4.5 text-prism-cyan" />
             </div>
-            <h1 className="text-xl font-semibold font-display text-white tracking-tight">
-              Write New Blog
+            <h1 className={cn("text-xl font-semibold font-display text-white tracking-tight", mmFont)}>
+              {t("writeNewBlog")}
             </h1>
           </div>
         </motion.div>
@@ -142,27 +150,27 @@ function BlogWriteForm() {
         >
           {/* Title */}
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Title
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formTitle")}
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Post title"
+              placeholder={t("formTitlePlaceholder")}
               className={cn(INPUT_CLASS, "text-lg font-display")}
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Description
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formDescription")}
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Brief summary of your post"
+              placeholder={t("formDescriptionPlaceholder")}
               rows={2}
               className={cn(INPUT_CLASS, "resize-none")}
             />
@@ -170,9 +178,9 @@ function BlogWriteForm() {
 
           {/* Cover Image URL */}
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
               <ImageIcon className="w-3 h-3 inline mr-1" />
-              Cover Image URL
+              {t("formCoverImage")}
             </label>
             <input
               type="url"
@@ -180,33 +188,34 @@ function BlogWriteForm() {
               onChange={(e) =>
                 setCoverImageURL(e.target.value || null)
               }
-              placeholder="https://example.com/image.jpg (optional)"
+              placeholder={t("formCoverImagePlaceholder")}
               className={INPUT_CLASS}
             />
           </div>
 
           {/* Tags */}
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
               <Tag className="w-3 h-3 inline mr-1" />
-              Tags
+              {t("formTags")}
             </label>
             <TagInput
               tags={tags}
               onAdd={(tag) => setTags([...tags, tag])}
               onRemove={(tag) => setTags(tags.filter((t) => t !== tag))}
+              placeholder={t("formTagsPlaceholder")}
             />
           </div>
 
           {/* Content Editor */}
           <div>
-            <label className="block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2">
-              Content
+            <label className={cn("block text-xs font-mono text-zinc-500 uppercase tracking-wider mb-2", mmFont)}>
+              {t("formContent")}
             </label>
             <ContentEditor
               value={null}
               onChange={handleContentChange}
-              placeholder="Start writing your post... (type / for commands)"
+              placeholder={t("formContentPlaceholder")}
             />
           </div>
 
@@ -229,7 +238,7 @@ function BlogWriteForm() {
               )}
             >
               <Save className="w-4 h-4" />
-              {saving ? "Saving..." : "Save Draft"}
+              <span className={mmFont}>{saving ? t("saving") : t("saveDraft")}</span>
             </button>
           </div>
         </motion.div>

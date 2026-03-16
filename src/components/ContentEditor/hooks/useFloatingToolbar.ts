@@ -14,6 +14,13 @@ import { $isLinkNode } from "@lexical/link";
 import { $isHeadingNode } from "@lexical/rich-text";
 import { $isListNode, ListNode } from "@lexical/list";
 import { $getNearestNodeOfType } from "@lexical/utils";
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  autoUpdate,
+} from "@floating-ui/react";
 
 export interface ToolbarState {
   isBold: boolean;
@@ -25,15 +32,10 @@ export interface ToolbarState {
   blockType: string;
 }
 
-interface Position {
-  top: number;
-  left: number;
-}
-
 export function useFloatingToolbar() {
   const [editor] = useLexicalComposerContext();
   const [isVisible, setIsVisible] = useState(false);
-  const [position, setPosition] = useState<Position>({ top: 0, left: 0 });
+  const [selectionRect, setSelectionRect] = useState<DOMRect | null>(null);
   const [toolbarState, setToolbarState] = useState<ToolbarState>({
     isBold: false,
     isItalic: false,
@@ -43,6 +45,26 @@ export function useFloatingToolbar() {
     isLink: false,
     blockType: "paragraph",
   });
+
+  const { refs, floatingStyles } = useFloating({
+    open: isVisible,
+    placement: "top",
+    middleware: [
+      offset(10),
+      flip({ fallbackPlacements: ["bottom", "top-start", "top-end"] }),
+      shift({ padding: 8 }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  // Update the virtual reference element when selection changes
+  useEffect(() => {
+    if (selectionRect) {
+      refs.setPositionReference({
+        getBoundingClientRect: () => selectionRect,
+      });
+    }
+  }, [selectionRect, refs]);
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -89,10 +111,7 @@ export function useFloatingToolbar() {
       return;
     }
 
-    setPosition({
-      top: rect.top - 10 + window.scrollY,
-      left: rect.left + rect.width / 2 + window.scrollX,
-    });
+    setSelectionRect(rect);
     setIsVisible(true);
   }, []);
 
@@ -124,5 +143,5 @@ export function useFloatingToolbar() {
     [editor]
   );
 
-  return { isVisible, position, toolbarState, formatText, editor };
+  return { isVisible, floatingStyles, floatingRef: refs.setFloating, toolbarState, formatText, editor };
 }
