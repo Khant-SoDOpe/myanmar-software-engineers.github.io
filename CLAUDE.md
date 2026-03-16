@@ -10,14 +10,14 @@ Myanmar Software Engineers (MMSWE) — a community platform showcasing Myanmar s
 - **Package Manager**: Bun (primary)
 - **Styling**: Tailwind CSS + DaisyUI + Sass
 - **Content**: Contentlayer with MDX (profiles and blogs)
-- **Animation**: Framer Motion, Three.js / React Three Fiber
+- **Animation**: Motion (formerly Framer Motion), Three.js / React Three Fiber
 - **Path alias**: `@/*` → `./src/*`
 
 ## Commands
 
 ```bash
 bun install          # Install dependencies
-bun dev              # Dev server
+bun dev --port 3333  # Dev server (port 3333)
 bun run build        # Build static site (output: ./out)
 bun run serve        # Serve static build locally
 bun run lint         # ESLint

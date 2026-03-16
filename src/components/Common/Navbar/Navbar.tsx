@@ -352,79 +352,46 @@ const Navbar = () => {
             <MseLogo />
           </motion.div>
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex flex-row items-center gap-6 xl:gap-10">
-            {linkKeys.map((link, i) => (
-              <NavLink
-                key={link.key}
-                href={link.href}
-                label={t(link.key)}
-                isActive={path === link.href}
-                index={i}
-                mmFont={mmFont}
-              />
-            ))}
-
-            {/* Language Toggle */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <LanguageToggle />
-            </motion.div>
-
-            {/* CTA-style Contact link */}
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <MseLink
-                href="/contact-us"
-                className={cn(
-                  "relative font-display text-[13px] font-bold uppercase tracking-[0.15em]",
-                  "px-4 py-1.5 rounded-full overflow-hidden",
-                  "transition-all duration-300",
-                  path === "/contact-us"
-                    ? "text-white"
-                    : "text-zinc-400 hover:text-white"
-                )}
-              >
-                {/* Prism border glow */}
-                <span
-                  className="absolute inset-0 rounded-full opacity-60"
-                  style={{
-                    padding: "1px",
-                    background: "linear-gradient(135deg, #22d3ee, #a78bfa, #fb7185)",
-                    WebkitMask:
-                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    WebkitMaskComposite: "xor",
-                    maskComposite: "exclude",
-                  }}
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex flex-row items-center">
+            {/* Primary nav links */}
+            <div className="flex items-center gap-5 xl:gap-8">
+              {linkKeys.map((link, i) => (
+                <NavLink
+                  key={link.key}
+                  href={link.href}
+                  label={t(link.key)}
+                  isActive={path === link.href}
+                  index={i}
+                  mmFont={mmFont}
                 />
-                <motion.span
-                  className="absolute inset-0 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(34,211,238,0.08), rgba(167,139,250,0.08), rgba(251,113,133,0.08))",
-                  }}
-                  whileHover={{ opacity: 1 }}
-                />
-                <span className={cn("relative z-10", mmFont)}>{t("contact")}</span>
-              </MseLink>
-            </motion.div>
+              ))}
+            </div>
 
-            {/* Auth */}
-            {!authLoading && (
+            {/* Prismatic divider */}
+            <div className="mx-4 xl:mx-5 h-4 w-px bg-gradient-to-b from-transparent via-white/[0.08] to-transparent" />
+
+            {/* Utility group */}
+            <div className="flex items-center gap-3">
               <motion.div
                 initial={{ opacity: 0, y: -12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
-                {isAuthenticated ? <UserAvatar /> : <SignInButton className="text-[11px] px-3 py-1.5" />}
+                <LanguageToggle />
               </motion.div>
-            )}
+
+              {/* Auth */}
+              {!authLoading && (
+                <motion.div
+                  initial={{ opacity: 0, y: -12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {isAuthenticated ? <UserAvatar /> : <SignInButton className="text-[11px] px-3 py-1.5" />}
+                </motion.div>
+              )}
+            </div>
           </div>
 
           {/* Mobile hamburger */}
@@ -510,23 +477,26 @@ const Navbar = () => {
                     mmFont={mmFont}
                   />
                 ))}
-                <MobileNavLink
-                  href="/contact-us"
-                  label={t("contact")}
-                  isActive={path === "/contact-us"}
-                  index={linkKeys.length}
-                  onClick={closeMobile}
-                  mmFont={mmFont}
-                />
               </nav>
 
-              {/* Bottom decoration */}
+              {/* Bottom section — auth + branding */}
               <motion.div
                 className="absolute bottom-12 left-8 right-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
+                {/* Auth */}
+                {!authLoading && (
+                  <div className="mb-5">
+                    {isAuthenticated ? (
+                      <UserAvatar />
+                    ) : (
+                      <SignInButton className="w-full justify-center py-2.5" />
+                    )}
+                  </div>
+                )}
+
                 <div className="h-[1px] w-full bg-white/5 mb-4" />
                 <div className="flex items-center justify-between">
                   <p className={cn("font-mono text-[10px] text-zinc-600 tracking-widest uppercase", mmFont)}>
