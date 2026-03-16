@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/utils";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
 export const strokeAnimation = {

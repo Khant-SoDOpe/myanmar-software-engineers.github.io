@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import Container from "../Common/Container/Container";
 import HorizontalWrapper from "../Common/HorizontalWrapper/HorizontalWrapper";
 import { cn } from "@/utils";
@@ -11,11 +11,11 @@ import { khitHaungg } from "@/fonts/fonts";
 
 // Prism accent for each letter of MMSWE
 const letterConfig = [
-  { char: "M", color: "#22d3ee" },
-  { char: "M", color: "#a78bfa" },
-  { char: "S", color: "#fb7185" },
-  { char: "W", color: "#fbbf24" },
-  { char: "E", color: "#22d3ee" },
+  { char: "M", color: "#22d3ee", glow: true },
+  { char: "M", color: "#a78bfa", glow: false },
+  { char: "S", color: "#fb7185", glow: true },
+  { char: "W", color: "#fbbf24", glow: false },
+  { char: "E", color: "#22d3ee", glow: true },
 ];
 
 // --- Floating ambient particles ---
@@ -71,11 +71,13 @@ const PrismLetter = ({
   color,
   index,
   isInView,
+  glow,
 }: {
   char: string;
   color: string;
   index: number;
   isInView: boolean;
+  glow: boolean;
 }) => {
   return (
     <motion.div
@@ -107,19 +109,23 @@ const PrismLetter = ({
         transition: { type: "spring", stiffness: 300, damping: 12 },
       }}
     >
-      {/* Deep ambient glow */}
-      <div
-        className="absolute inset-0 blur-[40px] opacity-20 scale-[2.5] group-hover:opacity-40 transition-opacity duration-500"
-        style={{
-          background: `radial-gradient(circle, ${color}, transparent 60%)`,
-        }}
-      />
+      {/* Deep ambient glow – only on M, S, E for performance */}
+      {glow && (
+        <div
+          className="absolute inset-0 blur-[40px] opacity-20 scale-[2.5] group-hover:opacity-40 transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(circle, ${color}, transparent 60%)`,
+          }}
+        />
+      )}
 
       {/* Floor reflection glow */}
-      <motion.div
-        className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-10 blur-2xl opacity-10 group-hover:opacity-25 transition-opacity duration-500"
-        style={{ background: color }}
-      />
+      {glow && (
+        <motion.div
+          className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-10 blur-2xl opacity-10 group-hover:opacity-25 transition-opacity duration-500"
+          style={{ background: color }}
+        />
+      )}
 
       {/* The letter with gradient fill */}
       <span
@@ -245,11 +251,12 @@ const MmsweTypoSection = () => {
 
           {/* Letter row */}
           <div className="flex items-baseline justify-center gap-1 md:gap-3">
-            {letterConfig.map(({ char, color }, index) => (
+            {letterConfig.map(({ char, color, glow }, index) => (
               <PrismLetter
                 key={index}
                 char={char}
                 color={color}
+                glow={glow}
                 index={index}
                 isInView={isInView}
               />

@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useInView, type Variants } from "motion/react";
 import React, { useRef } from "react";
 import { FaGithub, FaFacebook, FaEnvelope } from "react-icons/fa";
 import { BiLinkExternal } from "react-icons/bi";

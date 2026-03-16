@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ShieldX } from "lucide-react";
 import MseLink from "@/components/Ui/MseLink/MseLink";
 

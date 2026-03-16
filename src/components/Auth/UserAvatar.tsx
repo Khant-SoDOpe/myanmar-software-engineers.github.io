@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { LogOut, PenLine, FileText, User } from "lucide-react";
 import MseLink from "@/components/Ui/MseLink/MseLink";
 import { useTranslations } from "next-intl";

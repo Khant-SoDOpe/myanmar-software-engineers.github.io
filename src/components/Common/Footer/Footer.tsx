@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import { useRef, useCallback } from "react";
 import { Github, Users, Heart, ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";

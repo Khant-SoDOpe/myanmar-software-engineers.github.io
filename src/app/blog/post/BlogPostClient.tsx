@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   Calendar,
   ArrowLeft,

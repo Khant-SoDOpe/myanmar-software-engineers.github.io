@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useTransform,
   useSpring,
-} from "framer-motion";
+} from "motion/react";
 import { khitHaungg } from "@/fonts/fonts";
 import BodyText from "../Common/BodyText/BodyText";
 import TitleText from "../Common/TitleText/TitleText";

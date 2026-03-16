@@ -14,11 +14,11 @@ import {
   useSpring,
   useTransform,
   AnimatePresence,
-} from "framer-motion";
+} from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { Search, Users, SlidersHorizontal, X, Sparkles, Code2 } from "lucide-react";
 import { useRef, useCallback, useState } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
 import { khitHaungg } from "@/fonts/fonts";

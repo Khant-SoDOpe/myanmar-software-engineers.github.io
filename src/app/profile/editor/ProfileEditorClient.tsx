@@ -5,7 +5,7 @@ import Container from "@/components/Common/Container/Container";
 import EditorPane from "@/components/ProfileEditor/EditorPane";
 import PreviewPane from "@/components/ProfileEditor/PreviewPane";
 import { useProfileEditor } from "@/hooks/profile/useProfileEditor";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import {
   PenTool,

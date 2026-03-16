@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   FileText,
   PenLine,

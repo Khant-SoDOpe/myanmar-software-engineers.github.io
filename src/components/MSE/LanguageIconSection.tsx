@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "motion/react";
 import HorizontalWrapper from "../Common/HorizontalWrapper/HorizontalWrapper";
 import { iconListData } from "@/data/IconList";
 import { cn } from "@/utils";

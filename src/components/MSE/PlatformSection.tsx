@@ -7,7 +7,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "motion/react";
 import { useRef, useCallback } from "react";
 import TitleText from "../Common/TitleText/TitleText";
 import BodyText from "../Common/BodyText/BodyText";

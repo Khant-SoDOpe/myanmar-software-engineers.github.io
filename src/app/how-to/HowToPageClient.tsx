@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils";
 import MseLink from "@/components/Ui/MseLink/MseLink";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "motion/react";
 import { useRef, useState } from "react";
 import {
   BookOpen,

@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { LogIn, Shield } from "lucide-react";
 
 export default function SignInPrompt() {

@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils";
 import styles from "@/styles/styles";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { User, FileText, ImageIcon, TagsIcon, PenLine } from "lucide-react";
 import TagInput from "./TagInput";
 import { useTranslations } from "next-intl";

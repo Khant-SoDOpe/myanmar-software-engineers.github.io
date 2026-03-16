@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { PenLine, Save, Tag, X, Image as ImageIcon } from "lucide-react";
 import AuthGuard from "@/components/Auth/AuthGuard";
 import { ContentEditor } from "@/components/ContentEditor";

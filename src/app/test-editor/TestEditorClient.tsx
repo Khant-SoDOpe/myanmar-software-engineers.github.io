@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { ContentEditor, ContentRenderer } from "@/components/ContentEditor";
 import type { SerializedEditorState } from "@/components/ContentEditor";
 import { cn } from "@/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   PenLine,
   Eye,

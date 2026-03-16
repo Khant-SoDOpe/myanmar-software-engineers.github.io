@@ -3,7 +3,7 @@
 import ProfileCardItem from "@/components/Profile/ProfileCardItem/ProfileCardItem";
 import { cn } from "@/utils";
 import styles from "@/styles/styles";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Eye, FileCode, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import MarkdownPreviewRenderer from "./MarkdownPreviewRenderer";

@@ -1,6 +1,6 @@
 "use client";
 import { PropsWithChildren, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "motion/react";
 
 type THorizontalWrapper = PropsWithChildren<{
   horizontalDirection: number;

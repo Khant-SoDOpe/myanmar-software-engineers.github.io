@@ -1,5 +1,5 @@
 "use client";
-import { Variants, motion } from "framer-motion";
+import { Variants, motion } from "motion/react";
 
 const textAnimation: Variants = {
   hidden: {

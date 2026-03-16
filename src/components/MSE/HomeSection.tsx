@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useTransform,
   useSpring,
-} from "framer-motion";
+} from "motion/react";
 import Link from "next/link";
 import { ReactNode, useRef, useCallback } from "react";
 import {

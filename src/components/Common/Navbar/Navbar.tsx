@@ -4,7 +4,7 @@ import MseLogo from "@/components/Ui/MseLogo/MseLogo";
 import LanguageToggle from "@/components/Ui/LanguageToggle/LanguageToggle";
 import { cn } from "@/utils";
 import Container from "@/components/Common/Container/Container";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
