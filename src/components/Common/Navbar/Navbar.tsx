@@ -251,7 +251,7 @@ const MobileNavLink = ({
         {/* Link label */}
         <span
           className={cn(
-            "font-display text-[22px] xs:text-3xl sm:text-5xl font-bold tracking-tight transition-all duration-300",
+            "font-display text-[14px] xs:text-xl sm:text-3xl font-bold tracking-tight transition-all duration-300",
             isActive
               ? "bg-prism-gradient bg-clip-text text-transparent"
               : "text-zinc-400 group-hover:text-white",
