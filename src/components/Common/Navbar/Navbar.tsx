@@ -240,7 +240,7 @@ const MobileNavLink = ({
   >
     <MseLink
       href={href}
-      className="group relative block py-2 sm:py-3"
+      className="group relative block py-1.5 sm:py-3"
     >
       <span onClick={onClick} className="flex items-center gap-4">
         {/* Index number */}
@@ -430,16 +430,16 @@ const Navbar = () => {
             </div>
 
             {/* Menu content */}
-            <div className="relative h-full flex flex-col justify-center px-6 sm:px-12">
+            <div className="relative h-full flex flex-col px-6 sm:px-12 pt-20 pb-8 overflow-y-auto">
               {/* Section label */}
-              <div className="mb-8">
+              <div className="mb-4 sm:mb-8">
                 <span className={cn("font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-600", mmFont)}>
                   {t("navigation")}
                 </span>
               </div>
 
               {/* Links */}
-              <nav className="flex flex-col gap-2">
+              <nav className="flex flex-col gap-1">
                 {linkKeys.map((link, i) => (
                   <MobileNavLink
                     key={link.key}
@@ -454,10 +454,10 @@ const Navbar = () => {
               </nav>
 
               {/* Bottom section — auth + branding */}
-              <div className="absolute bottom-12 left-6 right-6 sm:left-8 sm:right-8">
+              <div className="mt-auto pt-6">
                 {/* Auth */}
                 {!authLoading && (
-                  <div className="mb-5">
+                  <div className="mb-4">
                     {isAuthenticated ? (
                       <UserAvatar />
                     ) : (
@@ -466,9 +466,9 @@ const Navbar = () => {
                   </div>
                 )}
 
-                <div className="h-[1px] w-full bg-white/5 mb-4" />
+                <div className="h-[1px] w-full bg-white/5 mb-3" />
                 <div className="flex items-center justify-between">
-                  <p className={cn("font-mono text-[10px] text-zinc-600 tracking-widest uppercase", mmFont)}>
+                  <p className={cn("font-mono text-[10px] text-zinc-600 tracking-widest uppercase truncate mr-2", mmFont)}>
                     {t("brandName")}
                   </p>
                   <LanguageToggle />
