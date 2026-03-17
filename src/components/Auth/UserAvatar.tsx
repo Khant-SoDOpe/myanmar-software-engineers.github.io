@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/utils";
 import { motion, AnimatePresence } from "motion/react";
-import { LogOut, PenLine, FileText, User } from "lucide-react";
+import { LogOut, PenLine, FileText, User, Briefcase } from "lucide-react";
 import MseLink from "@/components/Ui/MseLink/MseLink";
 import { useTranslations } from "next-intl";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -26,6 +26,7 @@ export default function UserAvatar() {
   const [open, setOpen] = useState(false);
   const t = useTranslations("auth");
   const tBlog = useTranslations("blog");
+  const tJobs = useTranslations("jobs");
   const { isMyanmar } = useLanguage();
   const mmFont = isMyanmar ? khitHaungg.className : "";
 
@@ -168,6 +169,24 @@ export default function UserAvatar() {
                   <FileText className="w-3.5 h-3.5 group-hover:text-prism-violet transition-colors duration-200" />
                 </span>
                 <span onClick={() => setOpen(false)} className={mmFont}>{tBlog("myBlogs")}</span>
+              </MseLink>
+              <MseLink
+                href="/jobs/write"
+                className="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-white/[0.05] transition-all duration-200"
+              >
+                <span className="flex items-center justify-center w-7 h-7 rounded-md bg-white/[0.04] group-hover:bg-prism-cyan/10 transition-colors duration-200">
+                  <Briefcase className="w-3.5 h-3.5 group-hover:text-prism-cyan transition-colors duration-200" />
+                </span>
+                <span onClick={() => setOpen(false)} className={mmFont}>{tJobs("postJob")}</span>
+              </MseLink>
+              <MseLink
+                href="/jobs/my-jobs"
+                className="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-white/[0.05] transition-all duration-200"
+              >
+                <span className="flex items-center justify-center w-7 h-7 rounded-md bg-white/[0.04] group-hover:bg-prism-cyan/10 transition-colors duration-200">
+                  <FileText className="w-3.5 h-3.5 group-hover:text-prism-cyan transition-colors duration-200" />
+                </span>
+                <span onClick={() => setOpen(false)} className={mmFont}>{tJobs("myJobs")}</span>
               </MseLink>
             </div>
 

@@ -20,6 +20,7 @@ const linkKeys = [
   { key: "editor", href: "/profile/editor" },
   { key: "howTo", href: "/how-to" },
   { key: "blog", href: "/blog" },
+  { key: "jobs", href: "/jobs" },
 ] as const;
 
 /* ── Prismatic shimmer line along the navbar bottom ── */

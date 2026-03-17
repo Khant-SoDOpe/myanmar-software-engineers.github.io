@@ -32,3 +32,30 @@ export interface BlogPostInput {
   tags: string[];
   coverImageURL: string | null;
 }
+
+export interface JobPost {
+  id: string;
+  position: string;
+  tag: string;
+  skills: string[];
+  description: SerializedEditorState;
+  officeEmail: string;
+  expiredAt: Date | null;
+  authorId: string;
+  authorName: string;
+  authorPhotoURL: string;
+  status: "draft" | "published";
+  slug: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+}
+
+export interface JobPostInput {
+  position: string;
+  tag: string;
+  skills: string[];
+  description: SerializedEditorState;
+  officeEmail: string;
+  expiredAt: Date | null;
+}

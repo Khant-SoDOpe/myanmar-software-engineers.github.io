@@ -8,6 +8,7 @@ import editorTheme from "./theme";
 import { editorNodes } from "./nodes";
 import type { ContentRendererProps } from "./types";
 import { cn } from "@/utils";
+import { khitHaungg } from "@/fonts/fonts";
 
 export default function ContentRenderer({
   value,
@@ -44,7 +45,7 @@ export default function ContentRenderer({
         <RichTextPlugin
           contentEditable={
             <ContentEditable
-              className="text-zinc-300 text-[15px] leading-[1.8] focus:outline-none"
+              className={cn("text-zinc-300 text-[15px] leading-[1.8] focus:outline-none", khitHaungg.className)}
             />
           }
           placeholder={null}

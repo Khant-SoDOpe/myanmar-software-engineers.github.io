@@ -18,6 +18,7 @@ import ImagePlugin from "./plugins/ImagePlugin";
 import CodeBlockPlugin from "./plugins/CodeBlockPlugin";
 import type { ContentEditorProps } from "./types";
 import { cn } from "@/utils";
+import { khitHaungg } from "@/fonts/fonts";
 
 export default function ContentEditor({
   value,
@@ -52,7 +53,8 @@ export default function ContentEditor({
               <ContentEditable
                 className={cn(
                   "min-h-[200px] px-5 py-4 focus:outline-none",
-                  "text-zinc-200 text-base leading-relaxed"
+                  "text-zinc-200 text-base leading-relaxed",
+                  khitHaungg.className
                 )}
               />
             }
